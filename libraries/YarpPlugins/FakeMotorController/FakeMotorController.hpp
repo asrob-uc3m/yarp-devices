@@ -1,7 +1,7 @@
 // -*- mode:C++; tab-width:4; c-basic-offset:4; indent-tabs-mode:nil -*-
 
-#ifndef __RD_FAKE_MOTORS__
-#define __RD_FAKE_MOTORS__
+#ifndef __FAKE_MOTOR_CONTROLLER__
+#define __FAKE_MOTOR_CONTROLLER__
 
 #include <yarp/os/all.h>
 #include <yarp/dev/ControlBoardInterfaces.h>
@@ -93,11 +93,9 @@ private:
      */
     bool indexWithinRange(const int& idx);
 
-    std::vector< int > gpios;
-
 };
 
 }  // namespace asrob
 
-#endif  // __RD_FAKE_MOTORS__
+#endif  // __RD_FAKE_MOTOR_CONTROLLER__
 

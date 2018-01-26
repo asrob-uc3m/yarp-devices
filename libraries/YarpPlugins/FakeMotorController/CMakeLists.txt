@@ -10,7 +10,7 @@ yarp_prepare_plugin(FakeMotorController
                     CATEGORY device
                     TYPE asrob::FakeMotorController
                     INCLUDE FakeMotorController.hpp
-                    WRAPPER RobotServer)
+                    DEFAULT ON)
 
 IF (NOT SKIP_FakeMotorController)
 
