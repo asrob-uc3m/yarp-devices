@@ -1,4 +1,6 @@
-// -*- mode:C++; tab-width:4; c-basic-offset:4; indent-tabs-mode:nil -*-
+// Authors: see AUTHORS.md at project root.
+// CopyPolicy: released under the terms of the LGPLv2.1, see LICENSE at project root.
+// URL: https://github.com/asrob-uc3m/yarp-devices
 
 #ifndef __FAKE_MOTOR_CONTROLLER__
 #define __FAKE_MOTOR_CONTROLLER__
@@ -97,5 +99,5 @@ private:
 
 }  // namespace asrob
 
-#endif  // __RD_FAKE_MOTOR_CONTROLLER__
+#endif  // __FAKE_MOTOR_CONTROLLER__
 
