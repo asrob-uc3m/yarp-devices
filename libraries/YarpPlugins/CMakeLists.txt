@@ -22,7 +22,14 @@ include_directories(${YARP_INCLUDE_DIRS})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 # YARP devices.
-#add_subdirectory(AravisGigE) # Aravis driver for GigE cameras
+add_subdirectory(EcroPwmController)
+add_subdirectory(EcroWheelController)
+add_subdirectory(FakeMotorController)
+add_subdirectory(LaserTowerOfDeathController)
+add_subdirectory(RaspiOnePwmMotorController)
+add_subdirectory(RaspiTwoPwmMotorController)
+add_subdirectory(RobotClient)
+add_subdirectory(RobotServer)
 
 # Install interface headers.
 install(FILES IRobotManager.hpp
