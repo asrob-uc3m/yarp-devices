@@ -1,16 +1,12 @@
-# Copyright: (C) 2016 ASROB
-# Author: Juan G. Victores
-# CopyPolicy: Released under the terms of the LGPLv2.1 or later, see LGPL.TXT
-
-cmake_minimum_required(VERSION 2.6)
-
-find_package(YARP REQUIRED)
+# Authors: see AUTHORS.md at project root.
+# CopyPolicy: released under the terms of the LGPLv2.1, see LICENSE at project root.
+# URL: https://github.com/asrob-uc3m/yarp-devices
 
 yarp_prepare_plugin(RaspiTwoPwmMotorController
                     CATEGORY device
                     TYPE asrob::RaspiTwoPwmMotorController
                     INCLUDE RaspiTwoPwmMotorController.hpp
-                    WRAPPER RobotServer)
+                    DEFAULT OFF)
 
 IF (NOT SKIP_RaspiTwoPwmMotorController)
 
