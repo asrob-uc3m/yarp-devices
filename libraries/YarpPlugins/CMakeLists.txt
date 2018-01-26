@@ -22,12 +22,18 @@ include_directories(${YARP_INCLUDE_DIRS})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 # YARP devices.
-#add_subdirectory(AravisGigE) # Aravis driver for GigE cameras
+add_subdirectory(EcroPwmController)
+add_subdirectory(EcroWheelController)
+add_subdirectory(FakeMotorController)
+add_subdirectory(LaserTowerOfDeathController)
+add_subdirectory(RaspiOnePwmMotorController)
+add_subdirectory(RaspiTwoPwmMotorController)
+add_subdirectory(RobotClient)
+add_subdirectory(RobotServer)
 
 # Install interface headers.
-#install(FILES ICanBusHico.h
-#              ICanBusSharer.h
-#              DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(FILES IRobotManager.hpp
+              DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 # Export variables to the global scope.
 set_property(GLOBAL APPEND PROPERTY ASROB_YARP_DEVICES_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
