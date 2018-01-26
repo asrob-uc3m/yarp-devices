@@ -1,9 +1,9 @@
 // Authors: see AUTHORS.md at project root.
 // CopyPolicy: released under the terms of the LGPLv2.1, see LICENSE at project root.
-// URL: https://github.com/asrob-uc3m/robotDevastation
+// URL: https://github.com/asrob-uc3m/yarp-devices
 
-#ifndef __RD_I_ROBOT_MANAGER_HPP__
-#define __RD_I_ROBOT_MANAGER_HPP__
+#ifndef __I_ROBOT_MANAGER_HPP__
+#define __I_ROBOT_MANAGER_HPP__
 
 
 namespace asrob{
@@ -13,7 +13,7 @@ namespace asrob{
  *
  * \defgroup RobotLib
  *
-  * @brief Base class for Robot Managers. Original copy of this file at https://github.com/asrob-uc3m/robotDevastation/blob/develop/src/libraries/RobotLib/IRobotManager.hpp
+  * @brief Base class for Robot Managers. Original copy of this file at https://github.com/asrob-uc3m/yarp-devices/blob/develop/libraries/YarpPlugins/IRobotManager.hpp
  */
 class IRobotManager
 {
@@ -52,4 +52,4 @@ class IRobotManager
 
 }
 
-#endif //-- __RD_I_ROBOT_MANAGER_HPP__
+#endif //-- __I_ROBOT_MANAGER_HPP__
