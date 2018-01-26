@@ -9,9 +9,9 @@
 namespace asrob{
 
 /**
- * @ingroup rd_libraries
+ * @ingroup asrob_libraries
  *
- * \defgroup RobotLib
+ * \defgroup YarpPlugins
  *
   * @brief Base class for Robot Managers. Original copy of this file at https://github.com/asrob-uc3m/yarp-devices/blob/develop/libraries/YarpPlugins/IRobotManager.hpp
  */
