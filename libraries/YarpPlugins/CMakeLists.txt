@@ -22,29 +22,12 @@ include_directories(${YARP_INCLUDE_DIRS})
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 # YARP devices.
-add_subdirectory(AravisGigE) # Aravis driver for GigE cameras
-add_subdirectory(CanBusControlboard)
-add_subdirectory(CanBusHico)
-add_subdirectory(CuiAbsolute)
-add_subdirectory(FakeControlboard)
-add_subdirectory(FakeJoint)
-add_subdirectory(Jr3)
-add_subdirectory(LacqueyFetch)
-add_subdirectory(LeapMotionSensor)
-add_subdirectory(ProximitySensorsClient)
-add_subdirectory(SpaceNavigator)
-add_subdirectory(TechnosoftIpos)
-add_subdirectory(TextilesHand)
-add_subdirectory(WiimoteSensor)
+#add_subdirectory(AravisGigE) # Aravis driver for GigE cameras
 
 # Install interface headers.
-install(FILES ICanBusHico.h
-              ICanBusSharer.h
-              ICuiAbsolute.h
-              IProximitySensors.h
-              ITechnosoftIpos.h
-              hico_api.h # remove, see #122
-        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+#install(FILES ICanBusHico.h
+#              ICanBusSharer.h
+#              DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 # Export variables to the global scope.
 set_property(GLOBAL APPEND PROPERTY ASROB_YARP_DEVICES_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
