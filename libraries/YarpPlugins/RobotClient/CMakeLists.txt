@@ -1,16 +1,12 @@
-# Copyright: (C) 2016 ASROB
-# Author: Juan G. Victores
-# CopyPolicy: Released under the terms of the LGPLv2.1 or later, see LGPL.TXT
-
-cmake_minimum_required(VERSION 2.6)
-
-find_package(YARP REQUIRED)
+# Authors: see AUTHORS.md at project root.
+# CopyPolicy: released under the terms of the LGPLv2.1, see LICENSE at project root.
+# URL: https://github.com/asrob-uc3m/yarp-devices
 
 yarp_prepare_plugin(RobotClient
                     CATEGORY device
                     TYPE asrob::RobotClient
                     INCLUDE RobotClient.hpp
-                    WRAPPER RobotClient)
+                    DEFAULT ON)
 
 IF (NOT SKIP_RobotClient)
 
@@ -21,7 +17,6 @@ IF (NOT SKIP_RobotClient)
     TARGET_LINK_LIBRARIES(RobotClient ${YARP_LIBRARIES})
 
     yarp_install(TARGETS RobotClient
-                 EXPORT YARP
                  COMPONENT runtime
                  LIBRARY DESTINATION ${YARP_DYNAMIC_PLUGINS_INSTALL_DIR}
                  ARCHIVE DESTINATION ${YARP_STATIC_PLUGINS_INSTALL_DIR})
