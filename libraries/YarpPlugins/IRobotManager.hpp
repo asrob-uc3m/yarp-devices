@@ -9,7 +9,7 @@
 namespace asrob{
 
 /**
- * @ingroup asrob_libraries
+ * @ingroup yarp_devices_libraries
  *
  * \defgroup YarpPlugins
  *
