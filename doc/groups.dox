@@ -1,11 +1,11 @@
 
 /**
-@brief The main, catch-all namespace for Robotics Lab UC3M.
+@brief The main, catch-all namespace for ASROB UC3M.
  */
 namespace asrob {}
 
 /**
- * \defgroup yarp_devices_libraries yarp-devices Libraries
+ * \defgroup yarp_devices_libraries asrob-uc3m/yarp-devices Libraries
  *
  * @brief yarp-devices libraries.
  *
@@ -21,50 +21,43 @@ namespace asrob {}
  */
 
 /**
- * \defgroup yarp_devices_firmware yarp-devices Firmware
+ * \defgroup yarp_devices_firmware asrob-uc3m/yarp-devices Firmware
  *
  * @brief yarp-devices firmware.
  *
  */
 
 /**
- * @ingroup yarp_devices_firmware
- * \defgroup yarp_devices_cuiAbsolute CuiAbsolute
- *
- * @brief Contains the firmware that you need to program the Cui Absolute encoders.
- */
-
-
-/**
- * \defgroup yarp_devices_programs yarp-devices Programs
+ * \defgroup yarp_devices_programs asrob-uc3m/yarp-devices Programs
  *
  * @brief yarp-devices programs.
  */
 
 /**
- * \defgroup yarp_devices_tests yarp-devices Tests
+ * \defgroup yarp_devices_tests asrob-uc3m/yarp-devices Tests
  *
  * @brief yarp-devices tests.
  */
 
 /**
- * \defgroup yarp_devices_applications yarp-devices Applications (Collections of Programs)
+ * \defgroup yarp_devices_applications asrob-uc3m/yarp-devices Applications (Collections of Programs)
  *
  * @brief yarp-devices applications (collections of programs).
  */
 
 /**
- * \defgroup yarp_devices_examples yarp-devices Examples
+ * \defgroup yarp_devices_examples asrob-uc3m/yarp-devices Examples
  *
  * @brief yarp-devices examples.
  */
 
 /**
  * @ingroup yarp_devices_examples
- * \defgroup yarp_devices_examples_cpp yarp-devices C++ examples
+ * \defgroup yarp_devices_examples_cpp asrob-uc3m/yarp-devices C++ examples
  */
 
 /**
  * @ingroup yarp_devices_examples
- * \defgroup yarp_devices_examples_py yarp-devices Python examples
+ * \defgroup yarp_devices_examples_py asrob-uc3m/yarp-devices Python examples
  */
+
