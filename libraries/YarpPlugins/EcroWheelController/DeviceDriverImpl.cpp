@@ -2,7 +2,7 @@
 
 #include "EcroWheelController.hpp"
 
-namespace rd
+namespace asrob
 {
 
 bool EcroWheelController::open(yarp::os::Searchable& config)
@@ -59,4 +59,4 @@ bool EcroWheelController::close()
     return true;
 }
 
-}  // namespace rd
+}  // namespace asrob

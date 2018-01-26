@@ -2,7 +2,7 @@
 
 #include "RobotServer.hpp"
 
-namespace rd
+namespace asrob
 {
 
 bool RobotServer::open(yarp::os::Searchable& config)
@@ -58,4 +58,4 @@ bool RobotServer::close()
     return true;
 }
 
-}  // namespace rd
+}  // namespace asrob

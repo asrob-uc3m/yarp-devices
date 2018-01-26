@@ -2,7 +2,7 @@
 
 #include "EcroPwmController.hpp"
 
-namespace rd
+namespace asrob
 {
 
 bool EcroPwmController::moveForward(int velocity)
@@ -179,4 +179,4 @@ bool EcroPwmController::checkConnection()
     return !diffFlag;
 }
 
-}  // namespace rd
+}  // namespace asrob

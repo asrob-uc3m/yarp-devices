@@ -8,7 +8,7 @@ find_package(YARP REQUIRED)
 
 yarp_prepare_plugin(FakeMotorController
                     CATEGORY device
-                    TYPE rd::FakeMotorController
+                    TYPE asrob::FakeMotorController
                     INCLUDE FakeMotorController.hpp
                     WRAPPER RobotServer)
 

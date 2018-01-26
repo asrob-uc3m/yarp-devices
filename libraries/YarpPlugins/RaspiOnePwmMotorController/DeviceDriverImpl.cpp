@@ -2,7 +2,7 @@
 
 #include "RaspiOnePwmMotorController.hpp"
 
-namespace rd
+namespace asrob
 {
 
 bool RaspiOnePwmMotorController::open(yarp::os::Searchable& config)
@@ -45,4 +45,4 @@ bool RaspiOnePwmMotorController::close()
     return true;
 }
 
-}  // namespace rd
+}  // namespace asrob

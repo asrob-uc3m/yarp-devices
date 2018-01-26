@@ -2,7 +2,7 @@
 
 #include "LaserTowerOfDeathController.hpp"
 
-namespace rd
+namespace asrob
 {
 
 bool LaserTowerOfDeathController::open(yarp::os::Searchable& config)
@@ -50,4 +50,4 @@ bool LaserTowerOfDeathController::close()
     return true;
 }
 
-}  // namespace rd
+}  // namespace asrob

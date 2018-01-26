@@ -2,7 +2,7 @@
 
 #include "RobotClient.hpp"
 
-namespace rd
+namespace asrob
 {
 
 bool RobotClient::open(yarp::os::Searchable& config)
@@ -49,4 +49,4 @@ bool RobotClient::close()
     return true;
 }
 
-}  // namespace rd
+}  // namespace asrob

@@ -15,7 +15,7 @@
 
 #include "IRobotManager.hpp"
 
-namespace rd
+namespace asrob
 {
 
 /**
@@ -97,7 +97,7 @@ private:
 
 };
 
-}  // namespace rd
+}  // namespace asrob
 
 #endif  // __RD_FAKE_MOTORS__
 

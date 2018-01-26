@@ -2,7 +2,7 @@
 
 #include "RaspiOnePwmMotorController.hpp"
 
-namespace rd
+namespace asrob
 {
 
 bool RaspiOnePwmMotorController::indexWithinRange(const int& idx)
@@ -141,4 +141,4 @@ void RaspiOnePwmMotorController::onDestroy()
     return;
 }
 
-}  // namespace rd
+}  // namespace asrob

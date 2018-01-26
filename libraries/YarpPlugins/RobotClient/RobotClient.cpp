@@ -2,7 +2,7 @@
 
 #include "RobotClient.hpp"
 
-namespace rd
+namespace asrob
 {
 
 RobotClient::RobotClient()
@@ -101,5 +101,5 @@ bool RobotClient::send1vocab(int vocab)
         return false;
 }
 
-}  // namespace rd
+}  // namespace asrob
 

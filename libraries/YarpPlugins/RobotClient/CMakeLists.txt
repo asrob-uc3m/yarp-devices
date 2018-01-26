@@ -8,7 +8,7 @@ find_package(YARP REQUIRED)
 
 yarp_prepare_plugin(RobotClient
                     CATEGORY device
-                    TYPE rd::RobotClient
+                    TYPE asrob::RobotClient
                     INCLUDE RobotClient.hpp
                     WRAPPER RobotClient)
 

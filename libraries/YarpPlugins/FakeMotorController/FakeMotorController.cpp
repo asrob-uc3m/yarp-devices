@@ -2,7 +2,7 @@
 
 #include "FakeMotorController.hpp"
 
-namespace rd
+namespace asrob
 {
 
 bool FakeMotorController::indexWithinRange(const int& idx)
@@ -105,5 +105,5 @@ void FakeMotorController::onDestroy()
     return;
 }
 
-}  // namespace rd
+}  // namespace asrob
 

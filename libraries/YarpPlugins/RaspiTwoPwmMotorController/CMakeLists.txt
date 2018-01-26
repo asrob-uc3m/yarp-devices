@@ -8,7 +8,7 @@ find_package(YARP REQUIRED)
 
 yarp_prepare_plugin(RaspiTwoPwmMotorController
                     CATEGORY device
-                    TYPE rd::RaspiTwoPwmMotorController
+                    TYPE asrob::RaspiTwoPwmMotorController
                     INCLUDE RaspiTwoPwmMotorController.hpp
                     WRAPPER RobotServer)
 

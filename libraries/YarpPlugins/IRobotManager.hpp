@@ -6,7 +6,7 @@
 #define __RD_I_ROBOT_MANAGER_HPP__
 
 
-namespace rd{
+namespace asrob{
 
 /**
  * @ingroup rd_libraries

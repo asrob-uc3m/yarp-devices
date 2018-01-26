@@ -8,7 +8,7 @@ find_package(YARP REQUIRED)
 
 yarp_prepare_plugin(EcroWheelController
                     CATEGORY device
-                    TYPE rd::EcroWheelController
+                    TYPE asrob::EcroWheelController
                     INCLUDE EcroWheelController.hpp
                     WRAPPER RobotServer)
 

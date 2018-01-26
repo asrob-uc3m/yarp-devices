@@ -19,7 +19,7 @@
 
 #define DEFAULT_SERIAL_PORT_NAME "/dev/ttyUSB0"
 
-namespace rd
+namespace asrob
 {
 
 /**
@@ -111,7 +111,7 @@ private:
 
 };
 
-}  // namespace rd
+}  // namespace asrob
 
 #endif  // __ECRO_PWM__
 

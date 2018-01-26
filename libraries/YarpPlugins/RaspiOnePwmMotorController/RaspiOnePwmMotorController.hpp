@@ -17,7 +17,7 @@
 
 #include "pwm.hpp"
 
-namespace rd
+namespace asrob
 {
 
 /**
@@ -99,7 +99,7 @@ private:
 
 };
 
-}  // namespace rd
+}  // namespace asrob
 
 #endif  // __RD_ONE_PWM_MOTORS__
 

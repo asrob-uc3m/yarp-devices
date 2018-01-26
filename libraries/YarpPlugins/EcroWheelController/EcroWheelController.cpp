@@ -2,7 +2,7 @@
 
 #include "EcroWheelController.hpp"
 
-namespace rd
+namespace asrob
 {
 
 bool EcroWheelController::moveForward(int velocity)
@@ -328,4 +328,4 @@ bool EcroWheelController::sendCurrentJointValues(int16_t positions1)
 }
 
 
-}  // namespace rd
+}  // namespace asrob

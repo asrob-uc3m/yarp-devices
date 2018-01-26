@@ -8,7 +8,7 @@ find_package(YARP REQUIRED)
 
 yarp_prepare_plugin(LaserTowerOfDeathController
                     CATEGORY device
-                    TYPE rd::LaserTowerOfDeathController
+                    TYPE asrob::LaserTowerOfDeathController
                     INCLUDE LaserTowerOfDeathController.hpp
                     WRAPPER RobotServer)
 

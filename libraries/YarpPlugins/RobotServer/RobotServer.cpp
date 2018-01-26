@@ -2,7 +2,7 @@
 
 #include "RobotServer.hpp"
 
-namespace rd
+namespace asrob
 {
 
 bool RobotServer::indexWithinRange(const int& idx)
@@ -98,5 +98,5 @@ bool RobotServer::read(yarp::os::ConnectionReader& connection)
     return true;
 }
 
-}  // namespace rd
+}  // namespace asrob
 

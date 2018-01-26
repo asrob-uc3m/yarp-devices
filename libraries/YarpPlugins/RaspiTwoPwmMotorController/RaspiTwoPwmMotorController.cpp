@@ -2,7 +2,7 @@
 
 #include "RaspiTwoPwmMotorController.hpp"
 
-namespace rd
+namespace asrob
 {
 
 const int RaspiTwoPwmMotorController::LEFT_MOTOR_IN1 = 24;
@@ -142,4 +142,4 @@ void RaspiTwoPwmMotorController::onDestroy()
     return;
 }
 
-}  // namespace rd
+}  // namespace asrob

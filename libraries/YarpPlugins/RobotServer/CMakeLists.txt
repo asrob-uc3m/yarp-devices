@@ -8,7 +8,7 @@ find_package(YARP REQUIRED)
 
 yarp_prepare_plugin(RobotServer
                     CATEGORY device
-                    TYPE rd::RobotServer
+                    TYPE asrob::RobotServer
                     INCLUDE RobotServer.hpp
                     WRAPPER RobotServer)
 

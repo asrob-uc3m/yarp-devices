@@ -27,7 +27,7 @@
 #define VOCAB_PAN_RIGHT VOCAB4('p','a','n','r')
 #define VOCAB_STOP_CAMERA_MOVEMENT VOCAB4('s','t','p','c')
 
-namespace rd
+namespace asrob
 {
 
 /**
@@ -114,6 +114,6 @@ private:
 
 };
 
-}  // namespace rd
+}  // namespace asrob
 
 #endif  // __RD_ROBOT_CLIENT__

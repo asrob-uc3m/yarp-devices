@@ -17,7 +17,7 @@
 
 #include <wiringPi.h>
 
-namespace rd
+namespace asrob
 {
 
 /**
@@ -103,7 +103,7 @@ private:
     static const int RIGHT_MOTOR_IN2;
 };
 
-}  // namespace rd
+}  // namespace asrob
 
 #endif  // __RD_TWO_PWM_MOTORS__
 

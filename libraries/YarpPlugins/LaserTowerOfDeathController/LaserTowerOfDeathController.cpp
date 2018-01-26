@@ -2,7 +2,7 @@
 
 #include "LaserTowerOfDeathController.hpp"
 
-namespace rd
+namespace asrob
 {
 
 bool LaserTowerOfDeathController::moveForward(int velocity)
@@ -160,4 +160,4 @@ bool LaserTowerOfDeathController::checkConnection()
     return !diffFlag;
 }
 
-}  // namespace rd
+}  // namespace asrob

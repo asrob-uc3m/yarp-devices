@@ -2,7 +2,7 @@
 
 #include "EcroPwmController.hpp"
 
-namespace rd
+namespace asrob
 {
 
 bool EcroPwmController::open(yarp::os::Searchable& config)
@@ -52,4 +52,4 @@ bool EcroPwmController::close()
     return true;
 }
 
-}  // namespace rd
+}  // namespace asrob

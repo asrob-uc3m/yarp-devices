@@ -2,7 +2,7 @@
 
 #include "FakeMotorController.hpp"
 
-namespace rd
+namespace asrob
 {
 
 bool FakeMotorController::open(yarp::os::Searchable& config)
@@ -17,4 +17,4 @@ bool FakeMotorController::close()
     return true;
 }
 
-}  // namespace rd
+}  // namespace asrob
