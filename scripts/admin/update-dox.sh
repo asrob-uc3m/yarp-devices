@@ -5,8 +5,8 @@
 # crontab -e
 # 30 2 * * * /your/command
 
-echo "Update yarp-devices..."
-cd $HOME/yarp-devices
+echo "Update asrob-uc3m/yarp-devices..."
+cd $HOME/asrob-uc3m/yarp-devices
 git pull
 echo "Doxy yarp-devices..."
 cd doc
