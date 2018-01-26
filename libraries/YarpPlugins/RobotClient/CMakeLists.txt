@@ -12,7 +12,7 @@ IF (NOT SKIP_RobotClient)
 
     include_directories( ${CMAKE_CURRENT_SOURCE_DIR} ${YARP_INCLUDE_DIRS} )
 
-    yarp_add_plugin(RobotClient RobotClient.cpp DeviceDriverImpl.cpp )
+    yarp_add_plugin(RobotClient RobotClient.hpp RobotClient.cpp DeviceDriverImpl.cpp )
 
     TARGET_LINK_LIBRARIES(RobotClient ${YARP_LIBRARIES})
 
