@@ -1,8 +1,8 @@
-[![Yarp-devices Homepage](https://img.shields.io/badge/yarp-devices-orange.svg)](http://robots.uc3m.es/dox-yarp-devices) [![Latest Release](https://img.shields.io/github/tag/asrob-uc3m/yarp-devices.svg?label=Latest%20Release)](https://github.com/asrob-uc3m/yarp-devices/tags)
+[![Yarp-devices Homepage](https://img.shields.io/badge/yarp-devices-orange.svg)](http://asrob.uc3m.es/dox-yarp-devices) [![Latest Release](https://img.shields.io/github/tag/asrob-uc3m/yarp-devices.svg?label=Latest%20Release)](https://github.com/asrob-uc3m/yarp-devices/tags)
 
 A place for YARP devices.
 
-Link to Doxygen generated documentation: http://robots.uc3m.es/dox-yarp-devices
+Link to Doxygen generated documentation: http://asrob.uc3m.es/dox-yarp-devices
 
 ## Installation
 
