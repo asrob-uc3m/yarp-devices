@@ -25,9 +25,8 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 #add_subdirectory(AravisGigE) # Aravis driver for GigE cameras
 
 # Install interface headers.
-#install(FILES ICanBusHico.h
-#              ICanBusSharer.h
-#              DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+install(FILES IRobotManager.hpp
+              DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
 # Export variables to the global scope.
 set_property(GLOBAL APPEND PROPERTY ASROB_YARP_DEVICES_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR})
