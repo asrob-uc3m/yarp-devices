@@ -1,6 +1,6 @@
-# Copyright: (C) 2017 Universidad Carlos III de Madrid
-# Authors: Juan G. Victores & Raul de Santos Rico
-# CopyPolicy: Released under the terms of the LGPLv2.1 or later, see LGPL.TXT
+# Authors: see AUTHORS.md at project root.
+# CopyPolicy: released under the terms of the LGPLv2.1, see LICENSE at project root.
+# URL: https://github.com/asrob-uc3m/yarp-devices
 
 option(ENABLE_YarpPlugins "Enable/disable YarpPlugins" ON)
 
