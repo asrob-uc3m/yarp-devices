@@ -8,7 +8,7 @@
 echo "Update asrob-uc3m/yarp-devices..."
 cd $HOME/asrob-uc3m/yarp-devices
 git pull
-echo "Doxy yarp-devices..."
+echo "Doxy asrob-uc3m/yarp-devices..."
 cd doc
 rm -r html
 /usr/bin/doxygen
