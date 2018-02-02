@@ -9,10 +9,7 @@ namespace asrob
 
 bool RobotClient::open(yarp::os::Searchable& config)
 {
-    if ( config.check("name") )
-    {
-        robotName = config.find("name").asString();
-    }
+    std::string robotName = config.check("name",yarp::os::Value("name"),"robot name").asString();
 
     std::string local_s("/robotClient");
     local_s += robotName;

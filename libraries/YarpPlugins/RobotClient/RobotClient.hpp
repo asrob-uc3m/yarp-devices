@@ -81,8 +81,6 @@ public:
 
 private:
 
-    std::string robotName;
-
     yarp::os::RpcClient rpcClient;
 
     bool send1vocab1int(int vocab, int integer);
