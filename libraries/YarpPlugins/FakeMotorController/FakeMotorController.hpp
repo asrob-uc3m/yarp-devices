@@ -89,4 +89,3 @@ public:
 }  // namespace asrob
 
 #endif  // __FAKE_MOTOR_CONTROLLER__
-

@@ -1,7 +1,7 @@
 // -*- mode:C++; tab-width:4; c-basic-offset:4; indent-tabs-mode:nil -*-
 
-#ifndef __ECRO_PWM__
-#define __ECRO_PWM__
+#ifndef __ECRO_PWM_CONTROLLER__
+#define __ECRO_PWM_CONTROLLER__
 
 #include <yarp/os/all.h>
 #include <yarp/dev/ControlBoardInterfaces.h>
@@ -112,5 +112,4 @@ private:
 
 }  // namespace asrob
 
-#endif  // __ECRO_PWM__
-
+#endif  // __ECRO_PWM_CONTROLLER__

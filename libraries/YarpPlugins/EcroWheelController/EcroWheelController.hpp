@@ -2,8 +2,8 @@
 // CopyPolicy: released under the terms of the LGPLv2.1, see LICENSE at project root.
 // URL: https://github.com/asrob-uc3m/yarp-devices
 
-#ifndef __LASER_TOWER_OF_DEATH__
-#define __LASER_TOWER_OF_DEATH__
+#ifndef __ECRO_WHEEL_CONTROLLER__
+#define __ECRO_WHEEL_CONTROLLER__
 
 #include <yarp/os/all.h>
 #include <yarp/dev/ControlBoardInterfaces.h>
@@ -109,5 +109,4 @@ private:
 
 }  // namespace asrob
 
-#endif  // __LASER_TOWER_OF_DEATH__
-
+#endif  // __ECRO_WHEEL_CONTROLLER__
