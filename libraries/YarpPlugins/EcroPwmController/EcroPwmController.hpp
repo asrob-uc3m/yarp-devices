@@ -9,7 +9,6 @@
 #include <yarp/dev/PolyDriver.h>
 
 #include <vector>
-#include <stdlib.h>  // just for exit()
 
 #include <SerialStream.h>
 
