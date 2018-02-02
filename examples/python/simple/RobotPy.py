@@ -13,7 +13,7 @@ class Robot:
 
         robotOptions = yarp.Property()
         robotOptions.put('device','RobotClient')
-        robotOptions.put('name','/ecro')
+        robotOptions.put('name','/ecroSim')
         self.robotDevice = yarp.PolyDriver(robotOptions)  # calls open -> connects
 
         self.motors = asrob_yarp_devices.viewIRobotManager(self.robotDevice)  # view the actual interface
