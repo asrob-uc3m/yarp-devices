@@ -46,7 +46,6 @@ bool RobotClient::open(yarp::os::Searchable& config)
 bool RobotClient::close()
 {
     rpcClient.close();
-    robotDevice.close();
     return true;
 }
 
