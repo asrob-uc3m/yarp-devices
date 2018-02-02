@@ -11,15 +11,6 @@ RobotClient::RobotClient()
 {
 }
 
-bool RobotClient::indexWithinRange(const int& idx)
-{
-    if (idx >= gpios.size() ){
-        CD_WARNING("Index out of range!! (%d >= " CD_SIZE_T ")!!!\n",idx,gpios.size());
-        return false;
-    }
-    return true;
-}
-
 bool RobotClient::moveForward(int velocity)
 {
     CD_DEBUG("\n");
