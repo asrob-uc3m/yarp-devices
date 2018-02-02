@@ -36,9 +36,9 @@ bool RobotServer::open(yarp::os::Searchable& config)
         CD_ERROR("subdevice <%s> not valid\n", name->toString().c_str());
         return false;
     }
-    if( ! robotDevice.view( iRdRobot ) )
+    if( ! robotDevice.view( iRobotManager ) )
     {
-        CD_ERROR("iRdRobot view failed\n");
+        CD_ERROR("iRobotManager view failed\n");
         return false;
     }
 

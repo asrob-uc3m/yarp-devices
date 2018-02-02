@@ -31,52 +31,52 @@ bool RobotServer::read(yarp::os::ConnectionReader& connection)
     }
     else if( in.get(0).asVocab() == VOCAB_MOVE_FORWARD)
     {
-        iRdRobot->moveForward( in.get(1).asInt() );
+        iRobotManager->moveForward( in.get(1).asInt() );
         out.addVocab(VOCAB_OK);
     }
     else if( in.get(0).asVocab() == VOCAB_MOVE_BACKWARDS)
     {
-        iRdRobot->moveBackwards( in.get(1).asInt() );
+        iRobotManager->moveBackwards( in.get(1).asInt() );
         out.addVocab(VOCAB_OK);
     }
     else if( in.get(0).asVocab() == VOCAB_TURN_LEFT)
     {
-        iRdRobot->turnLeft( in.get(1).asInt() );
+        iRobotManager->turnLeft( in.get(1).asInt() );
         out.addVocab(VOCAB_OK);
     }
     else if( in.get(0).asVocab() == VOCAB_TURN_RIGHT)
     {
-        iRdRobot->turnRight( in.get(1).asInt() );
+        iRobotManager->turnRight( in.get(1).asInt() );
         out.addVocab(VOCAB_OK);
     }
     else if( in.get(0).asVocab() == VOCAB_STOP_MOVEMENT)
     {
-        iRdRobot->stopMovement();
+        iRobotManager->stopMovement();
         out.addVocab(VOCAB_OK);
     }
     else if( in.get(0).asVocab() == VOCAB_TILT_UP)
     {
-        iRdRobot->tiltUp( in.get(1).asInt() );
+        iRobotManager->tiltUp( in.get(1).asInt() );
         out.addVocab(VOCAB_OK);
     }
     else if( in.get(0).asVocab() == VOCAB_TILT_DOWN)
     {
-        iRdRobot->tiltDown( in.get(1).asInt() );
+        iRobotManager->tiltDown( in.get(1).asInt() );
         out.addVocab(VOCAB_OK);
     }
     else if( in.get(0).asVocab() == VOCAB_PAN_LEFT)
     {
-        iRdRobot->panLeft( in.get(1).asInt() );
+        iRobotManager->panLeft( in.get(1).asInt() );
         out.addVocab(VOCAB_OK);
     }
     else if( in.get(0).asVocab() == VOCAB_PAN_RIGHT)
     {
-        iRdRobot->panRight( in.get(1).asInt() );
+        iRobotManager->panRight( in.get(1).asInt() );
         out.addVocab(VOCAB_OK);
     }
     else if( in.get(0).asVocab() == VOCAB_STOP_CAMERA_MOVEMENT)
     {
-        iRdRobot->stopCameraMovement();
+        iRobotManager->stopCameraMovement();
         out.addVocab(VOCAB_OK);
     }
     else
