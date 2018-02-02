@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
 import yarp
-import asibot_yarp_devices
+import asrob_yarp_devices
 
 yarp.Network.init()
 
