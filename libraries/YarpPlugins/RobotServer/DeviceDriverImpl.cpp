@@ -25,8 +25,6 @@ bool RobotServer::open(yarp::os::Searchable& config)
         }
         else
             robotDevice.open(*name);
-        if (!robotDevice.isValid())
-            CD_ERROR("cannot make <%s>\n", name->toString().c_str());
     }
     else
     {
@@ -35,7 +33,7 @@ bool RobotServer::open(yarp::os::Searchable& config)
     }
     if( ! robotDevice.isValid() )
     {
-        CD_ERROR("device not valid\n");
+        CD_ERROR("subdevice <%s> not valid\n", name->toString().c_str());
         return false;
     }
     if( ! robotDevice.view( iRdRobot ) )
