@@ -85,16 +85,6 @@ public:
     */
     virtual bool close();
 
-    // ------------------------------- Private -------------------------------------
-
-private:
-
-    /** Check if index is within range (referred to driver vector size).
-     * @param idx index to check.
-     * @return true/false on success/failure.
-     */
-    bool indexWithinRange(const int& idx);
-
 };
 
 }  // namespace asrob
