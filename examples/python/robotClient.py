@@ -14,10 +14,10 @@ robotOptions.put('device','RobotClient')
 robotOptions.put('name','/RobotServer')
 robotDevice = yarp.PolyDriver(robotOptions)  # calls open -> connects
 
-robot = rd.viewRobotManager(robotDevice)  # view the actual interface
+robot = asrob_yarp_devices.viewIRobotManager(robotDevice)  # view the actual interface
 
 print "moveForward"
-robot.moveForward()
+robot.moveForward(1)
 
 print "delay(5)"
 yarp.Time.delay(5)
