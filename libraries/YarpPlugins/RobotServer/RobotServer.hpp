@@ -71,8 +71,6 @@ public:
 
 private:
 
-    static const int UNUSED = -1;
-
     yarp::os::RpcServer rpcServer;
 
     yarp::dev::PolyDriver robotDevice;
