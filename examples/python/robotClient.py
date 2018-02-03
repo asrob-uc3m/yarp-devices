@@ -20,8 +20,7 @@ print "moveForward"
 robot.moveForward(1)
 
 print "delay(5)"
-yarp.Time.delay(5)
+yarp.Time.delay(5)  # delay in [seconds]
 
 print "moveForward"
 robot.stopMovement()
-
