@@ -11,7 +11,7 @@ if yarp.Network.checkNetwork() != True:
 
 robotOptions = yarp.Property()
 robotOptions.put('device','RobotClient')
-robotOptions.put('name','/RobotServer')
+robotOptions.put('name','/ecroSim')
 robotDevice = yarp.PolyDriver(robotOptions)  # calls open -> connects
 
 robot = asrob_yarp_devices.viewIRobotManager(robotDevice)  # view the actual interface
