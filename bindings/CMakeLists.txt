@@ -1,7 +1,7 @@
 # Created by Juan G Victores 2013 @ UC3M
 # Thanks to Paul Fitzpatrick for all the YARP and iCub SWIG stuff for inspiration
 
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 2.8.11)
 
 SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR} ${CMAKE_MODULE_PATH})
 
@@ -10,7 +10,8 @@ include_directories(${YARP_INCLUDE_DIRS})
 link_libraries(${YARP_LIBRARIES})
 
 find_package(ASROB_YARP_DEVICES REQUIRED)
-link_libraries(ASROB::RobotInterfaces)
+get_target_property(_robot_interface_include_dirs ASROB::RobotInterfaces INTERFACE_INCLUDE_DIRECTORIES)
+include_directories(${_robot_interface_include_dirs})
 
 # Work-around for missing paths to OpenCV libraries
 find_package(OpenCV)
