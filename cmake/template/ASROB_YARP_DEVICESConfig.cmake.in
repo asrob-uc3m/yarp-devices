@@ -1,41 +1,16 @@
-# Authors: Juan G Victores
-# CopyPolicy: Released under the terms of the LGPLv2.1 or later, see LGPL.TXT
+# Authors: see AUTHORS.md at project root.
+# CopyPolicy: released under the terms of the LGPLv2.1, see LICENSE at project root.
+# URL: https://github.com/asrob-uc3m/yarp-devices
 
 # Once you find_package(ASROB_YARP_DEVICES), it defines:
 #
 # * several targets; it's advised to link against individual libraries with the usual
 #   target_link_libraries() command
 #
-# * ASROB_YARP_DEVICES_INCLUDE_DIRS; use include_directories(${ASROB_YARP_DEVICES_INCLUDE_DIRS})
+# Available targets:
 #
-# * ASROB_YARP_DEVICES_MODULE_PATH; use list(APPEND CMAKE_MODULE_PATH ${ASROB_YARP_DEVICES_MODULE_PATH})
-#
-# * ASROB_YARP_DEVICES_LIBRARIES; shorthand for linking against all targets at once,
-#   use target_link_libraries(_target ${ASROB_YARP_DEVICES_LIBRARIES})
-#
-# Notes:
-#
-# * All target names are prepended with the ASROB:: namespace
+# * ASROB::RobotInterfaces; header-only target for YARP devices
 
 @PACKAGE_INIT@
 
-set(ASROB_YARP_DEVICES_INCLUDE_DIRS)
-
-foreach(_dir @PACKAGE_ASROB_YARP_DEVICES_INCLUDE_DIR@)
-    set_and_check(_temp_var ${_dir})
-    list(APPEND ASROB_YARP_DEVICES_INCLUDE_DIRS ${_temp_var})
-endforeach()
-
-set(ASROB_YARP_DEVICES_MODULE_PATH "@PACKAGE_ASROB_YARP_DEVICES_MODULE_DIR@")
-
-list(APPEND ASROB_YARP_DEVICES_MODULE_PATH ${ASROB_YARP_DEVICES_MODULE_PATH}/find-modules)
-
-if(NOT "@_exported_targets@" STREQUAL "")
-    include(${CMAKE_CURRENT_LIST_DIR}/ASROB_YARP_DEVICESTargets.cmake)
-
-    set(ASROB_YARP_DEVICES_LIBRARIES)
-
-    foreach(_target @_exported_targets@)
-        list(APPEND ASROB_YARP_DEVICES_LIBRARIES ASROB::${_target})
-    endforeach()
-endif()
+include(${CMAKE_CURRENT_LIST_DIR}/ASROB_YARP_DEVICESTargets.cmake)

@@ -49,8 +49,7 @@ if(NOT CMAKE_CONFIGURATION_TYPES)
 endif()
 
 # Pick up our CMake modules.
-list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake
-                              ${CMAKE_SOURCE_DIR}/cmake/find-modules)
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
 # Bootstrap YCM. Stick to v0.2.2 because of:
 # https://github.com/robotology/ycm/issues/118
@@ -88,17 +87,10 @@ if(USE_SYSTEM_COLOR_DEBUG)
     include_directories(${COLOR_DEBUG_INCLUDE_DIRS})
 endif()
 
-# Store common include directories in global scope.
-set_property(GLOBAL PROPERTY ASROB_YARP_DEVICES_INCLUDE_DIRS)
-
-# Store list of exported targets in global scope.
-set_property(GLOBAL PROPERTY ASROB_YARP_DEVICES_TARGETS)
-
 # Create targets if specific requirements are satisfied.
 include(CMakeDependentOption)
 
 # Add main contents.
-add_subdirectory(cmake)
 add_subdirectory(share)
 add_subdirectory(libraries)
 #add_subdirectory(programs)
@@ -106,10 +98,6 @@ add_subdirectory(libraries)
 
 # Store the package in the user registry.
 export(PACKAGE ASROB_YARP_DEVICES)
-
-# Retrieve global properties.
-get_property(_common_includes GLOBAL PROPERTY ASROB_YARP_DEVICES_INCLUDE_DIRS)
-get_property(_exported_targets GLOBAL PROPERTY ASROB_YARP_DEVICES_TARGETS)
 
 # CMake installation path.
 if(WIN32)
@@ -121,29 +109,19 @@ endif()
 # Create and install config files.
 include(CMakePackageConfigHelpers)
 
-# Set exported variables (build tree).
-set(ASROB_YARP_DEVICES_INCLUDE_DIR "${_common_includes}")
-set(ASROB_YARP_DEVICES_MODULE_DIR ${CMAKE_SOURCE_DIR}/cmake)
-
 # <pkg>Config.cmake (build tree).
 configure_package_config_file(${CMAKE_SOURCE_DIR}/cmake/template/ASROB_YARP_DEVICESConfig.cmake.in
                               ${CMAKE_BINARY_DIR}/ASROB_YARP_DEVICESConfig.cmake
                               INSTALL_DESTINATION ${CMAKE_BINARY_DIR}
                               INSTALL_PREFIX ${CMAKE_BINARY_DIR}
-                              PATH_VARS ASROB_YARP_DEVICES_INCLUDE_DIR
-                                        ASROB_YARP_DEVICES_MODULE_DIR
+                              NO_SET_AND_CHECK_MACRO
                               NO_CHECK_REQUIRED_COMPONENTS_MACRO)
-
-# Set exported variables (build tree).
-set(ASROB_YARP_DEVICES_INCLUDE_DIR ${CMAKE_INSTALL_INCLUDEDIR})
-set(ASROB_YARP_DEVICES_MODULE_DIR ${CMAKE_INSTALL_DATADIR}/ASROB_YARP_DEVICES/cmake)
 
 # <pkg>Config.cmake (install tree).
 configure_package_config_file(${CMAKE_SOURCE_DIR}/cmake/template/ASROB_YARP_DEVICESConfig.cmake.in
                               ${CMAKE_BINARY_DIR}/ASROB_YARP_DEVICESConfig.cmake.install
                               INSTALL_DESTINATION ${_cmake_destination}
-                              PATH_VARS ASROB_YARP_DEVICES_INCLUDE_DIR
-                                        ASROB_YARP_DEVICES_MODULE_DIR
+                              NO_SET_AND_CHECK_MACRO
                               NO_CHECK_REQUIRED_COMPONENTS_MACRO)
 
 # Install <pkg>Config.cmake.
@@ -151,21 +129,16 @@ install(FILES ${CMAKE_BINARY_DIR}/ASROB_YARP_DEVICESConfig.cmake.install
         RENAME ASROB_YARP_DEVICESConfig.cmake
         DESTINATION ${_cmake_destination})
 
-# Export library targets if enabled.
-# https://github.com/asrob-uc3m/project-generator/issues/19
-if(_exported_targets)
-    # <pkg>Targets.cmake (build tree).
-    # In CMake 3.0 or later: export(EXPORT ASROB_YARP_DEVICES...)
-    export(TARGETS ${_exported_targets}
-           NAMESPACE ASROB::
-           FILE ASROB_YARP_DEVICESTargets.cmake)
+# Export targets (build tree).
+export(TARGETS RobotInterfaces
+       NAMESPACE ASROB::
+       FILE ASROB_YARP_DEVICESTargets.cmake)
 
-    # <pkg>Targets.cmake (install tree).
-    install(EXPORT ASROB_YARP_DEVICES
-            DESTINATION ${_cmake_destination}
-            NAMESPACE ASROB::
-            FILE ASROB_YARP_DEVICESTargets.cmake)
-endif()
+# Export targets (install tree).
+install(EXPORT ASROB_YARP_DEVICES
+        DESTINATION ${_cmake_destination}
+        NAMESPACE ASROB::
+        FILE ASROB_YARP_DEVICESTargets.cmake)
 
 # Configure and create uninstall target.
 include(AddUninstallTarget)

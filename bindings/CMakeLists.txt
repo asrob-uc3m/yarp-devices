@@ -7,13 +7,10 @@ SET(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR} ${CMAKE_MODULE_PATH})
 
 find_package(YARP REQUIRED)
 include_directories(${YARP_INCLUDE_DIRS})
-link_directories(${YARP_LIBRARY_DIRS})
 link_libraries(${YARP_LIBRARIES})
 
 find_package(ASROB_YARP_DEVICES REQUIRED)
-include_directories(${ASROB_YARP_DEVICES_INCLUDE_DIRS})
-link_directories(${ASROB_YARP_DEVICES_LINK_DIRS})
-link_libraries(${ASROB_YARP_DEVICES_LIBRARIES})
+link_libraries(ASROB::RobotInterfaces)
 
 # Work-around for missing paths to OpenCV libraries
 find_package(OpenCV)
