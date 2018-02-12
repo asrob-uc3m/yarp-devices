@@ -2,25 +2,15 @@
 # Authors: Juan G. Victores & Raúl de Santos Rico
 # CopyPolicy: Released under the terms of the GNU GPL v2.0.
 
-cmake_minimum_required(VERSION 2.8.9 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
 project(ASROB_YARP_DEVICES)
-
-# Safety check against missing dummy library for system-available COLOR_DEBUG.
-# Remove if cmake_minimum_required() above is set to 3.0 or later.
-if(POLICY CMP0046)
-    cmake_policy(SET CMP0046 NEW)
-endif()
 
 # Force building shared libraries and YARP DL modules.
 set(BUILD_SHARED_LIBS TRUE CACHE INTERNAL "hide this!")
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -frtti")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -frtti")
-
-# Hack to compile against YARP 2.3.68.
-# https://github.com/asrob-uc3m/yarp-devices/issues/89
-add_definitions(-DYARP_NO_DEPRECATED_WARNINGS=ON)
+# Set global compiler options.
+add_compile_options(-frtti)
 
 # Add suffix for debug libraries.
 if(MSVC)
@@ -54,7 +44,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 # Bootstrap YCM. Stick to v0.2.2 because of:
 # https://github.com/robotology/ycm/issues/118
 # ...and to keep YCM itself compatible with cmake_minimum_required().
-set(YCM_TAG v0.2.2)
+set(YCM_TAG v0.6.0)
 include(YCMBootstrap)
 
 # Standard installation directories.
@@ -71,7 +61,7 @@ option(ENABLE_coverage "Choose if you want to enable coverage collection" OFF)
 if(ENABLE_coverage)
     # List supported compilers.
     if(CMAKE_COMPILER_IS_GNUCXX)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
+        add_compile_options(-fprofile-arcs -ftest-coverage)
     endif()
 endif()
 
@@ -96,49 +86,17 @@ add_subdirectory(libraries)
 #add_subdirectory(programs)
 #add_subdirectory(tests)
 
-# Store the package in the user registry.
-export(PACKAGE ASROB_YARP_DEVICES)
-
-# CMake installation path.
-if(WIN32)
-    set(_cmake_destination cmake)
-else()
-    set(_cmake_destination ${CMAKE_INSTALL_LIBDIR}/cmake/ASROB_YARP_DEVICES)
-endif()
-
 # Create and install config files.
-include(CMakePackageConfigHelpers)
+include(InstallBasicPackageFiles)
 
-# <pkg>Config.cmake (build tree).
-configure_package_config_file(${CMAKE_SOURCE_DIR}/cmake/template/ASROB_YARP_DEVICESConfig.cmake.in
-                              ${CMAKE_BINARY_DIR}/ASROB_YARP_DEVICESConfig.cmake
-                              INSTALL_DESTINATION ${CMAKE_BINARY_DIR}
-                              INSTALL_PREFIX ${CMAKE_BINARY_DIR}
-                              NO_SET_AND_CHECK_MACRO
-                              NO_CHECK_REQUIRED_COMPONENTS_MACRO)
-
-# <pkg>Config.cmake (install tree).
-configure_package_config_file(${CMAKE_SOURCE_DIR}/cmake/template/ASROB_YARP_DEVICESConfig.cmake.in
-                              ${CMAKE_BINARY_DIR}/ASROB_YARP_DEVICESConfig.cmake.install
-                              INSTALL_DESTINATION ${_cmake_destination}
-                              NO_SET_AND_CHECK_MACRO
-                              NO_CHECK_REQUIRED_COMPONENTS_MACRO)
-
-# Install <pkg>Config.cmake.
-install(FILES ${CMAKE_BINARY_DIR}/ASROB_YARP_DEVICESConfig.cmake.install
-        RENAME ASROB_YARP_DEVICESConfig.cmake
-        DESTINATION ${_cmake_destination})
-
-# Export targets (build tree).
-export(TARGETS RobotInterfaces
-       NAMESPACE ASROB::
-       FILE ASROB_YARP_DEVICESTargets.cmake)
-
-# Export targets (install tree).
-install(EXPORT ASROB_YARP_DEVICES
-        DESTINATION ${_cmake_destination}
-        NAMESPACE ASROB::
-        FILE ASROB_YARP_DEVICESTargets.cmake)
+install_basic_package_files(ASROB_YARP_DEVICES
+                            VERSION 0.1.0
+                            COMPATIBILITY AnyNewerVersion
+                            TARGETS RobotInterfaces
+                            NO_SET_AND_CHECK_MACRO
+                            NO_CHECK_REQUIRED_COMPONENTS_MACRO
+                            NAMESPACE ASROB::
+                            NO_COMPATIBILITY_VARS)
 
 # Configure and create uninstall target.
 include(AddUninstallTarget)
