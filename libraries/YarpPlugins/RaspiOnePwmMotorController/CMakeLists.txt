@@ -8,15 +8,22 @@ yarp_prepare_plugin(RaspiOnePwmMotorController
                     INCLUDE RaspiOnePwmMotorController.hpp
                     DEFAULT OFF)
 
-IF (NOT SKIP_RaspiOnePwmMotorController)
+if(NOT SKIP_RaspiOnePwmMotorController)
 
-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive")  # sorry
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fpermissive")  # sorry
 
-    include_directories( ${CMAKE_CURRENT_SOURCE_DIR} ${YARP_INCLUDE_DIRS} )
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-    yarp_add_plugin(RaspiOnePwmMotorController RaspiOnePwmMotorController.cpp DeviceDriverImpl.cpp pwm.cpp)
+    yarp_add_plugin(RaspiOnePwmMotorController RaspiOnePwmMotorController.hpp
+                                               RaspiOnePwmMotorController.cpp
+                                               DeviceDriverImpl.cpp
+                                               pwm.hpp
+                                               pwm.cpp)
 
-    TARGET_LINK_LIBRARIES(RaspiOnePwmMotorController ${YARP_LIBRARIES})
+    add_dependencies(RaspiOnePwmMotorController COLOR_DEBUG)
+
+    target_link_libraries(RaspiOnePwmMotorController YARP::YARP_OS
+                                                     YARP::YARP_dev)
 
     yarp_install(TARGETS RaspiOnePwmMotorController
                  COMPONENT runtime
@@ -27,4 +34,4 @@ IF (NOT SKIP_RaspiOnePwmMotorController)
                  COMPONENT runtime
                  DESTINATION ${YARP_PLUGIN_MANIFESTS_INSTALL_DIR})
 
-ENDIF (NOT SKIP_RaspiOnePwmMotorController)
+endif()

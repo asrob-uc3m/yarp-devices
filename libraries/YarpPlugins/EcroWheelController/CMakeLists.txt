@@ -8,13 +8,19 @@ yarp_prepare_plugin(EcroWheelController
                     INCLUDE EcroWheelController.hpp
                     DEFAULT OFF)
 
-IF (NOT SKIP_EcroWheelController)
+if(NOT SKIP_EcroWheelController)
 
-    include_directories( ${CMAKE_CURRENT_SOURCE_DIR} ${YARP_INCLUDE_DIRS} )
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-    yarp_add_plugin(EcroWheelController EcroWheelController.cpp DeviceDriverImpl.cpp )
+    yarp_add_plugin(EcroWheelController EcroWheelController.hpp
+                                        EcroWheelController.cpp
+                                        DeviceDriverImpl.cpp)
 
-    TARGET_LINK_LIBRARIES(EcroWheelController ${YARP_LIBRARIES} serial)
+    add_dependencies(EcroWheelController COLOR_DEBUG)
+
+    target_link_libraries(EcroWheelController YARP::YARP_OS
+                                              YARP::YARP_dev
+                                              serial)
 
     yarp_install(TARGETS EcroWheelController
                  COMPONENT runtime
@@ -25,4 +31,4 @@ IF (NOT SKIP_EcroWheelController)
                  COMPONENT runtime
                  DESTINATION ${YARP_PLUGIN_MANIFESTS_INSTALL_DIR})
 
-ENDIF (NOT SKIP_EcroWheelController)
+endif()

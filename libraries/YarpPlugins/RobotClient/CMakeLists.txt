@@ -8,13 +8,18 @@ yarp_prepare_plugin(RobotClient
                     INCLUDE RobotClient.hpp
                     DEFAULT ON)
 
-IF (NOT SKIP_RobotClient)
+if(NOT SKIP_RobotClient)
 
-    include_directories( ${CMAKE_CURRENT_SOURCE_DIR} ${YARP_INCLUDE_DIRS} )
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-    yarp_add_plugin(RobotClient RobotClient.hpp RobotClient.cpp DeviceDriverImpl.cpp )
+    yarp_add_plugin(RobotClient RobotClient.hpp
+                                RobotClient.cpp
+                                DeviceDriverImpl.cpp)
 
-    TARGET_LINK_LIBRARIES(RobotClient ${YARP_LIBRARIES})
+    add_dependencies(RobotClient COLOR_DEBUG)
+
+    target_link_libraries(RobotClient YARP::YARP_OS
+                                      YARP::YARP_dev)
 
     yarp_install(TARGETS RobotClient
                  COMPONENT runtime
@@ -25,6 +30,4 @@ IF (NOT SKIP_RobotClient)
                  COMPONENT runtime
                  DESTINATION ${YARP_PLUGIN_MANIFESTS_INSTALL_DIR})
 
-
-ENDIF (NOT SKIP_RobotClient)
-
+endif()
