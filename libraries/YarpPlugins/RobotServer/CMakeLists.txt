@@ -8,13 +8,18 @@ yarp_prepare_plugin(RobotServer
                     INCLUDE RobotServer.hpp
                     DEFAULT ON)
 
-IF (NOT SKIP_RobotServer)
+if(NOT SKIP_RobotServer)
 
-    include_directories( ${CMAKE_CURRENT_SOURCE_DIR} )
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-    yarp_add_plugin(RobotServer RobotServer.hpp RobotServer.cpp DeviceDriverImpl.cpp )
+    yarp_add_plugin(RobotServer RobotServer.hpp
+                                RobotServer.cpp
+                                DeviceDriverImpl.cpp)
 
-    TARGET_LINK_LIBRARIES(RobotServer ${YARP_LIBRARIES})
+    add_dependencies(RobotServer COLOR_DEBUG)
+
+    target_link_libraries(RobotServer YARP::YARP_OS
+                                      YARP::YARP_dev)
 
     yarp_install(TARGETS RobotServer
                  COMPONENT runtime
@@ -25,6 +30,4 @@ IF (NOT SKIP_RobotServer)
                  COMPONENT runtime
                  DESTINATION ${YARP_PLUGIN_MANIFESTS_INSTALL_DIR})
 
-
-ENDIF (NOT SKIP_RobotServer)
-
+endif()

@@ -8,13 +8,19 @@ yarp_prepare_plugin(LaserTowerOfDeathController
                     INCLUDE LaserTowerOfDeathController.hpp
                     DEFAULT OFF)
 
-IF (NOT SKIP_LaserTowerOfDeathController)
+if(NOT SKIP_LaserTowerOfDeathController)
 
-    include_directories( ${CMAKE_CURRENT_SOURCE_DIR} ${YARP_INCLUDE_DIRS} )
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-    yarp_add_plugin(LaserTowerOfDeathController LaserTowerOfDeathController.cpp DeviceDriverImpl.cpp )
+    yarp_add_plugin(LaserTowerOfDeathController LaserTowerOfDeathController.hpp
+                                                LaserTowerOfDeathController.cpp
+                                                DeviceDriverImpl.cpp)
 
-    TARGET_LINK_LIBRARIES(LaserTowerOfDeathController ${YARP_LIBRARIES} serial)
+    add_dependencies(LaserTowerOfDeathController COLOR_DEBUG)
+
+    target_link_libraries(LaserTowerOfDeathController YARP::YARP_OS
+                                                      YARP::YARP_dev
+                                                      serial)
 
     yarp_install(TARGETS LaserTowerOfDeathController
                  COMPONENT runtime
@@ -25,4 +31,4 @@ IF (NOT SKIP_LaserTowerOfDeathController)
                  COMPONENT runtime
                  DESTINATION ${YARP_PLUGIN_MANIFESTS_INSTALL_DIR})
 
-ENDIF (NOT SKIP_LaserTowerOfDeathController)
+endif()

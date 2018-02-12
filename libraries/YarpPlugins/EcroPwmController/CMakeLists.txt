@@ -8,13 +8,19 @@ yarp_prepare_plugin(EcroPwmController
                     INCLUDE EcroPwmController.hpp
                     DEFAULT OFF)
 
-IF (NOT SKIP_EcroPwmController)
+if(NOT SKIP_EcroPwmController)
 
-    include_directories( ${CMAKE_CURRENT_SOURCE_DIR} ${YARP_INCLUDE_DIRS} )
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-    yarp_add_plugin(EcroPwmController EcroPwmController.cpp DeviceDriverImpl.cpp )
+    yarp_add_plugin(EcroPwmController EcroPwmController.hpp
+                                      EcroPwmController.cpp
+                                      DeviceDriverImpl.cpp)
 
-    TARGET_LINK_LIBRARIES(EcroPwmController ${YARP_LIBRARIES} serial)
+    add_dependencies(EcroPwmController COLOR_DEBUG)
+
+    target_link_libraries(EcroPwmController YARP::YARP_OS
+                                            YARP::YARP_dev
+                                            serial)
 
     yarp_install(TARGETS EcroPwmController
                  COMPONENT runtime
@@ -25,4 +31,4 @@ IF (NOT SKIP_EcroPwmController)
                  COMPONENT runtime
                  DESTINATION ${YARP_PLUGIN_MANIFESTS_INSTALL_DIR})
 
-ENDIF (NOT SKIP_EcroPwmController)
+endif()

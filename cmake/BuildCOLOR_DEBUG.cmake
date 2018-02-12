@@ -2,7 +2,7 @@ include(YCMEPHelper)
 
 ycm_ep_helper(COLOR_DEBUG TYPE GIT
               STYLE GITHUB
-              REPOSITORY asrob-uc3m/color-debug.git
+              REPOSITORY roboticslab-uc3m/color-debug.git
               TAG master)
 
 # Include path to ColorDebug.hpp.

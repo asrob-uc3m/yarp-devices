@@ -3,4 +3,3 @@
 # URL: https://github.com/asrob-uc3m/yarp-devices
 
 add_subdirectory(YarpPlugins)
-

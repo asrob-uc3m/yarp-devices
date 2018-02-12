@@ -1,0 +1,34 @@
+language: cpp
+dist: trusty
+sudo: required
+os: linux
+
+compiler:
+  - gcc
+  - clang
+
+before_install:
+  - sudo apt-get -qq update
+  - if [ ! `git config --get user.email` ]; then `git config --global user.email 'user@example.com'`; fi
+  - if [ ! `git config --get user.name` ]; then `git config --global user.name 'Travis CI'`; fi
+  - '[[ "$TRAVIS_EVENT_TYPE" = cron ]] && export YARP_CHECKOUT=devel || export YARP_CHECKOUT=master'
+
+install:
+  #-- Install yarp
+  - git clone --branch="$YARP_CHECKOUT" https://github.com/robotology/yarp
+  - cd yarp && mkdir build && cd build
+  - cmake .. -DSKIP_ACE=ON
+  - make -j$(nproc)
+  - sudo make install
+  - cd ../..
+
+before_script:
+  - mkdir -p build && cd build
+  - cmake .. -DENABLE_coverage=ON
+
+script:
+  - make
+  - sudo make install
+
+after_success:
+  - sudo make uninstall

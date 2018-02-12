@@ -8,16 +8,20 @@ yarp_prepare_plugin(RaspiTwoPwmMotorController
                     INCLUDE RaspiTwoPwmMotorController.hpp
                     DEFAULT OFF)
 
-IF (NOT SKIP_RaspiTwoPwmMotorController)
+if(NOT SKIP_RaspiTwoPwmMotorController)
 
-    include_directories( ${CMAKE_CURRENT_SOURCE_DIR} ${YARP_INCLUDE_DIRS} )
+    include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-    yarp_add_plugin(RaspiTwoPwmMotorController RaspiTwoPwmMotorController.cpp DeviceDriverImpl.cpp )
+    yarp_add_plugin(RaspiTwoPwmMotorController RaspiTwoPwmMotorController.hpp
+                                               RaspiTwoPwmMotorController.cpp
+                                               DeviceDriverImpl.cpp)
 
-    TARGET_LINK_LIBRARIES(RaspiTwoPwmMotorController ${YARP_LIBRARIES})
+    add_dependencies(RaspiTwoPwmMotorController COLOR_DEBUG)
+
+    target_link_libraries(RaspiTwoPwmMotorController YARP::YARP_OS
+                                                     YARP::YARP_dev)
 
     yarp_install(TARGETS RaspiTwoPwmMotorController
-                 EXPORT YARP
                  COMPONENT runtime
                  LIBRARY DESTINATION ${YARP_DYNAMIC_PLUGINS_INSTALL_DIR}
                  ARCHIVE DESTINATION ${YARP_STATIC_PLUGINS_INSTALL_DIR})
@@ -26,5 +30,4 @@ IF (NOT SKIP_RaspiTwoPwmMotorController)
                  COMPONENT runtime
                  DESTINATION ${YARP_PLUGIN_MANIFESTS_INSTALL_DIR})
 
-ENDIF (NOT SKIP_RaspiTwoPwmMotorController)
-
+endif()
