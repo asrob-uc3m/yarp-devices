@@ -9,9 +9,6 @@ project(ASROB_YARP_DEVICES)
 # Force building shared libraries and YARP DL modules.
 set(BUILD_SHARED_LIBS TRUE CACHE INTERNAL "hide this!")
 
-# Set global compiler options.
-add_compile_options(-frtti)
-
 # Add suffix for debug libraries.
 if(MSVC)
     message(STATUS "Running on windows")
