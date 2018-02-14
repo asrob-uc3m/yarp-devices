@@ -41,9 +41,7 @@ endif()
 # Pick up our CMake modules.
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
-# Bootstrap YCM. Stick to v0.2.2 because of:
-# https://github.com/robotology/ycm/issues/118
-# ...and to keep YCM itself compatible with cmake_minimum_required().
+# Bootstrap YCM. Keep YCM compatible with cmake_minimum_required().
 set(YCM_TAG v0.6.0)
 include(YCMBootstrap)
 
@@ -75,6 +73,7 @@ find_or_build_package(COLOR_DEBUG)
 if(USE_SYSTEM_COLOR_DEBUG)
     find_package(COLOR_DEBUG REQUIRED)
     include_directories(${COLOR_DEBUG_INCLUDE_DIRS})
+    add_library(COLOR_DEBUG UNKNOWN IMPORTED)
 endif()
 
 # Create targets if specific requirements are satisfied.
