@@ -110,6 +110,6 @@ before_build:
   - cmd: cmake -H"%APPVEYOR_BUILD_FOLDER%" -B"%APPVEYOR_BUILD_FOLDER%\build" -G"%CMAKE_GENERATOR%" -DCMAKE_INSTALL_PREFIX:PATH="%APPVEYOR_BUILD_FOLDER%\install"
 
 build:
-  project: build\yarp-devices.sln
+  project: build\ASROB_YARP_DEVICES.sln
   parallel: false
   verbosity: minimal
