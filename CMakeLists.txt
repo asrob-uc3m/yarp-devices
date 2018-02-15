@@ -9,9 +9,6 @@ project(ASROB_YARP_DEVICES)
 # Force building shared libraries and YARP DL modules.
 set(BUILD_SHARED_LIBS TRUE CACHE INTERNAL "hide this!")
 
-# Set global compiler options.
-add_compile_options(-frtti)
-
 # Add suffix for debug libraries.
 if(MSVC)
     message(STATUS "Running on windows")
@@ -59,7 +56,7 @@ option(ENABLE_coverage "Choose if you want to enable coverage collection" OFF)
 if(ENABLE_coverage)
     # List supported compilers.
     if(CMAKE_COMPILER_IS_GNUCXX)
-        add_compile_options(-fprofile-arcs -ftest-coverage)
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
     endif()
 endif()
 

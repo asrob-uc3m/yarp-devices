@@ -72,7 +72,7 @@ public:
     //-- Robot connection related functions
     virtual bool connect() { return true; }
     virtual bool disconnect() { return true; }
-    virtual bool test() {}
+    virtual bool test() { return true; }
     virtual void setEnabled(bool enabled) {}
 
     virtual void onDestroy() {}
