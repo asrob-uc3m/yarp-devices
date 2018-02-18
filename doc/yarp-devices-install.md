@@ -30,7 +30,36 @@ sudo ldconfig
 
 Remember to enable the devices you want to compile using `ccmake` instead of `cmake`.
 
-## Useful links
+# Install Bindings
+
+## Install Python bindings
+
+Swig is needed in order to build the python bindings. It is normally installed with
+```bash
+sudo apt update
+sudo apt install swig
+sudo apt install libpython-dev  # not installed by default on clean distros
+```
+
+**Note:** If you are on Ubuntu Trusty (14.04), you have to install swig3.0 instead of swig
+```bash
+sudo apt install swig3.0
+```
+
+Make sure you have installed previously YARP.
+```bash
+cd  # go home
+cd repos/yarp-devices/bindings
+mkdir build && cd build && cmake .. -DYARP_COMPILE_BINDINGS=ON -DCREATE_PYTHON=ON  # Configure the yarp-devices software
+make -j$(nproc)  # compile
+sudo make install; sudo ldconfig; cd # install and go home
+```
+
+## Install MATLAB bindings
+
+The classical way is via Java bindings, which is similar to Python, then setting the `classpath.txt` and `librarypath.txt` files contained within MATLAB. Ref: http://wiki.icub.org/wiki/Calling_yarp_from_Matlab
+
+# Useful links
 
 * [yarp-devices usage](yarp-devices-usage.md)
 * [yarp-devices tricks](yarp-devices-tricks.md)
