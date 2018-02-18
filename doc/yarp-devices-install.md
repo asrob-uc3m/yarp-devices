@@ -6,7 +6,7 @@ This guide aims to simplify as much as possible the process of finding out which
 
 ## Common dependencies (Ubuntu)
 
-Some dependencies must be installed for all the devices (for Debian guides, see [Debian 6.0.10](yarp-devices-install-on-debian-6.md)):
+Some dependencies must be installed for all the devices:
 
   - [Install CMake](https://github.com/asrob-uc3m/installation-guides/blob/master/install-cmake.md)
   - [Install YARP](https://github.com/asrob-uc3m/installation-guides/blob/master/install-yarp.md)
