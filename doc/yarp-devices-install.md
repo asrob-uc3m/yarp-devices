@@ -50,7 +50,7 @@ Make sure you have installed previously YARP and yarp-devices.
 ```bash
 cd  # go home
 cd repos/yarp-devices/bindings
-mkdir build && cd build && cmake .. -DYARP_COMPILE_BINDINGS=ON -DCREATE_PYTHON=ON  # Configure the yarp-devices software
+mkdir build && cd build && cmake .. -DCREATE_PYTHON=ON  # Configure the yarp-devices software
 make -j$(nproc)  # compile
 sudo make install; sudo ldconfig; cd # install and go home
 ```
