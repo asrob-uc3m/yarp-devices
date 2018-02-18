@@ -46,7 +46,7 @@ sudo apt install libpython-dev  # not installed by default on clean distros
 sudo apt install swig3.0
 ```
 
-Make sure you have installed previously YARP.
+Make sure you have installed previously YARP and yarp-devices.
 ```bash
 cd  # go home
 cd repos/yarp-devices/bindings
