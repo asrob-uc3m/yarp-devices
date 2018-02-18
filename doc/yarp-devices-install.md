@@ -59,7 +59,3 @@ sudo make install; sudo ldconfig; cd # install and go home
 
 The classical way is via Java bindings, which is similar to Python, then setting the `classpath.txt` and `librarypath.txt` files contained within MATLAB. Ref: http://wiki.icub.org/wiki/Calling_yarp_from_Matlab
 
-# Useful links
-
-* [yarp-devices usage](yarp-devices-usage.md)
-* [yarp-devices tricks](yarp-devices-tricks.md)
