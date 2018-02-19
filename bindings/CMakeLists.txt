@@ -13,14 +13,8 @@ find_package(ASROB_YARP_DEVICES REQUIRED)
 get_target_property(_robot_interface_include_dirs ASROB::RobotInterfaces INTERFACE_INCLUDE_DIRECTORIES)
 include_directories(${_robot_interface_include_dirs})
 
-# Work-around for missing paths to OpenCV libraries
-find_package(OpenCV)
-if (OpenCV_FOUND)
-  link_directories(${OpenCV_LINK_DIRECTORIES} ${OPENCV_LINK_DIRECTORIES})
-endif (OpenCV_FOUND)
-
 #MESSAGE(${CMAKE_SOURCE_DIR})
-include_directories(${CMAKE_SOURCE_DIR}/../src/libraries/ColorClientLib)
+#include_directories(${CMAKE_SOURCE_DIR}/../src/libraries/ColorClientLib)
 
 # for yarp.i
 include_directories($ENV{YARP_ROOT}/bindings)
