@@ -83,7 +83,7 @@ endif (CREATE_RUBY)
 
 if (CREATE_JAVA)
   OPTION(PREPARE_CLASS_FILES "Prepare class files" OFF)
-  SET(ROBOT_DEVASTATION_ROBOTS_HELPERS LoadAsrobYarpDevices.java)
+  SET(ROBOT_DEVASTATION_ROBOTS_HELPERS AsrobYarpDevicesLoader.java)
   MAKE_DIRECTORY("${CMAKE_CURRENT_BINARY_DIR}/asrob_yarp_devices")
   SET(CMAKE_SWIG_OUTDIR "${CMAKE_CURRENT_BINARY_DIR}/asrob_yarp_devices")
   SET(TARGET_DIR asrob_yarp_devices)
