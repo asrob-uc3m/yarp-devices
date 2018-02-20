@@ -12,7 +12,7 @@ public class AsrobYarpDevicesLoader {
     public static void load() {
         if (!asrobYarpDevicesInitialized)
         {
-            System.loadLibrary("jasrobYarpDevices");
+            System.loadLibrary("jasrob_yarp_devices");
             System.out.println("AsrobYarpDevices library loaded and initialized");
             System.out.flush();
         }
