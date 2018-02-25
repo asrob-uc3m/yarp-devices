@@ -7,27 +7,15 @@
 namespace asrob
 {
 
-bool FakeMotorController::moveForward(int velocity)
+bool FakeMotorController::moveForward(double value)
 {
-    CD_INFO("%d.\n",velocity);
+    CD_INFO("%d.\n",value);
     return true;
 }
 
-bool FakeMotorController::moveBackwards(int velocity)
+bool FakeMotorController::turnLeft(double value)
 {
-    CD_INFO("%d.\n",velocity);
-    return true;
-}
-
-bool FakeMotorController::turnLeft(int velocity)
-{
-    CD_INFO("%d.\n",velocity);
-    return true;
-}
-
-bool FakeMotorController::turnRight(int velocity)
-{
-    CD_INFO("%d.\n",velocity);
+    CD_INFO("%d.\n",value);
     return true;
 }
 
@@ -37,27 +25,15 @@ bool FakeMotorController::stopMovement()
     return true;
 }
 
-bool FakeMotorController::tiltUp(int velocity)
+bool FakeMotorController::tiltDown(double value)
 {
-    CD_INFO("%d.\n",velocity);
+    CD_INFO("%d.\n",value);
     return true;
 }
 
-bool FakeMotorController::tiltDown(int velocity)
+bool FakeMotorController::panLeft(double value)
 {
-    CD_INFO("%d.\n",velocity);
-    return true;
-}
-
-bool FakeMotorController::panLeft(int velocity)
-{
-    CD_INFO("%d.\n",velocity);
-    return true;
-}
-
-bool FakeMotorController::panRight(int velocity)
-{
-    CD_INFO("%d.\n",velocity);
+    CD_INFO("%d.\n",value);
     return true;
 }
 
