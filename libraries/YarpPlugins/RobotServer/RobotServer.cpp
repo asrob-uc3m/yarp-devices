@@ -21,7 +21,7 @@ bool RobotServer::read(yarp::os::ConnectionReader& connection)
         out.addVocab(VOCAB_MOVE_FORWARD);
         out.addVocab(VOCAB_TURN_LEFT);
         out.addVocab(VOCAB_STOP_MOVEMENT);
-        out.addVocab(VOCAB_TILT_UP);
+        out.addVocab(VOCAB_TILT_DOWN);
         out.addVocab(VOCAB_PAN_LEFT);
         out.addVocab(VOCAB_STOP_CAMERA_MOVEMENT);
     }
@@ -40,9 +40,9 @@ bool RobotServer::read(yarp::os::ConnectionReader& connection)
         iRobotManager->stopMovement();
         out.addVocab(VOCAB_OK);
     }
-    else if( in.get(0).asVocab() == VOCAB_TILT_UP)
+    else if( in.get(0).asVocab() == VOCAB_TILT_DOWN)
     {
-        iRobotManager->tiltUp( in.get(1).asDouble() );
+        iRobotManager->tiltDown( in.get(1).asDouble() );
         out.addVocab(VOCAB_OK);
     }
     else if( in.get(0).asVocab() == VOCAB_PAN_LEFT)

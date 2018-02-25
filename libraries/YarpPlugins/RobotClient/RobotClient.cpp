@@ -29,10 +29,10 @@ bool RobotClient::stopMovement()
     return send1vocab(VOCAB_STOP_MOVEMENT);
 }
 
-bool RobotClient::tiltUp(double value)
+bool RobotClient::tiltDown(double value)
 {
     CD_DEBUG("%f\n",value);
-    return send1vocab1double(VOCAB_TILT_UP,value);
+    return send1vocab1double(VOCAB_TILT_DOWN,value);
 }
 
 bool RobotClient::panLeft(double value)

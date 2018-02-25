@@ -25,7 +25,7 @@ bool FakeMotorController::stopMovement()
     return true;
 }
 
-bool FakeMotorController::tiltUp(double value)
+bool FakeMotorController::tiltDown(double value)
 {
     CD_INFO("%d.\n",value);
     return true;

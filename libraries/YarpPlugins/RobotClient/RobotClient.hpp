@@ -64,8 +64,8 @@ public:
     /// @brief Robot: Stop movement.
     virtual bool stopMovement();
 
-    /// @brief Robot camera: Tilt up (use negative value for tilt down). position mode [deg]. Velocity mode [deg/s].
-    virtual bool tiltUp(double value);
+    /// @brief Robot camera: Tilt down (use negative value for tilt up). position mode [deg]. Velocity mode [deg/s].
+    virtual bool tiltDown(double value);
 
     /// @brief Robot camera: Pan left (use negative value for pan right). position mode [deg]. Velocity mode [deg/s].
     virtual bool panLeft(double value);
