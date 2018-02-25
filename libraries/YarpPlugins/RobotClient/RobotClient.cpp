@@ -11,28 +11,16 @@ RobotClient::RobotClient()
 {
 }
 
-bool RobotClient::moveForward(int velocity)
+bool RobotClient::moveForward(double value)
 {
-    CD_DEBUG("\n");
-    return send1vocab1int(VOCAB_MOVE_FORWARD,velocity);
+    CD_DEBUG("%f\n",value);
+    return send1vocab1double(VOCAB_MOVE_FORWARD,value);
 }
 
-bool RobotClient::moveBackwards(int velocity)
+bool RobotClient::turnLeft(double value)
 {
-    CD_DEBUG("\n");
-    return send1vocab1int(VOCAB_MOVE_BACKWARDS,velocity);
-}
-
-bool RobotClient::turnLeft(int velocity)
-{
-    CD_DEBUG("\n");
-    return send1vocab1int(VOCAB_TURN_LEFT,velocity);
-}
-
-bool RobotClient::turnRight(int velocity)
-{
-    CD_DEBUG("\n");
-    return send1vocab1int(VOCAB_TURN_RIGHT,velocity);
+    CD_DEBUG("%f\n",value);
+    return send1vocab1double(VOCAB_TURN_LEFT,value);
 }
 
 bool RobotClient::stopMovement()
@@ -41,28 +29,16 @@ bool RobotClient::stopMovement()
     return send1vocab(VOCAB_STOP_MOVEMENT);
 }
 
-bool RobotClient::tiltUp(int velocity)
+bool RobotClient::tiltUp(double value)
 {
-    CD_DEBUG("\n");
-    return send1vocab1int(VOCAB_TILT_UP,velocity);
+    CD_DEBUG("%f\n",value);
+    return send1vocab1double(VOCAB_TILT_UP,value);
 }
 
-bool RobotClient::tiltDown(int velocity)
+bool RobotClient::panLeft(double value)
 {
-    CD_DEBUG("\n");
-    return send1vocab1int(VOCAB_TILT_DOWN,velocity);
-}
-
-bool RobotClient::panLeft(int velocity)
-{
-    CD_DEBUG("\n");
-    return send1vocab1int(VOCAB_PAN_LEFT,velocity);
-}
-
-bool RobotClient::panRight(int velocity)
-{
-    CD_DEBUG("\n");
-    return send1vocab1int(VOCAB_PAN_RIGHT,velocity);
+    CD_DEBUG("%f\n",value);
+    return send1vocab1double(VOCAB_PAN_LEFT,value);
 }
 
 bool RobotClient::stopCameraMovement()
@@ -71,11 +47,11 @@ bool RobotClient::stopCameraMovement()
     return send1vocab(VOCAB_STOP_CAMERA_MOVEMENT);
 }
 
-bool RobotClient::send1vocab1int(int vocab, int integer)
+bool RobotClient::send1vocab1double(int vocab, double value)
 {
     yarp::os::Bottle cmd, response;
     cmd.addVocab(vocab);
-    cmd.addInt(integer);
+    cmd.addInt(value);
     rpcClient.write(cmd,response);
     if( response.get(0).asVocab() == VOCAB_OK )
         return true;
