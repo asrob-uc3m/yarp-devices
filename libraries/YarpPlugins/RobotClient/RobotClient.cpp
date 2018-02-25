@@ -51,7 +51,7 @@ bool RobotClient::send1vocab1double(int vocab, double value)
 {
     yarp::os::Bottle cmd, response;
     cmd.addVocab(vocab);
-    cmd.addInt(value);
+    cmd.addDouble(value);
     rpcClient.write(cmd,response);
     if( response.get(0).asVocab() == VOCAB_OK )
         return true;
