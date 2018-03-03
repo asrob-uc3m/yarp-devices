@@ -73,16 +73,6 @@ public:
     /// @brief Robot camera: Stop movement.
     virtual bool stopCameraMovement();
 
-    //-- Robot connection related functions
-    virtual bool connect() { return true; }
-    virtual bool disconnect() { return true; }
-    virtual bool test() { return true; }
-    virtual void setEnabled(bool enabled) {}
-
-    virtual void onDestroy() {}
-
-// ------------------------------- Private -------------------------------------
-
 private:
 
     yarp::os::RpcClient rpcClient;
