@@ -23,11 +23,11 @@ if(NOT SKIP_RaspiTwoPwmMotorController)
 
     yarp_install(TARGETS RaspiTwoPwmMotorController
                  COMPONENT runtime
-                 LIBRARY DESTINATION ${YARP_DYNAMIC_PLUGINS_INSTALL_DIR}
-                 ARCHIVE DESTINATION ${YARP_STATIC_PLUGINS_INSTALL_DIR})
+                 LIBRARY DESTINATION ${ASROB-YARP-DEVICES_DYNAMIC_PLUGINS_INSTALL_DIR}
+                 ARCHIVE DESTINATION ${ASROB-YARP-DEVICES_STATIC_PLUGINS_INSTALL_DIR})
 
     yarp_install(FILES RaspiTwoPwmMotorController.ini
                  COMPONENT runtime
-                 DESTINATION ${YARP_PLUGIN_MANIFESTS_INSTALL_DIR})
+                 DESTINATION ${ASROB-YARP-DEVICES_PLUGIN_MANIFESTS_INSTALL_DIR})
 
 endif()
