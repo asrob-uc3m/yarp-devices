@@ -6,7 +6,7 @@ yarp_prepare_plugin(EcroWheelController
                     CATEGORY device
                     TYPE asrob::EcroWheelController
                     INCLUDE EcroWheelController.hpp
-                    DEFAULT OFF)
+                    DEFAULT ON)
 
 if(NOT SKIP_EcroWheelController)
 

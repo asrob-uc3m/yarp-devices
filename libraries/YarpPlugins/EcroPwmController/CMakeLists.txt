@@ -6,7 +6,7 @@ yarp_prepare_plugin(EcroPwmController
                     CATEGORY device
                     TYPE asrob::EcroPwmController
                     INCLUDE EcroPwmController.hpp
-                    DEFAULT OFF)
+                    DEFAULT ON)
 
 if(NOT SKIP_EcroPwmController)
 
