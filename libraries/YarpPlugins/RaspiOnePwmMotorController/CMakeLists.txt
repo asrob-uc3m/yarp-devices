@@ -11,15 +11,13 @@ yarp_prepare_plugin(RaspiOnePwmMotorController
 
 if(NOT SKIP_RaspiOnePwmMotorController)
 
-    add_compile_options(-fpermissive) # treat compiler errors as warnings
-
     include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
     yarp_add_plugin(RaspiOnePwmMotorController RaspiOnePwmMotorController.hpp
                                                RaspiOnePwmMotorController.cpp
                                                DeviceDriverImpl.cpp
-                                               pwm.hpp
-                                               pwm.cpp)
+                                               pwm.h
+                                               pwm.c)
 
     add_dependencies(RaspiOnePwmMotorController COLOR_DEBUG)
 
