@@ -35,6 +35,11 @@ install:
   # Install LibSerial
   - sudo apt-get install libserial-dev
 
+  # Install wiringPi
+  - git clone git://git.drogon.net/wiringPi
+  - cd wiringPi
+  - ./build
+
   # Clone and build YARP if not in cache
   - >-
     if [ "$TRAVIS_EVENT_TYPE" = cron ]; then
