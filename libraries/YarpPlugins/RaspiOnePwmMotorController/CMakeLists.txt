@@ -6,11 +6,12 @@ yarp_prepare_plugin(RaspiOnePwmMotorController
                     CATEGORY device
                     TYPE asrob::RaspiOnePwmMotorController
                     INCLUDE RaspiOnePwmMotorController.hpp
-                    DEFAULT OFF)
+                    DEFAULT ON
+                    DEPENDS UNIX)
 
 if(NOT SKIP_RaspiOnePwmMotorController)
 
-    add_compile_options(-fpermissive)  # sorry
+    add_compile_options(-fpermissive) # treat compiler errors as warnings
 
     include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
