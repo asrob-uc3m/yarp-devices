@@ -6,24 +6,24 @@ yarp_prepare_plugin(RaspiOnePwmMotorController
                     CATEGORY device
                     TYPE asrob::RaspiOnePwmMotorController
                     INCLUDE RaspiOnePwmMotorController.hpp
-                    DEFAULT OFF)
+                    DEFAULT ON
+                    DEPENDS UNIX)
 
 if(NOT SKIP_RaspiOnePwmMotorController)
-
-    add_compile_options(-fpermissive)  # sorry
 
     include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
     yarp_add_plugin(RaspiOnePwmMotorController RaspiOnePwmMotorController.hpp
                                                RaspiOnePwmMotorController.cpp
                                                DeviceDriverImpl.cpp
-                                               pwm.hpp
-                                               pwm.cpp)
+                                               pwm.h
+                                               pwm.c)
 
     add_dependencies(RaspiOnePwmMotorController COLOR_DEBUG)
 
     target_link_libraries(RaspiOnePwmMotorController YARP::YARP_OS
-                                                     YARP::YARP_dev)
+                                                     YARP::YARP_dev
+                                                     RobotInterfaces)
 
     yarp_install(TARGETS RaspiOnePwmMotorController
                  COMPONENT runtime

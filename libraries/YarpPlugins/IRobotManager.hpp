@@ -5,15 +5,15 @@
 #ifndef __I_ROBOT_MANAGER_HPP__
 #define __I_ROBOT_MANAGER_HPP__
 
-#include <yarp/os/Vocab.h>
+#define VOCAB(a,b,c,d) ((((int)(d))<<24)+(((int)(c))<<16)+(((int)(b))<<8)+((int)(a)))
 
-#define VOCAB_MOVE_FORWARD VOCAB4('m','o','v','f')
-#define VOCAB_TURN_LEFT VOCAB4('t','r','n','l')
-#define VOCAB_STOP_MOVEMENT VOCAB4('s','t','p','m')
+#define VOCAB_MOVE_FORWARD VOCAB('m','o','v','f')
+#define VOCAB_TURN_LEFT VOCAB('t','r','n','l')
+#define VOCAB_STOP_MOVEMENT VOCAB('s','t','p','m')
 
-#define VOCAB_TILT_DOWN VOCAB4('t','l','t','d')
-#define VOCAB_PAN_LEFT VOCAB4('p','a','n','l')
-#define VOCAB_STOP_CAMERA_MOVEMENT VOCAB4('s','t','p','c')
+#define VOCAB_TILT_DOWN VOCAB('t','l','t','d')
+#define VOCAB_PAN_LEFT VOCAB('p','a','n','l')
+#define VOCAB_STOP_CAMERA_MOVEMENT VOCAB('s','t','p','c')
 
 namespace asrob{
 

@@ -19,7 +19,8 @@ if(NOT SKIP_RobotServer)
     add_dependencies(RobotServer COLOR_DEBUG)
 
     target_link_libraries(RobotServer YARP::YARP_OS
-                                      YARP::YARP_dev)
+                                      YARP::YARP_dev
+                                      RobotInterfaces)
 
     yarp_install(TARGETS RobotServer
                  COMPONENT runtime

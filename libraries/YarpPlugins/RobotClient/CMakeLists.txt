@@ -19,7 +19,8 @@ if(NOT SKIP_RobotClient)
     add_dependencies(RobotClient COLOR_DEBUG)
 
     target_link_libraries(RobotClient YARP::YARP_OS
-                                      YARP::YARP_dev)
+                                      YARP::YARP_dev
+                                      RobotInterfaces)
 
     yarp_install(TARGETS RobotClient
                  COMPONENT runtime

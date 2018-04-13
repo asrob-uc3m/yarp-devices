@@ -71,7 +71,7 @@
  * - add_pulse: check exact start/stop timeslot to avoid set0/clr0 collisions
  */
 
-#include "pwm.hpp"
+#include "pwm.h"
 
 // 15 DMA channels are usable on the RPi (0..14)
 #define DMA_CHANNELS    15

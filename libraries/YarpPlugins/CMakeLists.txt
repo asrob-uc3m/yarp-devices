@@ -6,8 +6,20 @@ if(YARP_VERSION_SHORT VERSION_LESS 2.3.70)
     include_directories(${YARP_INCLUDE_DIRS})
 endif()
 
-# Make interface headers discoverable by subdirectories.
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+# Device interface target.
+add_library(RobotInterfaces INTERFACE)
+
+# Configure usage requirements.
+target_include_directories(RobotInterfaces INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+                                                     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
+
+# Install interface headers.
+install(FILES IRobotManager.hpp
+              DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+
+# Register export set.
+install(TARGETS RobotInterfaces
+        EXPORT ASROB_YARP_DEVICES)
 
 # YARP devices.
 add_subdirectory(EcroPwmController)
@@ -18,18 +30,3 @@ add_subdirectory(RaspiOnePwmMotorController)
 add_subdirectory(RaspiTwoPwmMotorController)
 add_subdirectory(RobotClient)
 add_subdirectory(RobotServer)
-
-# Device interface target.
-add_library(RobotInterfaces INTERFACE)
-
-target_include_directories(RobotInterfaces INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
-                                                     $<BUILD_INTERFACE:${YARP_INCLUDE_DIRS}> # get YARP_dev includes in 2.3.70+
-                                                     $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
-
-# Install interface headers.
-install(FILES IRobotManager.hpp
-              DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
-
-# Register export set.
-install(TARGETS RobotInterfaces
-        EXPORT ASROB_YARP_DEVICES)

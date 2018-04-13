@@ -2,11 +2,18 @@
 # CopyPolicy: released under the terms of the LGPLv2.1, see LICENSE at project root.
 # URL: https://github.com/asrob-uc3m/yarp-devices
 
+find_package(LibSerial 0.6 QUIET)
+
+if(NOT LibSerial_FOUND AND (NOT DEFINED ENABLE_LaserTowerOfDeathController OR ENABLE_LaserTowerOfDeathController))
+    message(WARNING "LibSerial package not found, disabling LaserTowerOfDeathController device")
+endif()
+
 yarp_prepare_plugin(LaserTowerOfDeathController
                     CATEGORY device
                     TYPE asrob::LaserTowerOfDeathController
                     INCLUDE LaserTowerOfDeathController.hpp
-                    DEFAULT OFF)
+                    DEFAULT ON
+                    DEPENDS LibSerial_FOUND)
 
 if(NOT SKIP_LaserTowerOfDeathController)
 
@@ -20,7 +27,8 @@ if(NOT SKIP_LaserTowerOfDeathController)
 
     target_link_libraries(LaserTowerOfDeathController YARP::YARP_OS
                                                       YARP::YARP_dev
-                                                      serial)
+                                                      LibSerial::serial
+                                                      RobotInterfaces)
 
     yarp_install(TARGETS LaserTowerOfDeathController
                  COMPONENT runtime
@@ -30,5 +38,9 @@ if(NOT SKIP_LaserTowerOfDeathController)
     yarp_install(FILES LaserTowerOfDeathController.ini
                  COMPONENT runtime
                  DESTINATION ${ASROB-YARP-DEVICES_PLUGIN_MANIFESTS_INSTALL_DIR})
+
+else()
+
+    set(ENABLE_LaserTowerOfDeathController OFF CACHE BOOL "Enable/disable LaserTowerOfDeathController device" FORCE)
 
 endif()

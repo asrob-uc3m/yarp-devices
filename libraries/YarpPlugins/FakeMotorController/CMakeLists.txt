@@ -19,7 +19,8 @@ if(NOT SKIP_FakeMotorController)
     add_dependencies(FakeMotorController COLOR_DEBUG)
 
     target_link_libraries(FakeMotorController YARP::YARP_OS
-                                              YARP::YARP_dev)
+                                              YARP::YARP_dev
+                                              RobotInterfaces)
 
     yarp_install(TARGETS FakeMotorController
                  COMPONENT runtime

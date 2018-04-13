@@ -2,11 +2,18 @@
 # CopyPolicy: released under the terms of the LGPLv2.1, see LICENSE at project root.
 # URL: https://github.com/asrob-uc3m/yarp-devices
 
+find_package(wiringPi QUIET)
+
+if(NOT wiringPi_FOUND AND (NOT DEFINED ENABLE_RaspiTwoPwmMotorController OR ENABLE_RaspiTwoPwmMotorController))
+    message(WARNING "wiringPi package not found, disabling RaspiTwoPwmMotorController device")
+endif()
+
 yarp_prepare_plugin(RaspiTwoPwmMotorController
                     CATEGORY device
                     TYPE asrob::RaspiTwoPwmMotorController
                     INCLUDE RaspiTwoPwmMotorController.hpp
-                    DEFAULT OFF)
+                    DEFAULT ON
+                    DEPENDS "UNIX;wiringPi_FOUND")
 
 if(NOT SKIP_RaspiTwoPwmMotorController)
 
@@ -19,7 +26,9 @@ if(NOT SKIP_RaspiTwoPwmMotorController)
     add_dependencies(RaspiTwoPwmMotorController COLOR_DEBUG)
 
     target_link_libraries(RaspiTwoPwmMotorController YARP::YARP_OS
-                                                     YARP::YARP_dev)
+                                                     YARP::YARP_dev
+                                                     wiringPi::wiringPi
+                                                     RobotInterfaces)
 
     yarp_install(TARGETS RaspiTwoPwmMotorController
                  COMPONENT runtime
@@ -29,5 +38,9 @@ if(NOT SKIP_RaspiTwoPwmMotorController)
     yarp_install(FILES RaspiTwoPwmMotorController.ini
                  COMPONENT runtime
                  DESTINATION ${ASROB-YARP-DEVICES_PLUGIN_MANIFESTS_INSTALL_DIR})
+
+else()
+
+    set(ENABLE_RaspiTwoPwmMotorController OFF CACHE BOOL "Enable/disable RaspiTwoPwmMotorController device" FORCE)
 
 endif()

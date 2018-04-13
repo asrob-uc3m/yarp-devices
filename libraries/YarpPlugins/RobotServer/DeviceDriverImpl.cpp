@@ -21,6 +21,7 @@ bool RobotServer::open(yarp::os::Searchable& config)
             yarp::os::Property p;
             p.fromString(config.toString());
             p.put("device",name->toString());
+            p.setMonitor(config.getMonitor(), name->toString().c_str());
             robotDevice.open(p);
         }
         else

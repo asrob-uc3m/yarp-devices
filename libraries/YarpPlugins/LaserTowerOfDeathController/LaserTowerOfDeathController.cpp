@@ -7,30 +7,16 @@
 namespace asrob
 {
 
-bool LaserTowerOfDeathController::moveForward(int velocity)
+bool LaserTowerOfDeathController::moveForward(double value)
 {
-    CD_INFO("(%d).\n",velocity);
+    CD_INFO("(%f).\n",value);
 
     return true;
 }
 
-bool LaserTowerOfDeathController::moveBackwards(int velocity)
+bool LaserTowerOfDeathController::turnLeft(double value)
 {
-    CD_INFO("(%d).\n",velocity);
-
-    return true;
-}
-
-bool LaserTowerOfDeathController::turnLeft(int velocity)
-{
-    CD_INFO("(%d).\n",velocity);
-
-    return true;
-}
-
-bool LaserTowerOfDeathController::turnRight(int velocity)
-{
-    CD_INFO("(%d).\n",velocity);
+    CD_INFO("(%f).\n",value);
 
     return true;
 }
@@ -42,17 +28,7 @@ bool LaserTowerOfDeathController::stopMovement()
     return true;
 }
 
-//-- Robot camera related functions
-bool LaserTowerOfDeathController::tiltUp(int velocity)
-{
-    CD_INFO("\n");
-    if (tiltJointValue < tiltRangeMax)
-        tiltJointValue+=tiltStep;
-
-    return sendCurrentJointValues();
-}
-
-bool LaserTowerOfDeathController::tiltDown(int velocity)
+bool LaserTowerOfDeathController::tiltDown(double value)
 {
     CD_INFO("\n");
     if (  tiltJointValue > tiltRangeMin )
@@ -61,7 +37,7 @@ bool LaserTowerOfDeathController::tiltDown(int velocity)
     return sendCurrentJointValues();
 }
 
-bool LaserTowerOfDeathController::panLeft(int velocity)
+bool LaserTowerOfDeathController::panLeft(double value)
 {
     CD_INFO("\n");
     if (panJointValue < panRangeMax)
@@ -70,50 +46,10 @@ bool LaserTowerOfDeathController::panLeft(int velocity)
     return sendCurrentJointValues();
 }
 
-bool LaserTowerOfDeathController::panRight(int velocity)
-{
-    CD_INFO("\n");
-    if (  panJointValue > panRangeMin )
-        panJointValue-=panStep;
-
-    return sendCurrentJointValues();
-}
-
 bool LaserTowerOfDeathController::stopCameraMovement()
 {
     CD_ERROR("Not implemented yet\n");
     return false;
-}
-
-bool LaserTowerOfDeathController::connect()
-{
-    CD_ERROR("Not implemented yet\n");
-    return false;
-}
-
-
-bool LaserTowerOfDeathController::disconnect()
-{
-    CD_ERROR("Not implemented yet\n");
-    return false;
-}
-
-bool LaserTowerOfDeathController::test()
-{
-    CD_ERROR("Not implemented yet\n");
-    return false;
-}
-
-void LaserTowerOfDeathController::setEnabled(bool enabled)
-{
-    CD_ERROR("Not implemented yet\n");
-    return;
-}
-
-void LaserTowerOfDeathController::onDestroy()
-{
-    CD_ERROR("Not implemented yet\n");
-    return;
 }
 
 bool LaserTowerOfDeathController::sendCurrentJointValues()
@@ -134,32 +70,6 @@ bool LaserTowerOfDeathController::sendCurrentJointValues()
         CD_WARNING("Robot could not send joints (because it is not connected).\n");
         return false;
     }
-}
-
-bool LaserTowerOfDeathController::checkConnection()
-{
-    //-- Read welcome message to check if connected to the robot
-    SerialPort::DataBuffer buffer;
-    try {
-        serialPort->Read( buffer, 13, 1500);
-    }
-    catch ( SerialPort::ReadTimeout e)
-    {
-        std::cout << "Timeout! Exiting..." << std::endl;
-        return false;
-    }
-
-    //-- Check if connected
-    std::string welcomeMessage = "[Debug] Ok!\r\n";
-    bool diffFlag = false;
-
-    for (int i = 0; i < (int) buffer.size(); i++)
-    {
-        if ( welcomeMessage[i] != buffer[i] )
-            diffFlag = true;
-    }
-
-    return !diffFlag;
 }
 
 }  // namespace asrob
