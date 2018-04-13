@@ -8,11 +8,11 @@ This guide aims to simplify as much as possible the process of finding out which
 
 Some dependencies must be installed for all the devices:
 
-  - [Install CMake](https://github.com/asrob-uc3m/installation-guides/blob/master/install-cmake.md)
-  - [Install YARP](https://github.com/asrob-uc3m/installation-guides/blob/master/install-yarp.md)
+  - [Install CMake](https://github.com/roboticslab-uc3m/installation-guides/blob/master/install-cmake.md)
+  - [Install YARP](https://github.com/roboticslab-uc3m/installation-guides/blob/master/install-yarp.md)
 
-Additionally, this project depends on YCM to download and build external packages. Although this process is intended to run automatically during the CMake configuration phase, you may still want to install YCM and said packages by yourself. In that respect, refer to [Install YCM](https://github.com/asrob-uc3m/installation-guides/blob/master/install-ycm.md) and to the installation guides of any package listed below:
-- [color-debug](https://github.com/asrob-uc3m/color-debug)
+Additionally, this project depends on YCM to download and build external packages. Although this process is intended to run automatically during the CMake configuration phase, you may still want to install YCM and said packages by yourself. In that respect, refer to [Install YCM](https://github.com/roboticslab-uc3m/installation-guides/blob/master/install-ycm.md) and to the installation guides of any package listed below:
+- [color-debug](https://github.com/roboticslab-uc3m/color-debug)
 
 ## Installation (Ubuntu)
 
@@ -58,4 +58,3 @@ sudo make install; sudo ldconfig; cd # install and go home
 ## Install MATLAB bindings
 
 The classical way is via Java bindings, which is similar to Python, then setting the `classpath.txt` and `librarypath.txt` files contained within MATLAB. Ref: http://wiki.icub.org/wiki/Calling_yarp_from_Matlab
-
