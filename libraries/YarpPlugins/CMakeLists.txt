@@ -10,8 +10,7 @@ endif()
 add_library(RobotInterfaces INTERFACE)
 
 # Configure usage requirements.
-target_include_directories(RobotInterfaces INTERFACE ${YARP_INCLUDE_DIRS} # get YARP_dev includes in 2.3.70+
-                                                     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
+target_include_directories(RobotInterfaces INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
                                                      $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
 # Install interface headers.
