@@ -5,57 +5,30 @@
 namespace asrob
 {
 
-bool EcroPwmController::moveForward(int velocity)
+bool EcroPwmController::moveForward(double value)
 {
     CD_INFO("\n");
-    if (velocity <= rightMotorRangeMax && velocity >= rightMotorRangeMin &&
-        velocity <= leftMotorRangeMax && velocity >= leftMotorRangeMin )
+    if (value <= rightMotorRangeMax && value >= rightMotorRangeMin &&
+        value <= leftMotorRangeMax && value >= leftMotorRangeMin )
     {
-        rightMotorVelocity = rightMotorOffset+velocity; //-- 90º angle is 0 speed in driver
-        leftMotorVelocity = leftMotorOffset+velocity;
+        rightMotorVelocity = rightMotorOffset+value; //-- 90º angle is 0 speed in driver
+        leftMotorVelocity = leftMotorOffset+value;
     }
 
     return sendCurrentJointValues();
 }
 
-bool EcroPwmController::moveBackwards(int velocity)
+bool EcroPwmController::turnLeft(double value)
 {
     CD_INFO("\n");
-    if (velocity <= rightMotorRangeMax && velocity >= rightMotorRangeMin &&
-        velocity <= leftMotorRangeMax && velocity >= leftMotorRangeMin )
+    if (value <= rightMotorRangeMax && value >= rightMotorRangeMin &&
+        value <= leftMotorRangeMax && value >= leftMotorRangeMin )
     {
-        rightMotorVelocity = rightMotorOffset-velocity; //-- 90º angle is 0 speed in driver
-        leftMotorVelocity = leftMotorOffset-velocity;
-    }
-
-
-    return sendCurrentJointValues();
-}
-
-bool EcroPwmController::turnLeft(int velocity)
-{
-    CD_INFO("\n");
-    if (velocity <= rightMotorRangeMax && velocity >= rightMotorRangeMin &&
-        velocity <= leftMotorRangeMax && velocity >= leftMotorRangeMin )
-    {
-        rightMotorVelocity = rightMotorOffset+velocity; //-- 90º angle is 0 speed in driver
-        leftMotorVelocity = leftMotorOffset-velocity;
+        rightMotorVelocity = rightMotorOffset+value; //-- 90º angle is 0 speed in driver
+        leftMotorVelocity = leftMotorOffset-value;
     }
 
      return sendCurrentJointValues();
-}
-
-bool EcroPwmController::turnRight(int velocity)
-{
-    CD_INFO("\n");
-    if (velocity <= rightMotorRangeMax && velocity >= rightMotorRangeMin &&
-        velocity <= leftMotorRangeMax && velocity >= leftMotorRangeMin )
-    {
-        rightMotorVelocity = rightMotorOffset-velocity; //-- 90º angle is 0 speed in driver
-        leftMotorVelocity = leftMotorOffset+velocity;
-    }
-
-    return sendCurrentJointValues();
 }
 
 bool EcroPwmController::stopMovement()
@@ -68,30 +41,16 @@ bool EcroPwmController::stopMovement()
 }
 
 //-- Robot camera related functions
-bool EcroPwmController::tiltUp(int velocity)
+bool EcroPwmController::tiltDown(double value)
 {
-    CD_INFO("(%d).\n",velocity);
+    CD_INFO("(%f).\n",value);
 
     return true;
 }
 
-bool EcroPwmController::tiltDown(int velocity)
+bool EcroPwmController::panLeft(double value)
 {
-    CD_INFO("(%d).\n",velocity);
-
-    return true;
-}
-
-bool EcroPwmController::panLeft(int velocity)
-{
-    CD_INFO("(%d).\n",velocity);
-
-    return true;
-}
-
-bool EcroPwmController::panRight(int velocity)
-{
-    CD_INFO("(%d).\n",velocity);
+    CD_INFO("(%f).\n",value);
 
     return true;
 }
@@ -100,37 +59,6 @@ bool EcroPwmController::stopCameraMovement()
 {
     CD_ERROR("Not implemented yet\n");
     return false;
-}
-
-bool EcroPwmController::connect()
-{
-    CD_ERROR("Not implemented yet\n");
-    return false;
-}
-
-
-bool EcroPwmController::disconnect()
-{
-    CD_ERROR("Not implemented yet\n");
-    return false;
-}
-
-bool EcroPwmController::test()
-{
-    CD_ERROR("Not implemented yet\n");
-    return false;
-}
-
-void EcroPwmController::setEnabled(bool enabled)
-{
-    CD_ERROR("Not implemented yet\n");
-    return;
-}
-
-void EcroPwmController::onDestroy()
-{
-    CD_ERROR("Not implemented yet\n");
-    return;
 }
 
 bool EcroPwmController::sendCurrentJointValues()
@@ -151,32 +79,6 @@ bool EcroPwmController::sendCurrentJointValues()
         CD_WARNING("Robot could not send joints (because it is not connected).\n");
         return false;
     }
-}
-
-bool EcroPwmController::checkConnection()
-{
-    //-- Read welcome message to check if connected to the robot
-    SerialPort::DataBuffer buffer;
-    try {
-        serialPort->Read( buffer, 13, 1500);
-    }
-    catch ( SerialPort::ReadTimeout e)
-    {
-        std::cout << "Timeout! Exiting..." << std::endl;
-        return false;
-    }
-
-    //-- Check if connected
-    std::string welcomeMessage = "[Debug] Ok!\r\n";
-    bool diffFlag = false;
-
-    for (int i = 0; i < (int) buffer.size(); i++)
-    {
-        if ( welcomeMessage[i] != buffer[i] )
-            diffFlag = true;
-    }
-
-    return !diffFlag;
 }
 
 }  // namespace asrob
