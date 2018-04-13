@@ -36,7 +36,7 @@ set(LibSerial_VERSION "${PC_LibSerial_VERSION}")
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(LibSerial FOUND_VAR LibSerial_FOUND
                                             REQUIRED_VARS LibSerial_INCLUDE_DIR LibSerial_LIBRARY
-                                            VERSION_VAR PC_LibSerial_VERSION)
+                                            VERSION_VAR LibSerial_VERSION)
 
 if(LibSerial_FOUND)
     add_library(LibSerial::serial UNKNOWN IMPORTED)
