@@ -2,7 +2,7 @@
 # CopyPolicy: released under the terms of the LGPLv2.1, see LICENSE at project root.
 # URL: https://github.com/asrob-uc3m/yarp-devices
 
-find_package(LibSerial QUIET)
+find_package(LibSerial 0.6 QUIET)
 
 if(NOT LibSerial_FOUND AND (NOT DEFINED ENABLE_EcroWheelController OR ENABLE_EcroWheelController))
     message(WARNING "LibSerial package not found, disabling EcroWheelController device")
