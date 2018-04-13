@@ -27,7 +27,7 @@ namespace asrob
  * @ingroup YarpPlugins
  * @brief EcroWheelController
  */
-class EcroWheelController : public yarp::dev::DeviceDriver, public IRobotManager {
+class EcroWheelController : public yarp::dev::DeprecatedDeviceDriver, public IRobotManager {
 
 public:
 
