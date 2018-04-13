@@ -27,7 +27,8 @@ if(NOT SKIP_LaserTowerOfDeathController)
 
     target_link_libraries(LaserTowerOfDeathController YARP::YARP_OS
                                                       YARP::YARP_dev
-                                                      LibSerial::serial)
+                                                      LibSerial::serial
+                                                      RobotInterfaces)
 
     yarp_install(TARGETS LaserTowerOfDeathController
                  COMPONENT runtime

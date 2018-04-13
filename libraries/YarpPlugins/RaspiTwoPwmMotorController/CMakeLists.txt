@@ -19,7 +19,8 @@ if(NOT SKIP_RaspiTwoPwmMotorController)
     add_dependencies(RaspiTwoPwmMotorController COLOR_DEBUG)
 
     target_link_libraries(RaspiTwoPwmMotorController YARP::YARP_OS
-                                                     YARP::YARP_dev)
+                                                     YARP::YARP_dev
+                                                     RobotInterfaces)
 
     yarp_install(TARGETS RaspiTwoPwmMotorController
                  COMPONENT runtime

@@ -27,7 +27,8 @@ if(NOT SKIP_EcroPwmController)
 
     target_link_libraries(EcroPwmController YARP::YARP_OS
                                             YARP::YARP_dev
-                                            LibSerial::serial)
+                                            LibSerial::serial
+                                            RobotInterfaces)
 
     yarp_install(TARGETS EcroPwmController
                  COMPONENT runtime
