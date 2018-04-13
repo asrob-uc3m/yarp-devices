@@ -12,7 +12,7 @@ yarp_prepare_plugin(EcroPwmController
                     CATEGORY device
                     TYPE asrob::EcroPwmController
                     INCLUDE EcroPwmController.hpp
-                    DEFAULT ON
+                    DEFAULT OFF
                     DEPENDS LibSerial_FOUND)
 
 if(NOT SKIP_EcroPwmController)
