@@ -16,7 +16,7 @@
 
 #include "IRobotManager.hpp"
 
-#include "pwm.hpp"
+#include "pwm.h"
 
 namespace asrob
 {

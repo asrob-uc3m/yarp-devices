@@ -2,11 +2,18 @@
 # CopyPolicy: released under the terms of the LGPLv2.1, see LICENSE at project root.
 # URL: https://github.com/asrob-uc3m/yarp-devices
 
+find_package(LibSerial 0.6 QUIET)
+
+if(NOT LibSerial_FOUND AND (NOT DEFINED ENABLE_EcroPwmController OR ENABLE_EcroPwmController))
+    message(WARNING "LibSerial package not found, disabling EcroPwmController device")
+endif()
+
 yarp_prepare_plugin(EcroPwmController
                     CATEGORY device
                     TYPE asrob::EcroPwmController
                     INCLUDE EcroPwmController.hpp
-                    DEFAULT ON)
+                    DEFAULT ON
+                    DEPENDS LibSerial_FOUND)
 
 if(NOT SKIP_EcroPwmController)
 
@@ -20,7 +27,8 @@ if(NOT SKIP_EcroPwmController)
 
     target_link_libraries(EcroPwmController YARP::YARP_OS
                                             YARP::YARP_dev
-                                            serial)
+                                            LibSerial::serial
+                                            RobotInterfaces)
 
     yarp_install(TARGETS EcroPwmController
                  COMPONENT runtime
@@ -30,5 +38,9 @@ if(NOT SKIP_EcroPwmController)
     yarp_install(FILES EcroPwmController.ini
                  COMPONENT runtime
                  DESTINATION ${ASROB-YARP-DEVICES_PLUGIN_MANIFESTS_INSTALL_DIR})
+
+else()
+
+    set(ENABLE_EcroPwmController OFF CACHE BOOL "Enable/disable EcroPwmController device" FORCE)
 
 endif()
