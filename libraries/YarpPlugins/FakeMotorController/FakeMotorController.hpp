@@ -49,22 +49,6 @@ public:
     /// @brief Robot camera: Stop movement.
     virtual bool stopCameraMovement();
 
-    //-- Robot connection related functions
-    /// @brief Connect to the remote robot
-    virtual bool connect();
-
-    /// @brief Disconnect from the remote robot
-    virtual bool disconnect();
-
-    /// @brief Test connection (not in used yet)
-    virtual bool test();
-
-    /// @brief Enable/disable sending commands through the manager
-    virtual void setEnabled(bool enabled);
-
-    //-- Other
-    virtual void onDestroy();
-
     // -------- DeviceDriver declarations. Implementation in DeviceDriverImpl.cpp --------
 
     /**
