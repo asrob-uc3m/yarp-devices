@@ -23,9 +23,9 @@ bool RaspiTwoPwmMotorController::indexWithinRange(const int& idx)
 }
 
 
-bool RaspiTwoPwmMotorController::moveForward(int velocity)
+bool RaspiTwoPwmMotorController::moveForward(double value)
 {
-    CD_INFO("(%d).\n",velocity);
+    CD_INFO("(%d).\n",value);
 
     digitalWrite(LEFT_MOTOR_IN1, 1);
     digitalWrite(LEFT_MOTOR_IN2, 0);
@@ -34,38 +34,14 @@ bool RaspiTwoPwmMotorController::moveForward(int velocity)
     return true;
 }
 
-bool RaspiTwoPwmMotorController::moveBackwards(int velocity)
+bool RaspiTwoPwmMotorController::turnLeft(double value)
 {
-    CD_INFO("(%d).\n",velocity);
-
-    digitalWrite(LEFT_MOTOR_IN1, 0);
-    digitalWrite(LEFT_MOTOR_IN2, 1);
-    digitalWrite(RIGHT_MOTOR_IN1, 0);
-    digitalWrite(RIGHT_MOTOR_IN2, 1);
-
-    return true;
-}
-
-bool RaspiTwoPwmMotorController::turnLeft(int velocity)
-{
-    CD_INFO("(%d).\n",velocity);
+    CD_INFO("(%d).\n",value);
 
     digitalWrite(LEFT_MOTOR_IN1, 0);
     digitalWrite(LEFT_MOTOR_IN2, 1);
     digitalWrite(RIGHT_MOTOR_IN1, 1);
     digitalWrite(RIGHT_MOTOR_IN2, 0);
-
-    return true;
-}
-
-bool RaspiTwoPwmMotorController::turnRight(int velocity)
-{
-    CD_INFO("(%d).\n",velocity);
-
-    digitalWrite(LEFT_MOTOR_IN1, 1);
-    digitalWrite(LEFT_MOTOR_IN2, 0);
-    digitalWrite(RIGHT_MOTOR_IN1, 0);
-    digitalWrite(RIGHT_MOTOR_IN2, 1);
 
     return true;
 }
@@ -83,25 +59,13 @@ bool RaspiTwoPwmMotorController::stopMovement()
 }
 
 //-- Robot camera related functions
-bool RaspiTwoPwmMotorController::tiltUp(int velocity)
+bool RaspiTwoPwmMotorController::tiltDown(double value)
 {
     CD_ERROR("Not implemented yet\n");
     return false;
 }
 
-bool RaspiTwoPwmMotorController::tiltDown(int velocity)
-{
-    CD_ERROR("Not implemented yet\n");
-    return false;
-}
-
-bool RaspiTwoPwmMotorController::panLeft(int velocity)
-{
-    CD_ERROR("Not implemented yet\n");
-    return false;
-}
-
-bool RaspiTwoPwmMotorController::panRight(int velocity)
+bool RaspiTwoPwmMotorController::panLeft(double value)
 {
     CD_ERROR("Not implemented yet\n");
     return false;
@@ -111,37 +75,6 @@ bool RaspiTwoPwmMotorController::stopCameraMovement()
 {
     CD_ERROR("Not implemented yet\n");
     return false;
-}
-
-bool RaspiTwoPwmMotorController::connect()
-{
-    CD_ERROR("Not implemented yet\n");
-    return false;
-}
-
-
-bool RaspiTwoPwmMotorController::disconnect()
-{
-    CD_ERROR("Not implemented yet\n");
-    return false;
-}
-
-bool RaspiTwoPwmMotorController::test()
-{
-    CD_ERROR("Not implemented yet\n");
-    return false;
-}
-
-void RaspiTwoPwmMotorController::setEnabled(bool enabled)
-{
-    CD_ERROR("Not implemented yet\n");
-    return;
-}
-
-void RaspiTwoPwmMotorController::onDestroy()
-{
-    CD_ERROR("Not implemented yet\n");
-    return;
 }
 
 }  // namespace asrob
