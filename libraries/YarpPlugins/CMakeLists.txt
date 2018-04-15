@@ -25,6 +25,7 @@ install(TARGETS RobotInterfaces
 add_subdirectory(EcroPwmController)
 add_subdirectory(EcroWheelController)
 add_subdirectory(FakeMotorController)
+add_subdirectory(JumpingSumo)
 add_subdirectory(LaserTowerOfDeathController)
 add_subdirectory(RaspiOnePwmMotorController)
 add_subdirectory(RaspiTwoPwmMotorController)
