@@ -5,7 +5,9 @@
 #ifndef __I_ROBOT_MANAGER_HPP__
 #define __I_ROBOT_MANAGER_HPP__
 
+#ifndef SWIG_PREPROCESSOR_SHOULD_SKIP_THIS
 #define VOCAB(a,b,c,d) ((((int)(d))<<24)+(((int)(c))<<16)+(((int)(b))<<8)+((int)(a)))
+#endif // SWIG_PREPROCESSOR_SHOULD_SKIP_THIS
 
 #define VOCAB_MOVE_FORWARD VOCAB('m','o','v','f')
 #define VOCAB_TURN_LEFT VOCAB('t','r','n','l')
