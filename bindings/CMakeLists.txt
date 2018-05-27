@@ -23,6 +23,7 @@ set(CREATE_PYTHON FALSE CACHE BOOL "Create Python interface")
 set(CREATE_RUBY FALSE CACHE BOOL "Create Ruby interface")
 set(CREATE_JAVA FALSE CACHE BOOL "Create Java interface")
 SET(CREATE_CSHARP FALSE CACHE BOOL "Create CSharp interface")
+SET(CREATE_LUA FALSE CACHE BOOL "Create Lua interface")
 
 FIND_PACKAGE(SWIG REQUIRED)
 INCLUDE(${SWIG_USE_FILE})
@@ -33,6 +34,8 @@ IF ("${SWIG_VERSION}" VERSION_LESS "${MIN_SWIG_VERSION}")
 ENDIF ("${SWIG_VERSION}" VERSION_LESS "${MIN_SWIG_VERSION}")
 
 SET_SOURCE_FILES_PROPERTIES(asrob_yarp_devices.i PROPERTIES CPLUSPLUS ON)
+
+include(GNUInstallDirs)
 
 if (CREATE_PYTHON)
   set(CMAKE_SWIG_OUTDIR "${CMAKE_BINARY_DIR}")
@@ -132,3 +135,34 @@ IF (CREATE_CSHARP)
    SWIG_ADD_MODULE(asrob_yarp_devices csharp asrob_yarp_devices.i)
 ENDIF (CREATE_CSHARP)
 
+if(CREATE_LUA)
+	set(CMAKE_SWIG_FLAGS "-Wall;-module;asrob_yarp_devices")
+	find_package(Lua REQUIRED)
+	include_directories(SYSTEM ${LUA_INCLUDE_DIR})
+	swig_add_module(asrob_yarp_devices lua asrob_yarp_devices.i)
+	swig_link_libraries(asrob_yarp_devices ${LUA_LIBRARY})
+	set(_CMAKE_INSTALL_LUADIR "${CMAKE_INSTALL_LIBDIR}/lua/${LUA_VERSION_MAJOR}.${LUA_VERSION_MINOR}")
+	set(CMAKE_INSTALL_LUADIR ${_CMAKE_INSTALL_LUADIR} CACHE PATH "lua bindings (${_CMAKE_INSTALL_LUADIR})")
+	mark_as_advanced(CMAKE_INSTALL_LUADIR)
+
+	if(NOT IS_ABSOLUTE ${CMAKE_INSTALL_LUADIR})
+		set(CMAKE_INSTALL_FULL_LUADIR "${CMAKE_INSTALL_PREFIX}/${CMAKE_INSTALL_LUADIR}")
+	else()
+		set(CMAKE_INSTALL_FULL_LUADIR "${CMAKE_INSTALL_LUADIR}")
+	endif()
+
+	set_target_properties(${SWIG_MODULE_asrob_yarp_devices_REAL_NAME} PROPERTIES PREFIX ""
+                                                        					             OUTPUT_NAME "asrob_yarp_devices"
+                                                        					             LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LUADIR})
+
+	# Update RPATH
+	if(NOT CMAKE_SKIP_RPATH AND NOT CMAKE_SKIP_INSTALL_RPATH)
+		file(RELATIVE_PATH _rel_path "${CMAKE_INSTALL_FULL_LUADIR}" "${CMAKE_INSTALL_FULL_LIBDIR}")
+		get_target_property(_current_rpath "${SWIG_MODULE_asrob_yarp_devices_REAL_NAME}" INSTALL_RPATH)
+    list(APPEND _current_rpath "\$ORIGIN/${_rel_path}")
+		set_target_properties(${SWIG_MODULE_asrob_yarp_devices_REAL_NAME} PROPERTIES INSTALL_RPATH "${_current_rpath}")
+	endif()
+
+	install(TARGETS ${SWIG_MODULE_asrob_yarp_devices_REAL_NAME}
+		      DESTINATION ${CMAKE_INSTALL_LUADIR})
+endif(CREATE_LUA)
