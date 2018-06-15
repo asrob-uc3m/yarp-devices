@@ -6,9 +6,6 @@ cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
 project(ASROB_YARP_DEVICES)
 
-# Force building shared libraries and YARP DL modules.
-set(BUILD_SHARED_LIBS TRUE CACHE INTERNAL "hide this!")
-
 # Add suffix for debug libraries.
 if(MSVC)
     message(STATUS "Running on windows")
@@ -58,7 +55,7 @@ if(ENABLE_coverage)
 endif()
 
 # Search for project's hard dependencies.
-find_package(YCM 0.6 REQUIRED)
+find_package(YCM 0.8 REQUIRED)
 find_package(COLOR_DEBUG REQUIRED)
 find_package(YARP REQUIRED)
 
@@ -89,7 +86,7 @@ include(InstallBasicPackageFiles)
 install_basic_package_files(ASROB_YARP_DEVICES
                             VERSION 0.1.0
                             COMPATIBILITY AnyNewerVersion
-                            TARGETS RobotInterfaces
+                            FIRST_TARGET RobotInterfaces
                             NO_SET_AND_CHECK_MACRO
                             NO_CHECK_REQUIRED_COMPONENTS_MACRO
                             NAMESPACE ASROB::
