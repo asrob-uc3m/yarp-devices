@@ -58,7 +58,7 @@ install:
       wget -qO- "https://github.com/robotology/ycm/archive/v$YCM_VER.tar.gz" | tar xz
       mkdir -p "ycm-$YCM_VER/build" && cd "$_"
       cmake .. -DCMAKE_INSTALL_PREFIX:PATH="$YCM_CACHE_DIR"
-      sudo make -j$(nproc) install
+      make -j$(nproc) install
       echo "$YCM_VER" > "$YCM_CACHE_DIR/.version"
     else
       echo "YCM directory found in cache (version $(cat "$YCM_CACHE_DIR/.version"))"
@@ -83,7 +83,7 @@ install:
       wget -qO- "https://github.com/robotology/yarp/archive/v$YARP_VER.tar.gz" | tar xz
       mkdir -p "yarp-$YARP_VER/build" && cd "$_"
       cmake .. -DCMAKE_INSTALL_PREFIX:PATH="$YARP_CACHE_DIR" $YARP_CMAKE_OPTIONS
-      sudo make -j$(nproc) install
+      make -j$(nproc) install
       echo "$YARP_VER" > "$YARP_CACHE_DIR/.version"
     else
       echo "YARP directory found in cache (version $(cat "$YARP_CACHE_DIR/.version"))"
