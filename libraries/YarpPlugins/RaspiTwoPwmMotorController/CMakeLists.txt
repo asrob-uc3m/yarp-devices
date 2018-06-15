@@ -23,11 +23,10 @@ if(NOT SKIP_RaspiTwoPwmMotorController)
                                                RaspiTwoPwmMotorController.cpp
                                                DeviceDriverImpl.cpp)
 
-    add_dependencies(RaspiTwoPwmMotorController COLOR_DEBUG)
-
     target_link_libraries(RaspiTwoPwmMotorController YARP::YARP_OS
                                                      YARP::YARP_dev
                                                      wiringPi::wiringPi
+                                                     ROBOTICSLAB::ColorDebug
                                                      RobotInterfaces)
 
     yarp_install(TARGETS RaspiTwoPwmMotorController

@@ -16,10 +16,9 @@ if(NOT SKIP_RobotServer)
                                 RobotServer.cpp
                                 DeviceDriverImpl.cpp)
 
-    add_dependencies(RobotServer COLOR_DEBUG)
-
     target_link_libraries(RobotServer YARP::YARP_OS
                                       YARP::YARP_dev
+                                      ROBOTICSLAB::ColorDebug
                                       RobotInterfaces)
 
     yarp_install(TARGETS RobotServer

@@ -13,6 +13,8 @@ compiler:
 
 env:
   global:
+    - YCM_VER=0.8.1
+    - YCM_CACHE_DIR=~/.ycm
     - YARP_VER=2.3.72
     - YARP_CACHE_DIR=~/.yarp
 
@@ -40,6 +42,31 @@ install:
   - cd wiringPi
   - ./build
 
+  # Install color-debug
+  - cd
+  - git clone https://github.com/roboticslab-uc3m/color-debug
+  - mkdir -p color-debug/build && cd "$_"
+  - cmake ..
+  - sudo make install
+
+  # Clone and build YCM if not in cache
+  - >-
+    if [ ! "$(ls -A "$YCM_CACHE_DIR")" ] || [ ! -f "$YCM_CACHE_DIR/.version" ] || [ ! $(cat "$YCM_CACHE_DIR/.version") = "$YCM_VER" ]; then
+      echo "YCM not in cache or wrong version"
+      rm -rf "$YCM_CACHE_DIR"/*
+      cd
+      wget -qO- "https://github.com/robotology/ycm/archive/v$YCM_VER.tar.gz" | tar xz
+      mkdir -p "ycm-$YCM_VER/build" && cd "$_"
+      cmake .. -DCMAKE_INSTALL_PREFIX:PATH="$YCM_CACHE_DIR"
+      make -j$(nproc) install
+      echo "$YCM_VER" > "$YCM_CACHE_DIR/.version"
+    else
+      echo "YCM directory found in cache (version $(cat "$YCM_CACHE_DIR/.version"))"
+    fi
+
+  # Make installed YCM discoverable by CMake's find_package() command
+  - export YCM_DIR=$YCM_CACHE_DIR/share/YCM/cmake
+
   # Clone and build YARP if not in cache
   - >-
     if [ "$TRAVIS_EVENT_TYPE" = cron ]; then
@@ -56,7 +83,7 @@ install:
       wget -qO- "https://github.com/robotology/yarp/archive/v$YARP_VER.tar.gz" | tar xz
       mkdir -p "yarp-$YARP_VER/build" && cd "$_"
       cmake .. -DCMAKE_INSTALL_PREFIX:PATH="$YARP_CACHE_DIR" $YARP_CMAKE_OPTIONS
-      sudo make -j$(nproc) install
+      make -j$(nproc) install
       echo "$YARP_VER" > "$YARP_CACHE_DIR/.version"
     else
       echo "YARP directory found in cache (version $(cat "$YARP_CACHE_DIR/.version"))"

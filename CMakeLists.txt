@@ -2,12 +2,9 @@
 # Authors: Juan G. Victores & Raúl de Santos Rico
 # CopyPolicy: Released under the terms of the GNU GPL v2.0.
 
-cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
 project(ASROB_YARP_DEVICES)
-
-# Force building shared libraries and YARP DL modules.
-set(BUILD_SHARED_LIBS TRUE CACHE INTERNAL "hide this!")
 
 # Add suffix for debug libraries.
 if(MSVC)
@@ -37,12 +34,7 @@ endif()
 
 # Pick up our CMake modules.
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake
-                              ${CMAKE_SOURCE_DIR}/cmake/find-modules
-                              ${CMAKE_SOURCE_DIR}/cmake/ycm-modules)
-
-# Bootstrap YCM. Keep YCM compatible with cmake_minimum_required().
-set(YCM_TAG v0.6.0)
-include(YCMBootstrap)
+                              ${CMAKE_SOURCE_DIR}/cmake/find-modules)
 
 # Standard installation directories.
 include(GNUInstallDirs)
@@ -62,23 +54,9 @@ if(ENABLE_coverage)
     endif()
 endif()
 
-# Superbuild phase - include color-debug.
-include(FindOrBuildPackage)
-find_or_build_package(COLOR_DEBUG)
-
-# find_or_build_package() doesn't bring into scope COLOR_DEBUG_INCLUDE_DIRS
-# nor other config variables. If a system copy is found, we have to call the
-# find_package() command and proceed as usual.
-if(USE_SYSTEM_COLOR_DEBUG)
-    find_package(COLOR_DEBUG REQUIRED)
-    include_directories(${COLOR_DEBUG_INCLUDE_DIRS})
-    add_library(COLOR_DEBUG UNKNOWN IMPORTED)
-endif()
-
-# Create targets if specific requirements are satisfied.
-include(CMakeDependentOption)
-
-# Find YARP (main dependency).
+# Search for project's hard dependencies.
+find_package(YCM 0.8 REQUIRED)
+find_package(COLOR_DEBUG REQUIRED)
 find_package(YARP REQUIRED)
 
 # Load YARP modules.
@@ -90,6 +68,9 @@ endif()
 
 # Configure installation paths for YARP resources.
 yarp_configure_external_installation(asrob-yarp-devices WITH_PLUGINS)
+
+# Create targets if specific requirements are satisfied.
+include(CMakeDependentOption)
 
 # Add main contents.
 add_subdirectory(libraries)
@@ -105,7 +86,7 @@ include(InstallBasicPackageFiles)
 install_basic_package_files(ASROB_YARP_DEVICES
                             VERSION 0.1.0
                             COMPATIBILITY AnyNewerVersion
-                            TARGETS RobotInterfaces
+                            FIRST_TARGET RobotInterfaces
                             NO_SET_AND_CHECK_MACRO
                             NO_CHECK_REQUIRED_COMPONENTS_MACRO
                             NAMESPACE ASROB::

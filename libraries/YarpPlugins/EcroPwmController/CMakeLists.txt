@@ -23,11 +23,10 @@ if(NOT SKIP_EcroPwmController)
                                       EcroPwmController.cpp
                                       DeviceDriverImpl.cpp)
 
-    add_dependencies(EcroPwmController COLOR_DEBUG)
-
     target_link_libraries(EcroPwmController YARP::YARP_OS
                                             YARP::YARP_dev
                                             LibSerial::serial
+                                            ROBOTICSLAB::ColorDebug
                                             RobotInterfaces)
 
     yarp_install(TARGETS EcroPwmController

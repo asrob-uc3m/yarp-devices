@@ -20,10 +20,12 @@ bool RobotClient::open(yarp::os::Searchable& config)
     std::string remote_s(robotName);
     remote_s += "/rpc:s";
 
+    std::string carrier = config.check("carrier",yarp::os::Value(""),"RPC carrier").asString();
+
     int tries = 0;
     while(tries++ < 10)
     {
-        yarp::os::Network::connect(local_s,remote_s);
+        yarp::os::Network::connect(local_s,remote_s,carrier);
         if( rpcClient.getOutputCount() > 0) break;
         CD_DEBUG("Wait to connect to remote robot '%s', try %d...\n",remote_s.c_str(),tries);
         yarp::os::Time::delay(0.5);

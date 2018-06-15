@@ -19,10 +19,9 @@ if(NOT SKIP_RaspiOnePwmMotorController)
                                                pwm.h
                                                pwm.c)
 
-    add_dependencies(RaspiOnePwmMotorController COLOR_DEBUG)
-
     target_link_libraries(RaspiOnePwmMotorController YARP::YARP_OS
                                                      YARP::YARP_dev
+                                                     ROBOTICSLAB::ColorDebug
                                                      RobotInterfaces)
 
     yarp_install(TARGETS RaspiOnePwmMotorController

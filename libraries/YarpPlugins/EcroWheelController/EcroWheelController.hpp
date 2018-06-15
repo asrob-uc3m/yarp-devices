@@ -14,7 +14,7 @@
 
 #include <SerialStream.h>
 
-#include "ColorDebug.hpp"
+#include "ColorDebug.h"
 
 #include "IRobotManager.hpp"
 

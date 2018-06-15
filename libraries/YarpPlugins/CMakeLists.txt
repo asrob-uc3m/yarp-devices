@@ -21,6 +21,9 @@ install(FILES IRobotManager.hpp
 install(TARGETS RobotInterfaces
         EXPORT ASROB_YARP_DEVICES)
 
+# Always build YARP devices as MODULE libraries.
+set(YARP_FORCE_DYNAMIC_PLUGINS TRUE CACHE INTERNAL "Force dynamic plugins")
+
 # YARP devices.
 add_subdirectory(EcroPwmController)
 add_subdirectory(EcroWheelController)

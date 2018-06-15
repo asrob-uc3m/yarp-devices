@@ -16,10 +16,9 @@ if(NOT SKIP_FakeMotorController)
                                         FakeMotorController.cpp
                                         DeviceDriverImpl.cpp)
 
-    add_dependencies(FakeMotorController COLOR_DEBUG)
-
     target_link_libraries(FakeMotorController YARP::YARP_OS
                                               YARP::YARP_dev
+                                              ROBOTICSLAB::ColorDebug
                                               RobotInterfaces)
 
     yarp_install(TARGETS FakeMotorController
