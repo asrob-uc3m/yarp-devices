@@ -2,7 +2,7 @@
 # Authors: Juan G. Victores & Raúl de Santos Rico
 # CopyPolicy: Released under the terms of the GNU GPL v2.0.
 
-cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
 project(ASROB_YARP_DEVICES)
 
