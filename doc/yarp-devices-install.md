@@ -9,10 +9,9 @@ This guide aims to simplify as much as possible the process of finding out which
 Some dependencies must be installed for all the devices:
 
 - [Install CMake](https://github.com/roboticslab-uc3m/installation-guides/blob/master/install-cmake.md)
+- [Install YCM](https://github.com/roboticslab-uc3m/installation-guides/blob/master/install-ycm.md)
 - [Install YARP](https://github.com/roboticslab-uc3m/installation-guides/blob/master/install-yarp.md)
 - [Install color-debug](https://github.com/roboticslab-uc3m/color-debug)
-
-Additionally, this project depends on YCM to download and use additional CMake modules. Although this process is intended to run automatically during the CMake configuration phase, you may still want to install YCM by yourself. In that respect, refer to [Install YCM](https://github.com/roboticslab-uc3m/installation-guides/blob/master/install-ycm.md).
 
 ## Installation (Ubuntu)
 

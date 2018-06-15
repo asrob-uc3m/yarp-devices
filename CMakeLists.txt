@@ -37,12 +37,7 @@ endif()
 
 # Pick up our CMake modules.
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake
-                              ${CMAKE_SOURCE_DIR}/cmake/find-modules
-                              ${CMAKE_SOURCE_DIR}/cmake/ycm-modules)
-
-# Bootstrap YCM. Keep YCM compatible with cmake_minimum_required().
-set(YCM_TAG v0.6.0)
-include(YCMBootstrap)
+                              ${CMAKE_SOURCE_DIR}/cmake/find-modules)
 
 # Standard installation directories.
 include(GNUInstallDirs)
@@ -63,6 +58,7 @@ if(ENABLE_coverage)
 endif()
 
 # Search for project's hard dependencies.
+find_package(YCM 0.6 REQUIRED)
 find_package(COLOR_DEBUG REQUIRED)
 find_package(YARP REQUIRED)
 
