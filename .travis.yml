@@ -20,6 +20,7 @@ env:
 
 cache:
   directories:
+    - $YCM_CACHE_DIR
     - $YARP_CACHE_DIR
 
 branches:
