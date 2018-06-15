@@ -66,6 +66,9 @@ if(YARP_VERSION_SHORT VERSION_LESS 2.3.70)
     include(YarpInstallationHelpers)
 endif()
 
+# Always build YARP devices as MODULE libraries.
+set(YARP_FORCE_DYNAMIC_PLUGINS TRUE CACHE INTERNAL "Force dynamic plugins")
+
 # Configure installation paths for YARP resources.
 yarp_configure_external_installation(asrob-yarp-devices WITH_PLUGINS)
 
