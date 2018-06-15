@@ -16,10 +16,9 @@ if(NOT SKIP_RobotClient)
                                 RobotClient.cpp
                                 DeviceDriverImpl.cpp)
 
-    add_dependencies(RobotClient COLOR_DEBUG)
-
     target_link_libraries(RobotClient YARP::YARP_OS
                                       YARP::YARP_dev
+                                      ROBOTICSLAB::ColorDebug
                                       RobotInterfaces)
 
     yarp_install(TARGETS RobotClient

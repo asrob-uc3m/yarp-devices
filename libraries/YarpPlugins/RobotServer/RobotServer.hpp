@@ -14,7 +14,7 @@
 
 #include "IRobotManager.hpp"
 
-#include "ColorDebug.hpp"
+#include "ColorDebug.h"
 
 namespace asrob
 {

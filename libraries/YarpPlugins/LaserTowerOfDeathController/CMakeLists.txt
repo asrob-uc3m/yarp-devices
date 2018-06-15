@@ -23,11 +23,10 @@ if(NOT SKIP_LaserTowerOfDeathController)
                                                 LaserTowerOfDeathController.cpp
                                                 DeviceDriverImpl.cpp)
 
-    add_dependencies(LaserTowerOfDeathController COLOR_DEBUG)
-
     target_link_libraries(LaserTowerOfDeathController YARP::YARP_OS
                                                       YARP::YARP_dev
                                                       LibSerial::serial
+                                                      ROBOTICSLAB::ColorDebug
                                                       RobotInterfaces)
 
     yarp_install(TARGETS LaserTowerOfDeathController

@@ -62,23 +62,8 @@ if(ENABLE_coverage)
     endif()
 endif()
 
-# Superbuild phase - include color-debug.
-include(FindOrBuildPackage)
-find_or_build_package(COLOR_DEBUG)
-
-# find_or_build_package() doesn't bring into scope COLOR_DEBUG_INCLUDE_DIRS
-# nor other config variables. If a system copy is found, we have to call the
-# find_package() command and proceed as usual.
-if(USE_SYSTEM_COLOR_DEBUG)
-    find_package(COLOR_DEBUG REQUIRED)
-    include_directories(${COLOR_DEBUG_INCLUDE_DIRS})
-    add_library(COLOR_DEBUG UNKNOWN IMPORTED)
-endif()
-
-# Create targets if specific requirements are satisfied.
-include(CMakeDependentOption)
-
-# Find YARP (main dependency).
+# Search for project's hard dependencies.
+find_package(COLOR_DEBUG REQUIRED)
 find_package(YARP REQUIRED)
 
 # Load YARP modules.
@@ -90,6 +75,9 @@ endif()
 
 # Configure installation paths for YARP resources.
 yarp_configure_external_installation(asrob-yarp-devices WITH_PLUGINS)
+
+# Create targets if specific requirements are satisfied.
+include(CMakeDependentOption)
 
 # Add main contents.
 add_subdirectory(libraries)
