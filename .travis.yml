@@ -65,7 +65,7 @@ install:
     fi
 
   # Make installed YCM discoverable by CMake's find_package() command
-  - if [ ! "$TRAVIS_EVENT_TYPE" = cron ]; then export YCM_DIR=$YCM_CACHE_DIR/lib/cmake/YARP; fi
+  - export YCM_DIR=$YCM_CACHE_DIR/share/YCM/cmake
 
   # Clone and build YARP if not in cache
   - >-
