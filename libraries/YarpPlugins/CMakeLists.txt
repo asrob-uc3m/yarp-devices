@@ -2,10 +2,6 @@
 # CopyPolicy: released under the terms of the LGPLv2.1, see LICENSE at project root.
 # URL: https://github.com/asrob-uc3m/yarp-devices
 
-if(YARP_VERSION_SHORT VERSION_LESS 2.3.70)
-    include_directories(${YARP_INCLUDE_DIRS})
-endif()
-
 # Device interface target.
 add_library(RobotInterfaces INTERFACE)
 

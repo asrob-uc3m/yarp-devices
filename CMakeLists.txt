@@ -38,15 +38,14 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake
 
 # Search for project's hard dependencies.
 find_package(YCM 0.8 REQUIRED)
-find_package(COLOR_DEBUG REQUIRED)
-find_package(YARP REQUIRED)
 
-# Load YARP modules.
-if(YARP_VERSION_SHORT VERSION_LESS 2.3.70)
-    list(APPEND CMAKE_MODULE_PATH ${YARP_MODULE_PATH})
-    include(YarpPlugin)
-    include(YarpInstallationHelpers)
+# https://github.com/roboticslab-uc3m/questions-and-answers/issues/65
+find_package(YARP 3.0 QUIET COMPONENTS OS dev)
+if(NOT YARP_FOUND)
+    find_package(YARP 2.3.70 REQUIRED)
 endif()
+
+find_package(COLOR_DEBUG REQUIRED)
 
 # Always build YARP devices as MODULE libraries.
 set(YARP_FORCE_DYNAMIC_PLUGINS TRUE CACHE INTERNAL "Force dynamic plugins")
