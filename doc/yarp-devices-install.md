@@ -20,6 +20,14 @@ Once the required dependencies have been installed, the code has to be compiled 
 ```bash
 cd  # go home
 mkdir -p repos && cd repos  # make $HOME/repos if it doesn't exist; then, enter it
+# WiringPi ( http://wiringpi.com/download-and-install/ ) for several RasPi devices
+git clone git://git.drogon.net/wiringPi
+cd wiringPi
+./build # May require sudo
+# libserial required for several devices
+sudo apt install --no-install-recommends libboost-dev # libserial, next, requires boost/scoped_ptr.hpp
+sudo apt install libserial-dev
+# Now our repo
 git clone https://github.com/asrob-uc3m/yarp-devices.git  # Download yarp-devices software from the repository
 mkdir -p yarp-devices/build && cd yarp-devices/build && cmake ..  # Configure the yarp-devices software
 make -j$(nproc)  # Compile
