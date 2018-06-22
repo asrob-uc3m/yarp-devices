@@ -19,9 +19,9 @@ Once the required dependencies have been installed, the code has to be compiled 
 
 ```bash
 cd  # go home
-mkdir -p repos; cd repos  # make $HOME/repos if it doesn't exist; then, enter it
+mkdir -p repos && cd repos  # make $HOME/repos if it doesn't exist; then, enter it
 git clone https://github.com/asrob-uc3m/yarp-devices.git  # Download yarp-devices software from the repository
-cd yarp-devices; mkdir build; cd build; cmake ..  # Configure the yarp-devices software
+mkdir -p yarp-devices/build && cd yarp-devices/build && cmake ..  # Configure the yarp-devices software
 make -j$(nproc)  # Compile
 sudo make install  # Install :-)
 sudo ldconfig
