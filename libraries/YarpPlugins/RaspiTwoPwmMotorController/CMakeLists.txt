@@ -2,8 +2,6 @@
 # CopyPolicy: released under the terms of the LGPLv2.1, see LICENSE at project root.
 # URL: https://github.com/asrob-uc3m/yarp-devices
 
-find_package(wiringPi QUIET)
-
 if(NOT wiringPi_FOUND AND (NOT DEFINED ENABLE_RaspiTwoPwmMotorController OR ENABLE_RaspiTwoPwmMotorController))
     message(WARNING "wiringPi package not found, disabling RaspiTwoPwmMotorController device")
 endif()

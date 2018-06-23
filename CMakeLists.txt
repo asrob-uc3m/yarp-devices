@@ -36,6 +36,25 @@ endif()
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake
                               ${CMAKE_SOURCE_DIR}/cmake/find-modules)
 
+# Hard dependencies.
+find_package(YCM 0.8 REQUIRED)
+# https://github.com/roboticslab-uc3m/questions-and-answers/issues/65
+find_package(YARP 3.0 QUIET COMPONENTS OS dev)
+if(NOT YARP_FOUND)
+    find_package(YARP 2.3.70 REQUIRED)
+endif()
+find_package(COLOR_DEBUG REQUIRED)
+
+# Soft dependencies.
+find_package(LibSerial 0.6 QUIET)
+find_package(wiringPi QUIET)
+
+# Always build YARP devices as MODULE libraries.
+set(YARP_FORCE_DYNAMIC_PLUGINS TRUE CACHE INTERNAL "Force dynamic plugins")
+
+# Configure installation paths for YARP resources.
+yarp_configure_external_installation(asrob-yarp-devices WITH_PLUGINS)
+
 # Standard installation directories.
 include(GNUInstallDirs)
 
@@ -53,21 +72,6 @@ if(ENABLE_coverage)
         set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
     endif()
 endif()
-
-# Search for project's hard dependencies.
-find_package(YCM 0.8 REQUIRED)
-find_package(COLOR_DEBUG REQUIRED)
-find_package(YARP REQUIRED)
-
-# Load YARP modules.
-if(YARP_VERSION_SHORT VERSION_LESS 2.3.70)
-    list(APPEND CMAKE_MODULE_PATH ${YARP_MODULE_PATH})
-    include(YarpPlugin)
-    include(YarpInstallationHelpers)
-endif()
-
-# Configure installation paths for YARP resources.
-yarp_configure_external_installation(asrob-yarp-devices WITH_PLUGINS)
 
 # Create targets if specific requirements are satisfied.
 include(CMakeDependentOption)
