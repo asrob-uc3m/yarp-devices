@@ -6,16 +6,16 @@
 #define __I_ROBOT_MANAGER_HPP__
 
 #ifndef SWIG_PREPROCESSOR_SHOULD_SKIP_THIS
-#define VOCAB(a,b,c,d) ((((int)(d))<<24)+(((int)(c))<<16)+(((int)(b))<<8)+((int)(a)))
+#define ASROB_VOCAB(a,b,c,d) ((((int)(d))<<24)+(((int)(c))<<16)+(((int)(b))<<8)+((int)(a)))
 #endif // SWIG_PREPROCESSOR_SHOULD_SKIP_THIS
 
-#define VOCAB_MOVE_FORWARD VOCAB('m','o','v','f')
-#define VOCAB_TURN_LEFT VOCAB('t','r','n','l')
-#define VOCAB_STOP_MOVEMENT VOCAB('s','t','p','m')
+#define VOCAB_MOVE_FORWARD ASROB_VOCAB('m','o','v','f')
+#define VOCAB_TURN_LEFT ASROB_VOCAB('t','r','n','l')
+#define VOCAB_STOP_MOVEMENT ASROB_VOCAB('s','t','p','m')
 
-#define VOCAB_TILT_DOWN VOCAB('t','l','t','d')
-#define VOCAB_PAN_LEFT VOCAB('p','a','n','l')
-#define VOCAB_STOP_CAMERA_MOVEMENT VOCAB('s','t','p','c')
+#define VOCAB_TILT_DOWN ASROB_VOCAB('t','l','t','d')
+#define VOCAB_PAN_LEFT ASROB_VOCAB('p','a','n','l')
+#define VOCAB_STOP_CAMERA_MOVEMENT ASROB_VOCAB('s','t','p','c')
 
 namespace asrob{
 
@@ -46,7 +46,7 @@ class IRobotManager
 
         /// @brief Robot camera: Stop movement.
         virtual bool stopCameraMovement() = 0;
-        
+
         virtual ~IRobotManager() {}
 };
 
