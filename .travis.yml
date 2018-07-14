@@ -56,7 +56,7 @@ before_install:
 install:
   #-- Install wiringPi
   - git clone git://git.drogon.net/wiringPi ~/wiringPi
-  - ~/wiringPi/build
+  - (cd ~/wiringPi && ./build)
 
   #-- Install YCM
   - >
