@@ -4,6 +4,8 @@
 
 #include "LaserTowerOfDeathController.hpp"
 
+#include <iostream>
+
 namespace asrob
 {
 
@@ -70,6 +72,29 @@ bool LaserTowerOfDeathController::sendCurrentJointValues()
         CD_WARNING("Robot could not send joints (because it is not connected).\n");
         return false;
     }
+}
+
+bool LaserTowerOfDeathController::checkConnection()
+{
+    //-- Read welcome message to check if connected to the robot
+    SerialPort::DataBuffer buffer;
+    try {
+        serialPort->Read( buffer, 13, 1500);
+    }
+    catch ( SerialPort::ReadTimeout e)
+    {
+        std::cout << "Timeout! Exiting..." << std::endl;
+        return false;
+    }
+    //-- Check if connected
+    std::string welcomeMessage = "[Debug] Ok!\r\n";
+    bool diffFlag = false;
+    for (int i = 0; i < (int) buffer.size(); i++)
+    {
+        if ( welcomeMessage[i] != buffer[i] )
+            diffFlag = true;
+    }
+    return !diffFlag;
 }
 
 }  // namespace asrob
