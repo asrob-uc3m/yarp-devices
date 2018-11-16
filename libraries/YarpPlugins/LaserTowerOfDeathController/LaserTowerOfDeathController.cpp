@@ -32,18 +32,26 @@ bool LaserTowerOfDeathController::stopMovement()
 
 bool LaserTowerOfDeathController::tiltDown(double value)
 {
-    CD_INFO("\n");
-    if (  tiltJointValue > tiltRangeMin )
-        tiltJointValue-=tiltStep;
+    CD_INFO("%f\n", value);
+    if ( tiltJointValue - value > tiltRangeMax )
+        tiltJointValue = tiltRangeMax;
+    else if ( tiltJointValue - value < tiltRangeMin )
+        tiltJointValue = tiltRangeMin;
+    else
+        tiltJointValue -= value;
 
     return sendCurrentJointValues();
 }
 
 bool LaserTowerOfDeathController::panLeft(double value)
 {
-    CD_INFO("\n");
-    if (panJointValue < panRangeMax)
-        panJointValue+=panStep;
+    CD_INFO("%f\n", value);
+    if ( panJointValue + value > panRangeMax )
+        panJointValue = panRangeMax;
+    else if ( panJointValue + value < panRangeMin )
+        panJointValue = panRangeMin;
+    else
+        panJointValue += value;
 
     return sendCurrentJointValues();
 }
