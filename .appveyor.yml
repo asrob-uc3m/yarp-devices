@@ -33,9 +33,9 @@ branches:
 init:
   # Dependency version tags
   - cmd: set ACE_LATEST=6.4.6
-  - cmd: set YCM_LATEST=0.8.1
-  - cmd: set YARP_LATEST=2.3.72
-  - cmd: set GTEST_LATEST=1.8.0
+  - cmd: set YCM_LATEST=0.10.1
+  - cmd: set YARP_LATEST=3.1.1
+  - cmd: set GTEST_LATEST=1.8.1
 
   # Download/clone paths and URLs
   - cmd: set CLONES_PATH=C:\git
