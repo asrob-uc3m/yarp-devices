@@ -5,12 +5,10 @@
 # crontab -e
 # 30 2 * * * /your/command
 
+path="$HOME/asrob-uc3m/yarp-devices"
 echo "Update asrob-uc3m/yarp-devices..."
-cd $HOME/asrob-uc3m/yarp-devices
-git pull
+git -C "$path" pull
 echo "Doxy asrob-uc3m/yarp-devices..."
-cd doc
-rm -r html
-/usr/bin/doxygen
-cd ../..
-
+path="$path/doc/build"
+mkdir -p "$path"
+make -C "$path" clean && make -C "$path" dox
