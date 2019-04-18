@@ -46,10 +46,6 @@ init:
   - cmd: set YARP_DOWNLOAD_URL=https://github.com/robotology/yarp/archive/v%YARP_LATEST%.zip
   - cmd: set GTEST_DOWNLOAD_URL=https://github.com/google/googletest/archive/release-%GTEST_LATEST%.zip
 
-  # Configure git for use by YCM
-  - cmd: git config --global user.email "user@example.com"
-  - cmd: git config --global user.name "Travis CI"
-
   # Print some useful informations:
   - cmd: set
   - cmd: cmake --version
