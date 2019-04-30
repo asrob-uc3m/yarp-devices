@@ -70,9 +70,23 @@
  * ----
  * - add_pulse: check exact start/stop timeslot to avoid set0/clr0 collisions
  */
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
+#include <errno.h>
+#include <stdarg.h>
+#include <stdint.h>
+#include <signal.h>
+#include <time.h>
+#include <sys/time.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <sys/mman.h>
 #include "pwm.h"
-
+#include "mailbox.h"
+#define MBFILE			DEVICE_FILE_NAME	/* From mailbox.h */
 // 15 DMA channels are usable on the RPi (0..14)
 #define DMA_CHANNELS    15
 
@@ -80,17 +94,42 @@
 #define PAGE_SIZE       4096
 #define PAGE_SHIFT      12
 
+static struct {
+	int handle;		/* From mbox_open() */
+
+	uint8_t *virt_addr;	/* From mapmem() */
+} mbox;
+#define BUS_TO_PHYS(x) ((x)&~0xC0000000)
+static uint32_t mem_flag = 0x0c;
+
 // Memory Addresses
-#define DMA_BASE        0x20007000
+
+static volatile unsigned int	 BCM2708_PERI_BASE = 0x20000000 ; //for PI1
+
+static volatile unsigned int     periph_phys_base = 0x7e000000;
+static volatile unsigned int     periph_virt_base = 0x20000000;
+
+#define DMA_BASE_OFFSET		0x00007000
+#define PWM_BASE_OFFSET		0x0020C000
+#define CLK_BASE_OFFSET	    0x00101000
+#define GPIO_BASE_OFFSET	0x00200000
+#define PCM_BASE_OFFSET		0x00203000
+
+#define DMA_VIRT_BASE		(periph_virt_base + DMA_BASE_OFFSET)
+#define PWM_VIRT_BASE		(periph_virt_base + PWM_BASE_OFFSET)
+#define CLK_VIRT_BASE		(periph_virt_base + CLK_BASE_OFFSET)
+#define GPIO_VIRT_BASE		(periph_virt_base + GPIO_BASE_OFFSET)
+#define PCM_VIRT_BASE		(periph_virt_base + PCM_BASE_OFFSET)
+
+#define PWM_PHYS_BASE		(periph_phys_base + PWM_BASE_OFFSET)
+#define PCM_PHYS_BASE		(periph_phys_base + PCM_BASE_OFFSET)
+#define GPIO_PHYS_BASE		(periph_phys_base + GPIO_BASE_OFFSET)
+
 #define DMA_CHANNEL_INC 0x100
 #define DMA_LEN         0x24
-#define PWM_BASE        0x2020C000
 #define PWM_LEN         0x28
-#define CLK_BASE        0x20101000
 #define CLK_LEN         0xA8
-#define GPIO_BASE       0x20200000
 #define GPIO_LEN        0x100
-#define PCM_BASE        0x20203000
 #define PCM_LEN         0x24
 
 // Datasheet p. 51:
@@ -160,20 +199,15 @@ typedef struct {
     uint32_t pad[2]; // _reserved_
 } dma_cb_t;
 
-// Memory mapping
-typedef struct {
-    uint8_t *virtaddr;
-    uint32_t physaddr;
-} page_map_t;
 
 // Main control structure per channel
 struct channel {
     uint8_t *virtbase;
     uint32_t *sample;
     dma_cb_t *cb;
-    page_map_t *page_map;
     volatile uint32_t *dma_reg;
-
+	unsigned mem_ref;	/* From mem_alloc() */
+	unsigned bus_addr;	/* From mem_lock() */
     // Set by user
     uint32_t subcycle_time_us;
 
@@ -205,7 +239,7 @@ static int delay_hw = DELAY_VIA_PWM;
 static int log_level = LOG_LEVEL_DEFAULT;
 
 // if set to 1, calls to fatal will not exit the program or shutdown DMA/PWM, but just sets
-// the error_message and returns an error code. soft_fatal is enabled by default by the 
+// the error_message and returns an error code. soft_fatal is enabled by default by the
 // python wrapper, in order to convert calls to fatal(..) to exceptions.
 static int soft_fatal = 0;
 
@@ -286,6 +320,8 @@ shutdown(void)
             udelay(10);
         }
     }
+    _is_setup =0;
+    unlink(MBFILE);
 }
 
 // Terminate is triggered by signals
@@ -293,6 +329,9 @@ static void
 terminate(void)
 {
     shutdown();
+    if (soft_fatal) {
+        return;
+    }
     exit(EXIT_SUCCESS);
 }
 
@@ -325,6 +364,19 @@ setup_sighandlers(void)
 {
     int i;
     for (i = 0; i < 64; i++) {
+        // whitelist non-terminating signals
+        if (i == SIGCHLD ||
+            i == SIGCONT ||
+            i == SIGTSTP ||
+            i == SIGTTIN ||
+            i == SIGTTOU ||
+            i == SIGURG ||
+            i == SIGWINCH ||
+            i == SIGPIPE || // Python handles this
+            i == SIGINT || // Python handles this
+            i == SIGIO) {
+            continue;
+        }
         struct sigaction sa;
         memset(&sa, 0, sizeof(sa));
         sa.sa_handler = (void *) terminate;
@@ -336,15 +388,16 @@ setup_sighandlers(void)
 static uint32_t
 mem_virt_to_phys(int channel, void *virt)
 {
-    uint32_t offset = (uint8_t *)virt - channels[channel].virtbase;
-    return channels[channel].page_map[offset >> PAGE_SHIFT].physaddr + (offset % PAGE_SIZE);
+	uint32_t offset = (uint8_t *)virt - channels[channel].virtbase;
+
+	return channels[channel].bus_addr + offset;
 }
 
 // Peripherals memory mapping
 static void *
 map_peripheral(uint32_t base, uint32_t len)
 {
-    int fd = open("/dev/mem", O_RDWR);
+    int fd = open("/dev/mem", O_RDWR|O_SYNC);
     void * vaddr;
 
     if (fd < 0) {
@@ -394,7 +447,17 @@ clear_channel(int channel)
     for (i = 0; i < channels[channel].num_samples; i++) {
         *(dp + i) = 0;
     }
+	if (channels[channel].virtbase != NULL) {
+		unmapmem(channels[channel].virtbase, channels[channel].num_pages * 4096);
+		mem_unlock(mbox.handle, channels[channel].mem_ref);
+		mem_free(mbox.handle, channels[channel].mem_ref);
+                log_debug("close mail box handle start\n");
+                mbox_close(mbox.handle);
+                log_debug("close mail box handle returned---------------\n");
+                channels[channel].virtbase = NULL;
+                log_debug("close mail box handle finish---------------\n");
 
+	}
     return EXIT_SUCCESS;
 }
 
@@ -445,8 +508,8 @@ add_channel_pulse(int channel, int gpio, int width_start, int width)
     log_debug("add_channel_pulse: channel=%d, gpio=%d, start=%d, width=%d\n", channel, gpio, width_start, width);
     if (!channels[channel].virtbase)
         return fatal("Error: channel %d has not been initialized with 'init_channel(..)'\n", channel);
-    if (width_start + width > channels[channel].width_max || width_start < 0)
-        return fatal("Error: cannot add pulse to channel %d: width_start+width exceed max_width of %d\n", channels[channel].width_max);
+    if (width_start + width > channels[channel].width_max + 1 || width_start < 0)
+        return fatal("Error: cannot add pulse to channel %d: width_start+width exceed max_width of %d\n", channel, channels[channel].width_max);
 
     if ((gpio_setup & 1<<gpio) == 0)
         init_gpio(gpio);
@@ -467,56 +530,17 @@ add_channel_pulse(int channel, int gpio, int width_start, int width)
     return EXIT_SUCCESS;
 }
 
-
-
-// Get a channel's pagemap
-static int
-make_pagemap(int channel)
-{
-    int i, fd, memfd, pid;
-    char pagemap_fn[64];
-
-    channels[channel].page_map = malloc(channels[channel].num_pages * sizeof(*channels[channel].page_map));
-
-    if (channels[channel].page_map == 0)
-        return fatal("rpio-pwm: Failed to malloc page_map: %m\n");
-    memfd = open("/dev/mem", O_RDWR);
-    if (memfd < 0)
-        return fatal("rpio-pwm: Failed to open /dev/mem: %m\n");
-    pid = getpid();
-    sprintf(pagemap_fn, "/proc/%d/pagemap", pid);
-    fd = open(pagemap_fn, O_RDONLY);
-    if (fd < 0)
-        return fatal("rpio-pwm: Failed to open %s: %m\n", pagemap_fn);
-    if (lseek(fd, (uint32_t)channels[channel].virtbase >> 9, SEEK_SET) !=
-                        (uint32_t)channels[channel].virtbase >> 9) {
-        return fatal("rpio-pwm: Failed to seek on %s: %m\n", pagemap_fn);
-    }
-    for (i = 0; i < channels[channel].num_pages; i++) {
-        uint64_t pfn;
-        channels[channel].page_map[i].virtaddr = channels[channel].virtbase + i * PAGE_SIZE;
-        // Following line forces page to be allocated
-        channels[channel].page_map[i].virtaddr[0] = 0;
-        if (read(fd, &pfn, sizeof(pfn)) != sizeof(pfn))
-            return fatal("rpio-pwm: Failed to read %s: %m\n", pagemap_fn);
-        if (((pfn >> 55) & 0x1bf) != 0x10c)
-            return fatal("rpio-pwm: Page %d not present (pfn 0x%016llx)\n", i, pfn);
-        channels[channel].page_map[i].physaddr = (uint32_t)pfn << PAGE_SHIFT | 0x40000000;
-    }
-    close(fd);
-    close(memfd);
-    return EXIT_SUCCESS;
-}
-
 static int
 init_virtbase(int channel)
 {
-    channels[channel].virtbase = mmap(NULL, channels[channel].num_pages * PAGE_SIZE, PROT_READ|PROT_WRITE,
-            MAP_SHARED|MAP_ANONYMOUS|MAP_NORESERVE|MAP_LOCKED, -1, 0);
-    if (channels[channel].virtbase == MAP_FAILED)
-        return fatal("rpio-pwm: Failed to mmap physical pages: %m\n");
-    if ((unsigned long)channels[channel].virtbase & (PAGE_SIZE-1))
-        return fatal("rpio-pwm: Virtual address is not page aligned\n");
+    channels[channel].mem_ref= mem_alloc(mbox.handle, channels[channel].num_pages * 4096, 4096, mem_flag);
+	/* TODO: How do we know that succeeded? */
+	printf("mem_ref %u\n", channels[channel].mem_ref);	
+	channels[channel].bus_addr = mem_lock(mbox.handle, channels[channel].mem_ref);
+	printf("bus_addr = %u\n", channels[channel].bus_addr);
+	
+    channels[channel].virtbase =  mapmem(BUS_TO_PHYS(channels[channel].bus_addr), channels[channel].num_pages * 4096);
+	printf("virtbase %p\n", channels[channel].virtbase);
     return EXIT_SUCCESS;
 }
 
@@ -528,17 +552,17 @@ init_ctrl_data(int channel)
     uint32_t *sample = (uint32_t *) channels[channel].virtbase;
 
     uint32_t phys_fifo_addr;
-    uint32_t phys_gpclr0 = 0x7e200000 + 0x28;
+    uint32_t phys_gpclr0 = GPIO_PHYS_BASE + 0x28;
     int i;
 
-    channels[channel].dma_reg = map_peripheral(DMA_BASE, DMA_LEN) + (DMA_CHANNEL_INC * channel);
+    channels[channel].dma_reg = map_peripheral(DMA_VIRT_BASE, DMA_LEN) + (DMA_CHANNEL_INC * channel);
     if (channels[channel].dma_reg == NULL)
         return EXIT_FAILURE;
 
     if (delay_hw == DELAY_VIA_PWM)
-        phys_fifo_addr = (PWM_BASE | 0x7e000000) + 0x18;
+        phys_fifo_addr = PWM_PHYS_BASE + 0x18;
     else
-        phys_fifo_addr = (PCM_BASE | 0x7e000000) + 0x04;
+        phys_fifo_addr = PCM_PHYS_BASE + 0x04;
 
     // Reset complete per-sample gpio mask to 0
     memset(sample, 0, sizeof(channels[channel].num_samples * sizeof(uint32_t)));
@@ -655,8 +679,7 @@ init_channel(int channel, int subcycle_time_us)
     // Initialize channel
     if (init_virtbase(channel) == EXIT_FAILURE)
         return EXIT_FAILURE;
-    if (make_pagemap(channel) == EXIT_FAILURE)
-        return EXIT_FAILURE;
+    printf("after init virtbase");
     if (init_ctrl_data(channel) == EXIT_FAILURE)
         return EXIT_FAILURE;
     return EXIT_SUCCESS;
@@ -694,6 +717,22 @@ get_error_message(void)
 int
 setup(int pw_incr_us, int hw)
 {
+    unsigned char buf[4];
+    FILE *fp;
+
+    // get peri base from device tree
+    if ((fp = fopen("/proc/device-tree/soc/ranges", "rb")) != NULL) {
+        fseek(fp, 4, SEEK_SET);
+        if (fread(buf, 1, sizeof buf, fp) == sizeof buf) {
+            BCM2708_PERI_BASE = buf[0] << 24 | buf[1] << 16 | buf[2] << 8 | buf[3] << 0;
+        }
+        fclose(fp);
+    }
+    if(BCM2708_PERI_BASE != periph_virt_base)
+	{
+	    periph_virt_base = BCM2708_PERI_BASE;
+	   	mem_flag  = 0x04;
+	}
     delay_hw = hw;
     pulse_width_incr_us = pw_incr_us;
 
@@ -707,16 +746,22 @@ setup(int pw_incr_us, int hw)
     setup_sighandlers();
 
     // Initialize common stuff
-    pwm_reg = map_peripheral(PWM_BASE, PWM_LEN);
-    pcm_reg = map_peripheral(PCM_BASE, PCM_LEN);
-    clk_reg = map_peripheral(CLK_BASE, CLK_LEN);
-    gpio_reg = map_peripheral(GPIO_BASE, GPIO_LEN);
+    pwm_reg = map_peripheral(PWM_VIRT_BASE, PWM_LEN);
+    pcm_reg = map_peripheral(PCM_VIRT_BASE, PCM_LEN);
+    clk_reg = map_peripheral(CLK_VIRT_BASE, CLK_LEN);
+    gpio_reg = map_peripheral(GPIO_VIRT_BASE, GPIO_LEN);
     if (pwm_reg == NULL || pcm_reg == NULL || clk_reg == NULL || gpio_reg == NULL)
         return EXIT_FAILURE;
 
     // Start PWM/PCM timing activity
     init_hardware();
+	/* Use the mailbox interface to the VC to ask for physical memory */
 
+	if (mknod(MBFILE, S_IFCHR|0600, makedev(249, 0)) < 0)
+		return fatal("Failed to create mailbox device\n");
+	mbox.handle = mbox_open();
+	if (mbox.handle < 0)
+		return fatal("Failed to open mailbox\n");		
     _is_setup = 1;
     return EXIT_SUCCESS;
 }
@@ -745,3 +790,38 @@ get_channel_subcycle_time_us(int channel)
     return channels[channel].subcycle_time_us;
 }
 
+int
+main(int argc, char **argv)
+{
+    // Very crude...
+    if (argc == 2 && !strcmp(argv[1], "--pcm"))
+        setup(PULSE_WIDTH_INCREMENT_GRANULARITY_US_DEFAULT, DELAY_VIA_PCM);
+    else
+        setup(PULSE_WIDTH_INCREMENT_GRANULARITY_US_DEFAULT, DELAY_VIA_PWM);
+
+    // Setup demo parameters
+    int demo_timeout = 10 * 1000000;
+    int gpio = 17;
+    int channel = 0;
+    int subcycle_time_us = SUBCYCLE_TIME_US_DEFAULT; //10ms;
+
+    // Setup channel
+    init_channel(channel, subcycle_time_us);
+    print_channel(channel);
+
+    // Use the channel for various pulse widths
+    add_channel_pulse(channel, gpio, 0, 50);
+    add_channel_pulse(channel, gpio, 100, 50);
+    add_channel_pulse(channel, gpio, 200, 50);
+    add_channel_pulse(channel, gpio, 300, 50);
+    usleep(demo_timeout);
+
+    // Clear and start again
+    clear_channel_gpio(0, 17);
+    add_channel_pulse(channel, gpio, 0, 50);
+    usleep(demo_timeout);
+
+    // All done
+    shutdown();
+    exit(0);
+}
