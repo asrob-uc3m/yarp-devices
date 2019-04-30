@@ -86,7 +86,6 @@
 #include <sys/mman.h>
 #include "pwm.h"
 #include "mailbox.h"
-#define MBFILE			DEVICE_FILE_NAME	/* From mailbox.h */
 // 15 DMA channels are usable on the RPi (0..14)
 #define DMA_CHANNELS    15
 
@@ -321,7 +320,6 @@ shutdown(void)
         }
     }
     _is_setup =0;
-    unlink(MBFILE);
 }
 
 // Terminate is triggered by signals
@@ -757,8 +755,6 @@ setup(int pw_incr_us, int hw)
     init_hardware();
 	/* Use the mailbox interface to the VC to ask for physical memory */
 
-	if (mknod(MBFILE, S_IFCHR|0600, makedev(249, 0)) < 0)
-		return fatal("Failed to create mailbox device\n");
 	mbox.handle = mbox_open();
 	if (mbox.handle < 0)
 		return fatal("Failed to open mailbox\n");		
