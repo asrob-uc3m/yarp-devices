@@ -22,22 +22,6 @@
  *
  *     http://pythonhosted.org/RPIO
  */
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <errno.h>
-#include <stdarg.h>
-#include <stdint.h>
-#include <signal.h>
-#include <time.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <sys/mman.h>
-
 int setup(int pw_incr_us, int hw);
 void shutdown(void);
 void set_loglevel(int level);
