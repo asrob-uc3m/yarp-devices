@@ -92,11 +92,9 @@ include(InstallBasicPackageFiles)
 install_basic_package_files(ASROB_YARP_DEVICES
                             VERSION 0.1.0
                             COMPATIBILITY AnyNewerVersion
-                            FIRST_TARGET RobotInterfaces
                             NO_SET_AND_CHECK_MACRO
                             NO_CHECK_REQUIRED_COMPONENTS_MACRO
-                            NAMESPACE ASROB::
-                            NO_COMPATIBILITY_VARS)
+                            NAMESPACE ASROB::)
 
 # Configure and create uninstall target.
 include(AddUninstallTarget)
