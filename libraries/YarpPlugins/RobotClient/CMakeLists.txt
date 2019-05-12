@@ -6,7 +6,7 @@ yarp_prepare_plugin(RobotClient
                     CATEGORY device
                     TYPE asrob::RobotClient
                     INCLUDE RobotClient.hpp
-                    DEFAULT ON)
+                    DEFAULT ${_rd_packaging_defaults})
 
 if(NOT SKIP_RobotClient)
 

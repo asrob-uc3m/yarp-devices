@@ -6,7 +6,7 @@ yarp_prepare_plugin(RaspiOnePwmMotorController
                     CATEGORY device
                     TYPE asrob::RaspiOnePwmMotorController
                     INCLUDE RaspiOnePwmMotorController.hpp
-                    DEFAULT ON
+                    DEFAULT ${_rd_packaging_defaults}
                     DEPENDS UNIX)
 
 if(NOT SKIP_RaspiOnePwmMotorController)

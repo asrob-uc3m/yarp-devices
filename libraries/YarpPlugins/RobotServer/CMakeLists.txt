@@ -6,7 +6,7 @@ yarp_prepare_plugin(RobotServer
                     CATEGORY device
                     TYPE asrob::RobotServer
                     INCLUDE RobotServer.hpp
-                    DEFAULT ON)
+                    DEFAULT ${_rd_packaging_defaults})
 
 if(NOT SKIP_RobotServer)
 

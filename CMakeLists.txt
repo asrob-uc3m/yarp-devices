@@ -8,7 +8,7 @@ project(ASROB_YARP_DEVICES)
 
 # Add suffix for debug libraries.
 if(MSVC)
-    message(STATUS "Running on windows")
+    message(STATUS "Running on Windows")
     set(CMAKE_DEBUG_POSTFIX "d")
 endif()
 
@@ -74,6 +74,16 @@ if(ENABLE_coverage)
     endif()
 endif()
 
+# Disable specific options for RD packaging.
+option(RD_PACKAGING "Configure project for RobotDevastation CPack" OFF)
+mark_as_advanced(RD_PACKAGING)
+
+if(RD_PACKAGING)
+    set(_rd_packaging_defaults OFF)
+else()
+    set(_rd_packaging_defaults ON)
+endif()
+
 # Create targets if specific requirements are satisfied.
 include(CMakeDependentOption)
 
@@ -86,15 +96,17 @@ add_subdirectory(doc)
 # Store the package in the user registry.
 export(PACKAGE ASROB_YARP_DEVICES)
 
-# Create and install config files.
-include(InstallBasicPackageFiles)
+if(_rd_packaging_defaults)
+    # Create and install config files.
+    include(InstallBasicPackageFiles)
 
-install_basic_package_files(ASROB_YARP_DEVICES
-                            VERSION 0.1.0
-                            COMPATIBILITY AnyNewerVersion
-                            NO_SET_AND_CHECK_MACRO
-                            NO_CHECK_REQUIRED_COMPONENTS_MACRO
-                            NAMESPACE ASROB::)
+    install_basic_package_files(ASROB_YARP_DEVICES
+                                VERSION 0.1.0
+                                COMPATIBILITY AnyNewerVersion
+                                NO_SET_AND_CHECK_MACRO
+                                NO_CHECK_REQUIRED_COMPONENTS_MACRO
+                                NAMESPACE ASROB::)
+endif()
 
 # Configure and create uninstall target.
 include(AddUninstallTarget)

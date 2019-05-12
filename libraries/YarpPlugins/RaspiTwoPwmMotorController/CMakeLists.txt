@@ -10,7 +10,7 @@ yarp_prepare_plugin(RaspiTwoPwmMotorController
                     CATEGORY device
                     TYPE asrob::RaspiTwoPwmMotorController
                     INCLUDE RaspiTwoPwmMotorController.hpp
-                    DEFAULT ON
+                    DEFAULT ${_rd_packaging_defaults}
                     DEPENDS "UNIX;wiringPi_FOUND")
 
 if(NOT SKIP_RaspiTwoPwmMotorController)

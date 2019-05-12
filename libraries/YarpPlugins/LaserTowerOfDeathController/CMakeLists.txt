@@ -10,7 +10,7 @@ yarp_prepare_plugin(LaserTowerOfDeathController
                     CATEGORY device
                     TYPE asrob::LaserTowerOfDeathController
                     INCLUDE LaserTowerOfDeathController.hpp
-                    DEFAULT ON
+                    DEFAULT ${_rd_packaging_defaults}
                     DEPENDS LibSerial_FOUND)
 
 if(NOT SKIP_LaserTowerOfDeathController)
