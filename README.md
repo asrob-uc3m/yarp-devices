@@ -28,7 +28,7 @@ Usage instructions for the different devices contained in this repository can be
 
 ## Status
 
-[![Build Status (Linux/OSX)](https://travis-ci.org/asrob-uc3m/yarp-devices.svg?branch=develop)](https://travis-ci.org/asrob-uc3m/yarp-devices)
+[![Build Status (Linux)](https://travis-ci.com/asrob-uc3m/yarp-devices.svg?branch=develop)](https://travis-ci.com/asrob-uc3m/yarp-devices)
 
 [![Build Status (Windows)](https://ci.appveyor.com/api/projects/status/github/asrob-uc3m/yarp-devices?branch=develop&svg=true)](https://ci.appveyor.com/project/asrob-uc3m/yarp-devices)
 
