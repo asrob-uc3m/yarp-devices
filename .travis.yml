@@ -35,7 +35,7 @@ addons:
     # device deps
     - libserial-dev
     - libboost-dev # libserial-dev dependency (packaging bug on Xenial and later)
-    
+
     - libgtest-dev # unit testing
     - lcov # code coverage
 
@@ -49,8 +49,15 @@ before_install:
 
 install:
   #-- Install wiringPi
-  - git clone git://git.drogon.net/wiringPi ~/wiringPi
-  - (cd ~/wiringPi && ./build)
+  - >
+    if [ ! -d "$CACHE_DIR/libwiringPi" ]; then
+        echo "libwiringPi not in cache"
+        git clone --depth=1 https://github.com/asrob-uc3m/wiringPi ~/wiringPi
+        make -C ~/wiringPi/wiringPi -j$(nproc) install DESTDIR="$CACHE_DIR/libwiringPi" PREFIX="" LDCONFIG=""
+    else
+        echo "libwiringPi already in cache"
+    fi
+  - export wiringPi_ROOT="$CACHE_DIR/libwiringPi"
 
   #-- Install YCM
   - >
