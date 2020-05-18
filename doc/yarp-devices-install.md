@@ -21,7 +21,7 @@ Once the required dependencies have been installed, the code has to be compiled 
 cd  # go home
 mkdir -p repos && cd repos  # make $HOME/repos if it doesn't exist; then, enter it
 # WiringPi ( http://wiringpi.com/download-and-install/ ) for several RasPi devices
-git clone git://git.drogon.net/wiringPi
+git clone https://github.com/asrob-uc3m/wiringPi # Mirror of defunct git://git.drogon.net/wiringPi
 cd wiringPi
 ./build # May require sudo
 # libserial required for several devices
