@@ -6,6 +6,7 @@ yarp_prepare_plugin(RaspiOnePwmMotorController
                     CATEGORY device
                     TYPE asrob::RaspiOnePwmMotorController
                     INCLUDE RaspiOnePwmMotorController.hpp
+                    EXTRA_CONFIG WRAPPER=RobotServer
                     DEFAULT ${_rd_packaging_defaults}
                     DEPENDS UNIX)
 

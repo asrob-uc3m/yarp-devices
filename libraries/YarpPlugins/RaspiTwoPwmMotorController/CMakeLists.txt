@@ -10,6 +10,7 @@ yarp_prepare_plugin(RaspiTwoPwmMotorController
                     CATEGORY device
                     TYPE asrob::RaspiTwoPwmMotorController
                     INCLUDE RaspiTwoPwmMotorController.hpp
+                    EXTRA_CONFIG WRAPPER=RobotServer
                     DEFAULT ${_rd_packaging_defaults}
                     DEPENDS "UNIX;wiringPi_FOUND")
 

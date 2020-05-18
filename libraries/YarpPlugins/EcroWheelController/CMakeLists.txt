@@ -10,6 +10,7 @@ yarp_prepare_plugin(EcroWheelController
                     CATEGORY device
                     TYPE asrob::EcroWheelController
                     INCLUDE EcroWheelController.hpp
+                    EXTRA_CONFIG WRAPPER=RobotServer
                     DEFAULT ${_rd_packaging_defaults}
                     DEPENDS LibSerial_FOUND)
 

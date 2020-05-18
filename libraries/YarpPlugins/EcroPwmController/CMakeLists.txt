@@ -10,6 +10,7 @@ yarp_prepare_plugin(EcroPwmController
                     CATEGORY device
                     TYPE asrob::EcroPwmController
                     INCLUDE EcroPwmController.hpp
+                    EXTRA_CONFIG WRAPPER=RobotServer
                     DEFAULT ${_rd_packaging_defaults}
                     DEPENDS LibSerial_FOUND)
 
