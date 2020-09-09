@@ -3,8 +3,7 @@
 # URL: https://github.com/asrob-uc3m/yarp-devices
 
 language: cpp
-dist: trusty
-sudo: required
+dist: bionic
 os: linux
 
 compiler:
@@ -13,93 +12,90 @@ compiler:
 
 env:
   global:
-    - YCM_VER=0.8.1
-    - YCM_CACHE_DIR=~/.ycm
-    - YARP_VER=2.3.72
-    - YARP_CACHE_DIR=~/.yarp
+    - CACHE_DIR=~/cached-deps
+    - YCM_CHECKOUT=ycm-0.11
+  matrix:
+    - YARP_CHECKOUT=yarp-3.3
+    - YARP_CHECKOUT=yarp-3.2
+
+matrix:
+  include:
+    - if: type = cron
+      compiler: gcc
+      env: ROBOTOLOGY_CHECKOUT=master
+    - if: type = cron
+      compiler: clang
+      env: ROBOTOLOGY_CHECKOUT=master
 
 cache:
-  directories:
-    - $YCM_CACHE_DIR
-    - $YARP_CACHE_DIR
+  directories: $CACHE_DIR
+
+addons:
+  apt:
+    packages:
+    # device deps
+    - libserial-dev
+    - libboost-dev # libserial-dev dependency (packaging bug on Xenial and later)
+
+    - libgtest-dev # unit testing
+    - lcov # code coverage
 
 branches:
   except:
   - /^.*appveyor.*$/
 
 before_install:
-  - sudo apt-get -qq update
-  - if [ ! `git config --get user.email` ]; then `git config --global user.email 'user@example.com'`; fi
-  - if [ ! `git config --get user.name` ]; then `git config --global user.name 'Travis CI'`; fi
-  - '[[ "$TRAVIS_EVENT_TYPE" = cron ]] && export YARP_CHECKOUT=devel || export YARP_CHECKOUT=master'
-  - export YARP_CMAKE_OPTIONS="-DSKIP_ACE=ON"
+  #-- Code coverage
+  - if [ "$CXX" = "g++" ]; then gem install coveralls-lcov; fi
 
 install:
-  # Install LibSerial
-  - sudo apt-get install libserial-dev
-
-  # Install wiringPi
-  - git clone git://git.drogon.net/wiringPi
-  - cd wiringPi
-  - ./build
-
-  # Install color-debug
-  - cd
-  - git clone https://github.com/roboticslab-uc3m/color-debug
-  - mkdir -p color-debug/build && cd "$_"
-  - cmake ..
-  - sudo make install
-
-  # Clone and build YCM if not in cache
-  - >-
-    if [ ! "$(ls -A "$YCM_CACHE_DIR")" ] || [ ! -f "$YCM_CACHE_DIR/.version" ] || [ ! $(cat "$YCM_CACHE_DIR/.version") = "$YCM_VER" ]; then
-      echo "YCM not in cache or wrong version"
-      rm -rf "$YCM_CACHE_DIR"/*
-      cd
-      wget -qO- "https://github.com/robotology/ycm/archive/v$YCM_VER.tar.gz" | tar xz
-      mkdir -p "ycm-$YCM_VER/build" && cd "$_"
-      cmake .. -DCMAKE_INSTALL_PREFIX:PATH="$YCM_CACHE_DIR"
-      make -j$(nproc) install
-      echo "$YCM_VER" > "$YCM_CACHE_DIR/.version"
+  #-- Install wiringPi
+  - >
+    if [ ! -d "$CACHE_DIR/libwiringPi" ]; then
+        echo "libwiringPi not in cache"
+        git clone --depth=1 https://github.com/asrob-uc3m/wiringPi ~/wiringPi
+        make -C ~/wiringPi/wiringPi -j$(nproc) install DESTDIR="$CACHE_DIR/libwiringPi" PREFIX="" LDCONFIG=""
     else
-      echo "YCM directory found in cache (version $(cat "$YCM_CACHE_DIR/.version"))"
+        echo "libwiringPi already in cache"
     fi
+  - export wiringPi_ROOT="$CACHE_DIR/libwiringPi"
 
-  # Make installed YCM discoverable by CMake's find_package() command
-  - export YCM_DIR=$YCM_CACHE_DIR/share/YCM/cmake
+  #-- Install YCM
+  - >
+    source "$TRAVIS_BUILD_DIR/scripts/travis/git-cache-dependency.sh"
+    --package-name YCM
+    --repo-url https://github.com/robotology/ycm
+    --repo-checkout "${ROBOTOLOGY_CHECKOUT:-$YCM_CHECKOUT}"
 
-  # Clone and build YARP if not in cache
-  - >-
-    if [ "$TRAVIS_EVENT_TYPE" = cron ]; then
-      echo "Cloning YARP's devel branch"
-      cd
-      git clone --depth=1 --branch=devel https://github.com/robotology/yarp
-      mkdir -p yarp/build && cd "$_"
-      cmake .. $YARP_CMAKE_OPTIONS
-      sudo make -j$(nproc) install
-    elif [ ! "$(ls -A "$YARP_CACHE_DIR")" ] || [ ! -f "$YARP_CACHE_DIR/.version" ] || [ ! $(cat "$YARP_CACHE_DIR/.version") = "$YARP_VER" ]; then
-      echo "YARP not in cache or wrong version"
-      rm -rf "$YARP_CACHE_DIR"/*
-      cd
-      wget -qO- "https://github.com/robotology/yarp/archive/v$YARP_VER.tar.gz" | tar xz
-      mkdir -p "yarp-$YARP_VER/build" && cd "$_"
-      cmake .. -DCMAKE_INSTALL_PREFIX:PATH="$YARP_CACHE_DIR" $YARP_CMAKE_OPTIONS
-      make -j$(nproc) install
-      echo "$YARP_VER" > "$YARP_CACHE_DIR/.version"
-    else
-      echo "YARP directory found in cache (version $(cat "$YARP_CACHE_DIR/.version"))"
-    fi
+  #-- Install YARP
+  - >
+    source "$TRAVIS_BUILD_DIR/scripts/travis/git-cache-dependency.sh"
+    --package-name YARP
+    --repo-url https://github.com/robotology/yarp
+    --repo-checkout "${ROBOTOLOGY_CHECKOUT:-$YARP_CHECKOUT}"
+    --additional-cmake-options "-DSKIP_ACE:BOOL=ON"
+    --prepend-to-linker-path lib
+    --additional-export-paths "YARP_DATA_DIRS;share/yarp"
 
-  # Make installed YARP discoverable by CMake's find_package() command
-  - if [ ! "$TRAVIS_EVENT_TYPE" = cron ]; then export YARP_DIR=$YARP_CACHE_DIR/lib/cmake/YARP; fi
+  #-- Install color-debug
+  - >
+    source "$TRAVIS_BUILD_DIR/scripts/travis/git-cache-dependency.sh"
+    --package-name COLOR_DEBUG
+    --repo-url https://github.com/roboticslab-uc3m/color-debug
+    --repo-checkout master
 
 before_script:
   - mkdir -p "$TRAVIS_BUILD_DIR/build" && cd "$_"
-  - cmake .. -DENABLE_coverage=ON
+  - cmake .. -DCMAKE_INSTALL_PREFIX="$PWD/install" -DENABLE_coverage:BOOL=ON
+  - make install
+  - export LD_LIBRARY_PATH=$PWD/install/lib:$LD_LIBRARY_PATH
+  - export YARP_DATA_DIRS=$PWD/install/share/asrob-yarp-devices:$YARP_DATA_DIRS
 
 script:
-  - make
-  - sudo make install
+  - echo "No unit tests available"
 
 after_success:
-  - sudo make uninstall
+  #-- Code coverage
+  - if [ "$CXX" = "g++" ]; then source "$TRAVIS_BUILD_DIR/scripts/travis/coverage.sh"; fi
+
+  - make uninstall

@@ -9,13 +9,15 @@ add_library(RobotInterfaces INTERFACE)
 target_include_directories(RobotInterfaces INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
                                                      $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 
-# Install interface headers.
-install(FILES IRobotManager.hpp
-              DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+if(_rd_packaging_defaults)
+    # Install interface headers.
+    install(FILES IRobotManager.hpp
+                  DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-# Register export set.
-install(TARGETS RobotInterfaces
-        EXPORT ASROB_YARP_DEVICES)
+    # Register export set.
+    install(TARGETS RobotInterfaces
+            EXPORT ASROB_YARP_DEVICES)
+endif()
 
 # YARP devices.
 add_subdirectory(EcroPwmController)

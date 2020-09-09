@@ -36,5 +36,6 @@
 /.cproject
 
 # Other
+CMakeLists.txt.user
 **/build*/
 /external/

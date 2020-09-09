@@ -10,12 +10,15 @@ yarp_prepare_plugin(LaserTowerOfDeathController
                     CATEGORY device
                     TYPE asrob::LaserTowerOfDeathController
                     INCLUDE LaserTowerOfDeathController.hpp
-                    DEFAULT ON
+                    EXTRA_CONFIG WRAPPER=RobotServer
+                    DEFAULT ${_rd_packaging_defaults}
                     DEPENDS LibSerial_FOUND)
 
 if(NOT SKIP_LaserTowerOfDeathController)
 
-    include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+    if(YARP_VERSION VERSION_LESS 3.4)
+        set(CMAKE_INCLUDE_CURRENT_DIR TRUE) # yarp plugin builder needs this
+    endif()
 
     yarp_add_plugin(LaserTowerOfDeathController LaserTowerOfDeathController.hpp
                                                 LaserTowerOfDeathController.cpp
@@ -28,13 +31,9 @@ if(NOT SKIP_LaserTowerOfDeathController)
                                                       RobotInterfaces)
 
     yarp_install(TARGETS LaserTowerOfDeathController
-                 COMPONENT runtime
                  LIBRARY DESTINATION ${ASROB-YARP-DEVICES_DYNAMIC_PLUGINS_INSTALL_DIR}
-                 ARCHIVE DESTINATION ${ASROB-YARP-DEVICES_STATIC_PLUGINS_INSTALL_DIR})
-
-    yarp_install(FILES LaserTowerOfDeathController.ini
-                 COMPONENT runtime
-                 DESTINATION ${ASROB-YARP-DEVICES_PLUGIN_MANIFESTS_INSTALL_DIR})
+                 ARCHIVE DESTINATION ${ASROB-YARP-DEVICES_STATIC_PLUGINS_INSTALL_DIR}
+                 YARP_INI DESTINATION ${ASROB-YARP-DEVICES_PLUGIN_MANIFESTS_INSTALL_DIR})
 
 else()
 

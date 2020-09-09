@@ -1,6 +1,6 @@
 # Installation from Source Code
 
-This repository stores different YARP devices for different actual devices used in different robots. This huge variability in hardware sometimes makes it complicated to track the dependencies for each device you may want to compile and install. 
+This repository stores different YARP devices for different actual devices used in different robots. This huge variability in hardware sometimes makes it complicated to track the dependencies for each device you may want to compile and install.
 
 This guide aims to simplify as much as possible the process of finding out which are the dependencies you actually need to install for the devices you want to use.
 
@@ -8,9 +8,9 @@ This guide aims to simplify as much as possible the process of finding out which
 
 Some dependencies must be installed for all the devices:
 
-- [Install CMake 3.5+](https://github.com/roboticslab-uc3m/installation-guides/blob/master/install-cmake.md)
-- [Install YCM 0.8+](https://github.com/roboticslab-uc3m/installation-guides/blob/master/install-ycm.md)
-- [Install YARP 2.3.70+](https://github.com/roboticslab-uc3m/installation-guides/blob/master/install-yarp.md)
+- [Install CMake 3.5+](https://github.com/roboticslab-uc3m/installation-guides/blob/master/install-cmake.md/)
+- [Install YCM 0.10+](https://github.com/roboticslab-uc3m/installation-guides/blob/master/install-ycm.md/)
+- [Install YARP 3.2+](https://github.com/roboticslab-uc3m/installation-guides/blob/master/install-yarp.md/)
 - [Install color-debug](https://github.com/roboticslab-uc3m/color-debug)
 
 ## Installation (Ubuntu)
@@ -21,7 +21,7 @@ Once the required dependencies have been installed, the code has to be compiled 
 cd  # go home
 mkdir -p repos && cd repos  # make $HOME/repos if it doesn't exist; then, enter it
 # WiringPi ( http://wiringpi.com/download-and-install/ ) for several RasPi devices
-git clone git://git.drogon.net/wiringPi
+git clone https://github.com/asrob-uc3m/wiringPi # Mirror of defunct git://git.drogon.net/wiringPi
 cd wiringPi
 ./build # May require sudo
 # libserial required for several devices

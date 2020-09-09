@@ -16,7 +16,9 @@
 
 #include "IRobotManager.hpp"
 
+extern "C" {
 #include "pwm.h"
+}
 
 namespace asrob
 {

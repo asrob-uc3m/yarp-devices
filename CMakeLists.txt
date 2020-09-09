@@ -4,11 +4,16 @@
 
 cmake_minimum_required(VERSION 3.5 FATAL_ERROR)
 
+# Honor wiringPi_ROOT env variable in FindwiringPi.cmake (CMake 3.12).
+if(POLICY CMP0074)
+    cmake_policy(SET CMP0074 NEW)
+endif()
+
 project(ASROB_YARP_DEVICES)
 
 # Add suffix for debug libraries.
 if(MSVC)
-    message(STATUS "Running on windows")
+    message(STATUS "Running on Windows")
     set(CMAKE_DEBUG_POSTFIX "d")
 endif()
 
@@ -37,15 +42,12 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake
                               ${CMAKE_SOURCE_DIR}/cmake/find-modules)
 
 # Hard dependencies.
-find_package(YCM 0.8 REQUIRED)
-# https://github.com/roboticslab-uc3m/questions-and-answers/issues/65
-find_package(YARP 3.0 QUIET COMPONENTS OS dev)
-if(NOT YARP_FOUND)
-    find_package(YARP 2.3.70 REQUIRED)
-endif()
+find_package(YCM 0.10 REQUIRED)
+find_package(YARP 3.2 REQUIRED COMPONENTS OS dev)
 find_package(COLOR_DEBUG REQUIRED)
 
 # Soft dependencies.
+find_package(Doxygen QUIET)
 find_package(LibSerial 0.6 QUIET)
 find_package(wiringPi QUIET)
 
@@ -73,28 +75,39 @@ if(ENABLE_coverage)
     endif()
 endif()
 
+# Disable specific options for RD packaging.
+option(RD_PACKAGING "Configure project for RobotDevastation CPack" OFF)
+mark_as_advanced(RD_PACKAGING)
+
+if(RD_PACKAGING)
+    set(_rd_packaging_defaults OFF)
+else()
+    set(_rd_packaging_defaults ON)
+endif()
+
 # Create targets if specific requirements are satisfied.
 include(CMakeDependentOption)
 
 # Add main contents.
 add_subdirectory(libraries)
-add_subdirectory(share)
 #add_subdirectory(tests)
+add_subdirectory(share)
+add_subdirectory(doc)
 
 # Store the package in the user registry.
 export(PACKAGE ASROB_YARP_DEVICES)
 
-# Create and install config files.
-include(InstallBasicPackageFiles)
+if(_rd_packaging_defaults)
+    # Create and install config files.
+    include(InstallBasicPackageFiles)
 
-install_basic_package_files(ASROB_YARP_DEVICES
-                            VERSION 0.1.0
-                            COMPATIBILITY AnyNewerVersion
-                            FIRST_TARGET RobotInterfaces
-                            NO_SET_AND_CHECK_MACRO
-                            NO_CHECK_REQUIRED_COMPONENTS_MACRO
-                            NAMESPACE ASROB::
-                            NO_COMPATIBILITY_VARS)
+    install_basic_package_files(ASROB_YARP_DEVICES
+                                VERSION 0.1.0
+                                COMPATIBILITY AnyNewerVersion
+                                NO_SET_AND_CHECK_MACRO
+                                NO_CHECK_REQUIRED_COMPONENTS_MACRO
+                                NAMESPACE ASROB::)
+endif()
 
 # Configure and create uninstall target.
 include(AddUninstallTarget)

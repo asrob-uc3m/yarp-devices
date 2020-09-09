@@ -6,16 +6,21 @@ yarp_prepare_plugin(RaspiOnePwmMotorController
                     CATEGORY device
                     TYPE asrob::RaspiOnePwmMotorController
                     INCLUDE RaspiOnePwmMotorController.hpp
-                    DEFAULT ON
+                    EXTRA_CONFIG WRAPPER=RobotServer
+                    DEFAULT ${_rd_packaging_defaults}
                     DEPENDS UNIX)
 
 if(NOT SKIP_RaspiOnePwmMotorController)
 
-    include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+    if(YARP_VERSION VERSION_LESS 3.4)
+        set(CMAKE_INCLUDE_CURRENT_DIR TRUE) # yarp plugin builder needs this
+    endif()
 
     yarp_add_plugin(RaspiOnePwmMotorController RaspiOnePwmMotorController.hpp
                                                RaspiOnePwmMotorController.cpp
                                                DeviceDriverImpl.cpp
+                                               mailbox.h
+                                               mailbox.c
                                                pwm.h
                                                pwm.c)
 
@@ -25,12 +30,8 @@ if(NOT SKIP_RaspiOnePwmMotorController)
                                                      RobotInterfaces)
 
     yarp_install(TARGETS RaspiOnePwmMotorController
-                 COMPONENT runtime
                  LIBRARY DESTINATION ${ASROB-YARP-DEVICES_DYNAMIC_PLUGINS_INSTALL_DIR}
-                 ARCHIVE DESTINATION ${ASROB-YARP-DEVICES_STATIC_PLUGINS_INSTALL_DIR})
-
-    yarp_install(FILES RaspiOnePwmMotorController.ini
-                 COMPONENT runtime
-                 DESTINATION ${ASROB-YARP-DEVICES_PLUGIN_MANIFESTS_INSTALL_DIR})
+                 ARCHIVE DESTINATION ${ASROB-YARP-DEVICES_STATIC_PLUGINS_INSTALL_DIR}
+                 YARP_INI DESTINATION ${ASROB-YARP-DEVICES_PLUGIN_MANIFESTS_INSTALL_DIR})
 
 endif()
