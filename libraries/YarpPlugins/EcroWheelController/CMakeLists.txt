@@ -24,7 +24,7 @@ if(NOT SKIP_EcroWheelController)
                                         EcroWheelController.cpp
                                         DeviceDriverImpl.cpp)
 
-    target_link_libraries(EcroWheelController YARP::YARP_OS
+    target_link_libraries(EcroWheelController YARP::YARP_os
                                               YARP::YARP_dev
                                               LibSerial::serial
                                               ROBOTICSLAB::ColorDebug

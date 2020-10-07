@@ -19,7 +19,7 @@ if(NOT SKIP_RobotServer)
                                 RobotServer.cpp
                                 DeviceDriverImpl.cpp)
 
-    target_link_libraries(RobotServer YARP::YARP_OS
+    target_link_libraries(RobotServer YARP::YARP_os
                                       YARP::YARP_dev
                                       ROBOTICSLAB::ColorDebug
                                       RobotInterfaces)

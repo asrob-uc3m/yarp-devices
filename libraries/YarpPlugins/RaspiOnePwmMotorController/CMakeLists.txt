@@ -24,7 +24,7 @@ if(NOT SKIP_RaspiOnePwmMotorController)
                                                pwm.h
                                                pwm.c)
 
-    target_link_libraries(RaspiOnePwmMotorController YARP::YARP_OS
+    target_link_libraries(RaspiOnePwmMotorController YARP::YARP_os
                                                      YARP::YARP_dev
                                                      ROBOTICSLAB::ColorDebug
                                                      RobotInterfaces)

@@ -24,7 +24,7 @@ if(NOT SKIP_RaspiTwoPwmMotorController)
                                                RaspiTwoPwmMotorController.cpp
                                                DeviceDriverImpl.cpp)
 
-    target_link_libraries(RaspiTwoPwmMotorController YARP::YARP_OS
+    target_link_libraries(RaspiTwoPwmMotorController YARP::YARP_os
                                                      YARP::YARP_dev
                                                      wiringPi::wiringPi
                                                      ROBOTICSLAB::ColorDebug

@@ -19,7 +19,7 @@ if(NOT SKIP_FakeMotorController)
                                         FakeMotorController.cpp
                                         DeviceDriverImpl.cpp)
 
-    target_link_libraries(FakeMotorController YARP::YARP_OS
+    target_link_libraries(FakeMotorController YARP::YARP_os
                                               YARP::YARP_dev
                                               ROBOTICSLAB::ColorDebug
                                               RobotInterfaces)

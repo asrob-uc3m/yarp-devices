@@ -18,7 +18,7 @@ if(NOT SKIP_RobotClient)
                                 RobotClient.cpp
                                 DeviceDriverImpl.cpp)
 
-    target_link_libraries(RobotClient YARP::YARP_OS
+    target_link_libraries(RobotClient YARP::YARP_os
                                       YARP::YARP_dev
                                       ROBOTICSLAB::ColorDebug
                                       RobotInterfaces)
