@@ -32,7 +32,7 @@ branches:
 
 init:
   # Dependency version tags
-  - cmd: set ACE_LATEST=6.5.5
+  - cmd: set ACE_LATEST=6.5.11
   - cmd: set YCM_LATEST=0.11.4
   - cmd: set YARP_LATEST=3.3.3
   - cmd: set GTEST_LATEST=1.8.1
