@@ -4,21 +4,21 @@
 
 version: appveyor.{build}
 
-image: Visual Studio 2015
+image: Visual Studio 2019
 
 configuration: Release
 
 environment:
   global:
-    ACE_VC_SLN: ACE_wrappers_vc14.sln
+    ACE_VC_SLN: ACE_wrappers_vs2019.sln
 
   matrix:
     - platform: Win32
-      cmake_generator: Visual Studio 14 2015
+      cmake_generator: Visual Studio 16 2019
       system_arch: x86
 
     - platform: x64
-      cmake_generator: Visual Studio 14 2015 Win64
+      cmake_generator: Visual Studio 16 2019 Win64
       system_arch: x64
 
 cache:
