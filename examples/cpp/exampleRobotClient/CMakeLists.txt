@@ -9,4 +9,5 @@ add_executable(exampleRobotClient exampleRobotClient.cpp)
 
 target_link_libraries(exampleRobotClient YARP::YARP_os
                                          YARP::YARP_init
-                                         YARP::YARP_dev)
+                                         YARP::YARP_dev
+                                         ASROB::RobotInterfaces)
