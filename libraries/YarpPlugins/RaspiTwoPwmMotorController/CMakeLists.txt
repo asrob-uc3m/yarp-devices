@@ -28,7 +28,7 @@ if(NOT SKIP_RaspiTwoPwmMotorController)
                                                      YARP::YARP_dev
                                                      wiringPi::wiringPi
                                                      ROBOTICSLAB::ColorDebug
-                                                     RobotInterfaces)
+                                                     ASROB::RobotInterfaces)
 
     yarp_install(TARGETS RaspiTwoPwmMotorController
                  LIBRARY DESTINATION ${ASROB-YARP-DEVICES_DYNAMIC_PLUGINS_INSTALL_DIR}

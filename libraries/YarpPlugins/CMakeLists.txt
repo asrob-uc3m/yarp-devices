@@ -19,6 +19,9 @@ if(_rd_packaging_defaults)
             EXPORT ASROB_YARP_DEVICES)
 endif()
 
+# Create alias target.
+add_library(ASROB::RobotInterfaces ALIAS RobotInterfaces)
+
 # YARP devices.
 add_subdirectory(EcroPwmController)
 add_subdirectory(EcroWheelController)

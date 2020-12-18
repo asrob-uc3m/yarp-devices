@@ -28,7 +28,7 @@ if(NOT SKIP_EcroWheelController)
                                               YARP::YARP_dev
                                               LibSerial::serial
                                               ROBOTICSLAB::ColorDebug
-                                              RobotInterfaces)
+                                              ASROB::RobotInterfaces)
 
     yarp_install(TARGETS EcroWheelController
                  LIBRARY DESTINATION ${ASROB-YARP-DEVICES_DYNAMIC_PLUGINS_INSTALL_DIR}

@@ -22,7 +22,7 @@ if(NOT SKIP_RobotServer)
     target_link_libraries(RobotServer YARP::YARP_os
                                       YARP::YARP_dev
                                       ROBOTICSLAB::ColorDebug
-                                      RobotInterfaces)
+                                      ASROB::RobotInterfaces)
 
     yarp_install(TARGETS RobotServer
                  LIBRARY DESTINATION ${ASROB-YARP-DEVICES_DYNAMIC_PLUGINS_INSTALL_DIR}

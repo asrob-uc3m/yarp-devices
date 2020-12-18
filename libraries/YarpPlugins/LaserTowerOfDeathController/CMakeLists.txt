@@ -28,7 +28,7 @@ if(NOT SKIP_LaserTowerOfDeathController)
                                                       YARP::YARP_dev
                                                       LibSerial::serial
                                                       ROBOTICSLAB::ColorDebug
-                                                      RobotInterfaces)
+                                                      ASROB::RobotInterfaces)
 
     yarp_install(TARGETS LaserTowerOfDeathController
                  LIBRARY DESTINATION ${ASROB-YARP-DEVICES_DYNAMIC_PLUGINS_INSTALL_DIR}

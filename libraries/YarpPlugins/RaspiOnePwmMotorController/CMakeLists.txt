@@ -27,7 +27,7 @@ if(NOT SKIP_RaspiOnePwmMotorController)
     target_link_libraries(RaspiOnePwmMotorController YARP::YARP_os
                                                      YARP::YARP_dev
                                                      ROBOTICSLAB::ColorDebug
-                                                     RobotInterfaces)
+                                                     ASROB::RobotInterfaces)
 
     yarp_install(TARGETS RaspiOnePwmMotorController
                  LIBRARY DESTINATION ${ASROB-YARP-DEVICES_DYNAMIC_PLUGINS_INSTALL_DIR}
