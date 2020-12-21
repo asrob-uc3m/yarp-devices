@@ -14,8 +14,6 @@
 
 #include <SerialStream.h>
 
-#include "ColorDebug.h"
-
 #include "IRobotManager.hpp"
 
 #define DEFAULT_SERIAL_PORT_NAME "/dev/ttyUSB0"
@@ -89,7 +87,6 @@ private:
 
 };
 
-}  // namespace asrob
+} // namespace asrob
 
-#endif  // __LASER_TOWER_OF_DEATH_CONTROLLER__
-
+#endif // __LASER_TOWER_OF_DEATH_CONTROLLER__

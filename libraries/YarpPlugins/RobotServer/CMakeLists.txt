@@ -21,7 +21,6 @@ if(NOT SKIP_RobotServer)
 
     target_link_libraries(RobotServer YARP::YARP_os
                                       YARP::YARP_dev
-                                      ROBOTICSLAB::ColorDebug
                                       ASROB::RobotInterfaces)
 
     yarp_install(TARGETS RobotServer

@@ -34,6 +34,7 @@
 # IDE-specific
 /.project
 /.cproject
+/.vscode/
 
 # Other
 CMakeLists.txt.user

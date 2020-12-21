@@ -21,7 +21,6 @@ if(NOT SKIP_FakeMotorController)
 
     target_link_libraries(FakeMotorController YARP::YARP_os
                                               YARP::YARP_dev
-                                              ROBOTICSLAB::ColorDebug
                                               ASROB::RobotInterfaces)
 
     yarp_install(TARGETS FakeMotorController

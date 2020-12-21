@@ -12,8 +12,6 @@
 
 #include <SerialStream.h>
 
-#include "ColorDebug.h"
-
 #include "IRobotManager.hpp"
 
 #define DEFAULT_SERIAL_PORT_NAME "/dev/ttyUSB0"
@@ -72,7 +70,6 @@ private:
 
     SerialPort * serialPort;
     bool sendCurrentJointValues();
-    bool checkConnection();
 
     int leftMotorVelocity;
     int rightMotorVelocity;
@@ -90,6 +87,6 @@ private:
 
 };
 
-}  // namespace asrob
+} // namespace asrob
 
-#endif  // __ECRO_PWM_CONTROLLER__
+#endif // __ECRO_PWM_CONTROLLER__

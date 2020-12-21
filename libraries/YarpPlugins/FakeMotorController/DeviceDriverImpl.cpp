@@ -4,16 +4,18 @@
 
 #include "FakeMotorController.hpp"
 
+#include <yarp/os/LogStream.h>
+
 namespace asrob
 {
 
 bool FakeMotorController::open(yarp::os::Searchable& config)
 {
-    CD_DEBUG("Got options: %s\n",config.toString().c_str());
+    yDebug() << "Got options:" << config.toString();
 
-    if( config.check("dummy","check dummy option") )
+    if (config.check("dummy", "check dummy option"))
     {
-        CD_SUCCESS("Got dummy option.\n");
+        yInfo() << "Got dummy option";
     }
 
     return true;
@@ -21,8 +23,7 @@ bool FakeMotorController::open(yarp::os::Searchable& config)
 
 bool FakeMotorController::close()
 {
-
     return true;
 }
 
-}  // namespace asrob
+} // namespace asrob

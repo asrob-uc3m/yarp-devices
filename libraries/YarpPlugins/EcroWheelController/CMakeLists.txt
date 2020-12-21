@@ -27,7 +27,6 @@ if(NOT SKIP_EcroWheelController)
     target_link_libraries(EcroWheelController YARP::YARP_os
                                               YARP::YARP_dev
                                               LibSerial::serial
-                                              ROBOTICSLAB::ColorDebug
                                               ASROB::RobotInterfaces)
 
     yarp_install(TARGETS EcroWheelController

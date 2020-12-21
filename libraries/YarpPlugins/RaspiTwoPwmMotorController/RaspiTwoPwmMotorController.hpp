@@ -12,8 +12,6 @@
 
 #include <vector>
 
-#include "ColorDebug.h"
-
 #include "IRobotManager.hpp"
 
 #include <wiringPi.h>
@@ -84,7 +82,6 @@ private:
     static const int RIGHT_MOTOR_IN2;
 };
 
-}  // namespace asrob
+} // namespace asrob
 
-#endif  // __RASPI_TWO_PWM_MOTOR_CONTROLLER__
-
+#endif // __RASPI_TWO_PWM_MOTOR_CONTROLLER__

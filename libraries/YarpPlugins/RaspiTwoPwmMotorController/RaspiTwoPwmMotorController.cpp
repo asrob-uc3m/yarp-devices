@@ -4,6 +4,8 @@
 
 #include "RaspiTwoPwmMotorController.hpp"
 
+#include <yarp/os/LogStream.h>
+
 namespace asrob
 {
 
@@ -15,17 +17,18 @@ const int RaspiTwoPwmMotorController::RIGHT_MOTOR_IN2 = 21;
 
 bool RaspiTwoPwmMotorController::indexWithinRange(const int& idx)
 {
-    if (idx >= gpios.size() ){
-        CD_WARNING("Index out of range!! (%d >= " CD_SIZE_T ")!!!\n",idx,gpios.size());
+    if (idx >= gpios.size())
+    {
+        yWarning() << "Index out of range!!" << idx << ">=" << gpios.size();
         return false;
     }
+
     return true;
 }
 
-
 bool RaspiTwoPwmMotorController::moveForward(double value)
 {
-    CD_INFO("(%d).\n",value);
+    yDebug() << "moveForward" << value;
 
     digitalWrite(LEFT_MOTOR_IN1, 1);
     digitalWrite(LEFT_MOTOR_IN2, 0);
@@ -36,7 +39,7 @@ bool RaspiTwoPwmMotorController::moveForward(double value)
 
 bool RaspiTwoPwmMotorController::turnLeft(double value)
 {
-    CD_INFO("(%d).\n",value);
+    yDebug() << "turnLeft" << value;
 
     digitalWrite(LEFT_MOTOR_IN1, 0);
     digitalWrite(LEFT_MOTOR_IN2, 1);
@@ -48,7 +51,7 @@ bool RaspiTwoPwmMotorController::turnLeft(double value)
 
 bool RaspiTwoPwmMotorController::stopMovement()
 {
-    CD_INFO(".\n");
+    yDebug() << "stopMovement";
 
     digitalWrite(LEFT_MOTOR_IN1, 1);
     digitalWrite(LEFT_MOTOR_IN2, 1);
@@ -61,20 +64,20 @@ bool RaspiTwoPwmMotorController::stopMovement()
 //-- Robot camera related functions
 bool RaspiTwoPwmMotorController::tiltDown(double value)
 {
-    CD_ERROR("Not implemented yet\n");
+    yError() << "tiltDown not implemented yet";
     return false;
 }
 
 bool RaspiTwoPwmMotorController::panLeft(double value)
 {
-    CD_ERROR("Not implemented yet\n");
+    yError() << "panLeft not implemented yet";
     return false;
 }
 
 bool RaspiTwoPwmMotorController::stopCameraMovement()
 {
-    CD_ERROR("Not implemented yet\n");
+    yError() << "stopCameraMovement not implemented yet";
     return false;
 }
 
-}  // namespace asrob
+} // namespace asrob

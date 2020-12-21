@@ -4,21 +4,25 @@
 
 #include "RaspiOnePwmMotorController.hpp"
 
+#include <yarp/os/LogStream.h>
+
 namespace asrob
 {
 
 bool RaspiOnePwmMotorController::indexWithinRange(const int& idx)
 {
-    if (idx >= gpios.size() ){
-        CD_WARNING("Index out of range!! (%d >= " CD_SIZE_T ")!!!\n",idx,gpios.size());
+    if (idx >= gpios.size())
+    {
+        yWarning() << "Index out of range!!" << idx << ">=" << gpios.size();
         return false;
     }
+
     return true;
 }
 
 bool RaspiOnePwmMotorController::moveForward(double value)
 {
-    CD_INFO("(%f).\n",value);
+    yDebug() << "moveForward" << value;
 
     clear_channel_gpio(0, gpios[0]);
     add_channel_pulse(0, gpios[0], 0, 2000 / PULSE_WIDTH_INCREMENT_GRANULARITY_US_DEFAULT);
@@ -31,7 +35,7 @@ bool RaspiOnePwmMotorController::moveForward(double value)
 
 bool RaspiOnePwmMotorController::turnLeft(double value)
 {
-    CD_INFO("(%f).\n",value);
+    yDebug() << "turnLeft" << value;
 
     clear_channel_gpio(0, gpios[0]);
     add_channel_pulse(0, gpios[0], 0, 1250 / PULSE_WIDTH_INCREMENT_GRANULARITY_US_DEFAULT);
@@ -44,7 +48,7 @@ bool RaspiOnePwmMotorController::turnLeft(double value)
 
 bool RaspiOnePwmMotorController::stopMovement()
 {
-    CD_INFO(".\n");
+    yDebug() << "stopMovement";
 
     clear_channel_gpio(0, gpios[0]);
     add_channel_pulse(0, gpios[0], 0, 0 / PULSE_WIDTH_INCREMENT_GRANULARITY_US_DEFAULT);
@@ -58,20 +62,20 @@ bool RaspiOnePwmMotorController::stopMovement()
 //-- Robot camera related functions
 bool RaspiOnePwmMotorController::tiltDown(double value)
 {
-    CD_ERROR("Not implemented yet\n");
+    yError() << "tiltDown not implemented yet";
     return false;
 }
 
 bool RaspiOnePwmMotorController::panLeft(double value)
 {
-    CD_ERROR("Not implemented yet\n");
+    yError() << "panLeft not implemented yet";
     return false;
 }
 
 bool RaspiOnePwmMotorController::stopCameraMovement()
 {
-    CD_ERROR("Not implemented yet\n");
+    yError() << "stopCameraMovement not implemented yet";
     return false;
 }
 
-}  // namespace asrob
+} // namespace asrob

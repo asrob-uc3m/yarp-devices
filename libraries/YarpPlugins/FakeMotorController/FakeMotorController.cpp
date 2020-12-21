@@ -4,44 +4,45 @@
 
 #include "FakeMotorController.hpp"
 
+#include <yarp/os/LogStream.h>
+
 namespace asrob
 {
 
 bool FakeMotorController::moveForward(double value)
 {
-    CD_INFO("%f.\n",value);
+    yDebug() << "moveForward" << value;
     return true;
 }
 
 bool FakeMotorController::turnLeft(double value)
 {
-    CD_INFO("%f.\n",value);
+    yDebug() << "turnLeft" << value;
     return true;
 }
 
 bool FakeMotorController::stopMovement()
 {
-    CD_INFO("\n");
+    yDebug() << "stopMovement";
     return true;
 }
 
 bool FakeMotorController::tiltDown(double value)
 {
-    CD_INFO("%f.\n",value);
+    yDebug() << "tiltDown" << value;
     return true;
 }
 
 bool FakeMotorController::panLeft(double value)
 {
-    CD_INFO("%f.\n",value);
+    yDebug() << "panLeft" << value;
     return true;
 }
 
 bool FakeMotorController::stopCameraMovement()
 {
-    CD_INFO("\n");
+    yDebug() << "stopCameraMovement";
     return true;
 }
 
-}  // namespace asrob
-
+} // namespace asrob

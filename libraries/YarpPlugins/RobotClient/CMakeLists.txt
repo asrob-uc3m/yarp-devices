@@ -20,7 +20,6 @@ if(NOT SKIP_RobotClient)
 
     target_link_libraries(RobotClient YARP::YARP_os
                                       YARP::YARP_dev
-                                      ROBOTICSLAB::ColorDebug
                                       ASROB::RobotInterfaces)
 
     yarp_install(TARGETS RobotClient

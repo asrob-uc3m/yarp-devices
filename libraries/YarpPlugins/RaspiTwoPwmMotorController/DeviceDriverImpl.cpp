@@ -4,26 +4,28 @@
 
 #include "RaspiTwoPwmMotorController.hpp"
 
+#include <yarp/os/LogStream.h>
+
 namespace asrob
 {
 
 bool RaspiTwoPwmMotorController::open(yarp::os::Searchable& config)
 {
+    yarp::os::Bottle gpiosBottle = config.findGroup("gpios").tail(); //-- e.g. 17 27
 
-    yarp::os::Bottle gpiosBottle = config.findGroup("gpios").tail();  //-- e.g. 17 27
+    yInfo() << "RaspiTwoPwmMotorController options:";
+    yInfo() << "--gpios" << gpiosBottle.toString();
 
-    printf(BOLDBLUE);
-    printf("RaspiTwoPwmMotorController options:\n");
-    printf("\t--gpios %s\n",gpiosBottle.toString().c_str());
-    printf(RESET);
-
-    if( gpiosBottle.size() < 1) {
-        CD_ERROR("Please specify at least one gpio.\n");
+    if (gpiosBottle.size() < 1)
+    {
+        yError() << "Please specify at least one gpio";
         return false;
     }
 
     if (wiringPiSetup() == -1)
+    {
         return false;
+    }
 
     pinMode(RaspiTwoPwmMotorController::LEFT_MOTOR_IN1, OUTPUT);
     pinMode(RaspiTwoPwmMotorController::LEFT_MOTOR_IN2, OUTPUT);
@@ -35,8 +37,7 @@ bool RaspiTwoPwmMotorController::open(yarp::os::Searchable& config)
 
 bool RaspiTwoPwmMotorController::close()
 {
-
     return true;
 }
 
-}  // namespace asrob
+} // namespace asrob

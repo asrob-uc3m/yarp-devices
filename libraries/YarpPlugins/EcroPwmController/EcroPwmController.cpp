@@ -2,17 +2,20 @@
 
 #include "EcroPwmController.hpp"
 
+#include <yarp/os/LogStream.h>
+
 namespace asrob
 {
 
 bool EcroPwmController::moveForward(double value)
 {
-    CD_INFO("\n");
+    yDebug() << "moveForward" << value;
+
     if (value <= rightMotorRangeMax && value >= rightMotorRangeMin &&
-        value <= leftMotorRangeMax && value >= leftMotorRangeMin )
+        value <= leftMotorRangeMax && value >= leftMotorRangeMin)
     {
-        rightMotorVelocity = rightMotorOffset+value; //-- 90º angle is 0 speed in driver
-        leftMotorVelocity = leftMotorOffset+value;
+        rightMotorVelocity = rightMotorOffset + value; //-- 90º angle is 0 speed in driver
+        leftMotorVelocity = leftMotorOffset + value;
     }
 
     return sendCurrentJointValues();
@@ -20,12 +23,13 @@ bool EcroPwmController::moveForward(double value)
 
 bool EcroPwmController::turnLeft(double value)
 {
-    CD_INFO("\n");
+    yDebug() << "turnLeft" << value;
+
     if (value <= rightMotorRangeMax && value >= rightMotorRangeMin &&
-        value <= leftMotorRangeMax && value >= leftMotorRangeMin )
+        value <= leftMotorRangeMax && value >= leftMotorRangeMin)
     {
-        rightMotorVelocity = rightMotorOffset+value; //-- 90º angle is 0 speed in driver
-        leftMotorVelocity = leftMotorOffset-value;
+        rightMotorVelocity = rightMotorOffset + value; //-- 90º angle is 0 speed in driver
+        leftMotorVelocity = leftMotorOffset - value;
     }
 
      return sendCurrentJointValues();
@@ -33,7 +37,8 @@ bool EcroPwmController::turnLeft(double value)
 
 bool EcroPwmController::stopMovement()
 {
-    CD_INFO("\n");
+    yDebug() << "stopMovement";
+
     rightMotorVelocity = rightMotorOffset; //-- 90º angle is 0 speed in driver
     leftMotorVelocity = leftMotorOffset;
 
@@ -43,42 +48,40 @@ bool EcroPwmController::stopMovement()
 //-- Robot camera related functions
 bool EcroPwmController::tiltDown(double value)
 {
-    CD_INFO("(%f).\n",value);
-
+    yDebug() << "tiltDown" << value;
     return true;
 }
 
 bool EcroPwmController::panLeft(double value)
 {
-    CD_INFO("(%f).\n",value);
-
+    yDebug() << "panLeft" << value;
     return true;
 }
 
 bool EcroPwmController::stopCameraMovement()
 {
-    CD_ERROR("Not implemented yet\n");
+    yError() << "stopCameraMovement not implemented yet";
     return false;
 }
 
 bool EcroPwmController::sendCurrentJointValues()
 {
-    if ( serialPort->IsOpen() )
+    if (serialPort->IsOpen())
     {
         SerialPort::DataBuffer outputBuff;
         outputBuff.push_back(0x50); //-- 0x50 -> Set pos to all joints
 
-        outputBuff.push_back( (char) leftMotorVelocity );
-        outputBuff.push_back( (char) rightMotorVelocity );
+        outputBuff.push_back((char) leftMotorVelocity);
+        outputBuff.push_back((char) rightMotorVelocity);
         serialPort->Write( outputBuff );
 
         return true;
     }
     else
     {
-        CD_WARNING("Robot could not send joints (because it is not connected).\n");
+        yWarning() << "Robot could not send joints (because it is not connected)";
         return false;
     }
 }
 
-}  // namespace asrob
+} // namespace asrob

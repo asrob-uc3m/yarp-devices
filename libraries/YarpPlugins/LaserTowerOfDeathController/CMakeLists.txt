@@ -27,7 +27,6 @@ if(NOT SKIP_LaserTowerOfDeathController)
     target_link_libraries(LaserTowerOfDeathController YARP::YARP_os
                                                       YARP::YARP_dev
                                                       LibSerial::serial
-                                                      ROBOTICSLAB::ColorDebug
                                                       ASROB::RobotInterfaces)
 
     yarp_install(TARGETS LaserTowerOfDeathController

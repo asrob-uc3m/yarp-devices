@@ -4,32 +4,34 @@
 
 #include "EcroWheelController.hpp"
 
+#include <yarp/os/LogStream.h>
+
 namespace asrob
 {
 
 bool EcroWheelController::open(yarp::os::Searchable& config)
 {
+    std::string serialPortName = config.check("serialPortName", yarp::os::Value(DEFAULT_SERIAL_PORT_NAME), "serialPortName").asString();
 
-    std::string serialPortName = config.check("serialPortName",yarp::os::Value(DEFAULT_SERIAL_PORT_NAME),"serialPortName").asString();
+    yInfo() << "EcroWheelController options:";
+    yInfo() << "--serialPortName" << serialPortName;
 
-    printf("EcroWheelController options:\n");
-    printf("\t--serialPortName %s [%s]\n",serialPortName.c_str(),DEFAULT_SERIAL_PORT_NAME);
+    yDebug() << "Init Serial Port";
+    serialPort = new SerialPort(serialPortName); // "/dev/ttyUSB0"
 
-    CD_DEBUG("init Serial Port.\n");
-    serialPort = new SerialPort( serialPortName );  // "/dev/ttyUSB0"
     try
     {
-        serialPort->Open( SerialPort::BAUD_19200, SerialPort::CHAR_SIZE_8,
-                           SerialPort::PARITY_NONE, SerialPort::STOP_BITS_1,
-                           SerialPort::FLOW_CONTROL_NONE );
+        serialPort->Open(SerialPort::BAUD_19200, SerialPort::CHAR_SIZE_8,
+                         SerialPort::PARITY_NONE, SerialPort::STOP_BITS_1,
+                         SerialPort::FLOW_CONTROL_NONE);
     }
-    catch ( SerialPort::OpenFailed e )
+    catch (SerialPort::OpenFailed e)
     {
-        CD_ERROR("Error opening the serial port: %s\n", serialPortName.c_str());
+        yError() << "Error opening the serial port" << serialPortName;
         return false;
     }
 
-    if ( serialPort->IsOpen() )
+    if (serialPort->IsOpen())
     {
         SerialPort::DataBuffer outputBuff;
         outputBuff.push_back(0x32);  // Invert motor 1
@@ -44,7 +46,7 @@ bool EcroWheelController::open(yarp::os::Searchable& config)
     }
     else
     {
-        CD_WARNING("Robot could not revert wheel command (because it is not connected).\n");
+        yWarning() << "Robot could not revert wheel command (because it is not connected)";
         return false;
     }
 
@@ -53,12 +55,10 @@ bool EcroWheelController::open(yarp::os::Searchable& config)
 
 bool EcroWheelController::close()
 {
-    CD_INFO("Close Serial Port: %p\n",serialPort);
     serialPort->Close();
     delete serialPort;
     serialPort = 0;
-
     return true;
 }
 
-}  // namespace asrob
+} // namespace asrob

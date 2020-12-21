@@ -4,47 +4,46 @@
 
 #include "RaspiOnePwmMotorController.hpp"
 
+#include <yarp/os/LogStream.h>
+
 namespace asrob
 {
 
 bool RaspiOnePwmMotorController::open(yarp::os::Searchable& config)
 {
+    yarp::os::Bottle gpiosBottle = config.findGroup("gpios").tail(); //-- e.g. 17 27
 
-    yarp::os::Bottle gpiosBottle = config.findGroup("gpios").tail();  //-- e.g. 17 27
+    yInfo() << "RaspiOnePwmMotorController options:";
+    yInfo() << "--gpios" << gpiosBottle.toString();
 
-    printf(BOLDBLUE);
-    printf("RaspiOnePwmMotorController options:\n");
-    printf("\t--gpios %s\n",gpiosBottle.toString().c_str());
-    printf(RESET);
-
-    if( gpiosBottle.size() < 1) {
-        CD_ERROR("Please specify at least one gpio.\n");
+    if (gpiosBottle.size() < 1)
+    {
+        yError() << "Please specify at least one gpio";
         return false;
     }
 
-    if ( config.check("pcm") )
+    if (config.check("pcm"))
         setup(PULSE_WIDTH_INCREMENT_GRANULARITY_US_DEFAULT, DELAY_VIA_PCM);
     else
         setup(PULSE_WIDTH_INCREMENT_GRANULARITY_US_DEFAULT, DELAY_VIA_PWM);
 
-    init_channel(0, SUBCYCLE_TIME_US_DEFAULT);  //10ms;
+    init_channel(0, SUBCYCLE_TIME_US_DEFAULT); // 10ms;
     print_channel(0);
 
-    for(int j=0; j < gpiosBottle.size(); j++)
+    for (int j = 0; j < gpiosBottle.size(); j++)
     {
-        int gpio = gpiosBottle.get(j).asInt();
+        int gpio = gpiosBottle.get(j).asInt32();
         add_channel_pulse(0, gpio, 0, 0);
-        gpios.push_back( gpiosBottle.get(j).asInt() );
-        CD_SUCCESS("Configured gpio %d on channel 0.\n",gpio);
+        gpios.push_back(gpiosBottle.get(j).asInt32());
+        yInfo() << "Configured gpio" << gpio << "on channel 0";
     }
-    
+
     return true;
 }
 
 bool RaspiOnePwmMotorController::close()
 {
-
     return true;
 }
 
-}  // namespace asrob
+} // namespace asrob

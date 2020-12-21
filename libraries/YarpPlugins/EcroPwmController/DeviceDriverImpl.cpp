@@ -2,39 +2,34 @@
 
 #include "EcroPwmController.hpp"
 
+#include <yarp/os/LogStream.h>
+
 namespace asrob
 {
 
 bool EcroPwmController::open(yarp::os::Searchable& config)
 {
+    std::string serialPortName = config.check("serialPortName", yarp::os::Value(DEFAULT_SERIAL_PORT_NAME), "serialPortName").asString();
 
-    std::string serialPortName = config.check("serialPortName",yarp::os::Value(DEFAULT_SERIAL_PORT_NAME),"serialPortName").asString();
+    yInfo() << "EcroPwmController options:";
+    yInfo() << "--serialPortName" << serialPortName;
 
-    printf("EcroPwmController options:\n");
-    printf("\t--serialPortName %s [%s]\n",serialPortName.c_str(),DEFAULT_SERIAL_PORT_NAME);
+    yDebug() << "Init Serial Port";
+    serialPort = new SerialPort(serialPortName); // "/dev/ttyUSB0"
 
-    CD_DEBUG("init Serial Port.\n");
-    serialPort = new SerialPort( serialPortName );  // "/dev/ttyUSB0"
     try
     {
-        serialPort->Open( SerialPort::BAUD_57600, SerialPort::CHAR_SIZE_8,
-                           SerialPort::PARITY_NONE, SerialPort::STOP_BITS_1,
-                           SerialPort::FLOW_CONTROL_NONE );
+        serialPort->Open(SerialPort::BAUD_57600, SerialPort::CHAR_SIZE_8,
+                         SerialPort::PARITY_NONE, SerialPort::STOP_BITS_1,
+                         SerialPort::FLOW_CONTROL_NONE);
     }
-    catch ( SerialPort::OpenFailed e )
+    catch (SerialPort::OpenFailed e)
     {
-        CD_ERROR("Error opening the serial port: %s\n", serialPortName.c_str());
+        yError() << "Error opening the serial port" << serialPortName;
         return false;
     }
 
-    /*if ( ! checkConnection() )
-    {
-        CD_ERROR("Error communicating with the robot. Exiting...\n");
-        return false;
-    }
-    CD_SUCCESS("Ok Serial Port: %p \n",serialPort);*/
-
-    CD_SUCCESS("Ok Serial Port: %p (without check)\n",serialPort);
+    yInfo() << "Ok Serial Port:" << serialPortName << "(without check)";
 
     leftMotorVelocity = leftMotorInitial;
     rightMotorVelocity = rightMotorInitial;
@@ -44,12 +39,10 @@ bool EcroPwmController::open(yarp::os::Searchable& config)
 
 bool EcroPwmController::close()
 {
-    CD_INFO("Close Serial Port: %p\n",serialPort);
     serialPort->Close();
     delete serialPort;
     serialPort = 0;
-
     return true;
 }
 
-}  // namespace asrob
+} // namespace asrob

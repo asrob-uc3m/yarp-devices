@@ -4,6 +4,8 @@
 
 #include "RobotServer.hpp"
 
+#include <yarp/os/LogStream.h>
+
 namespace asrob
 {
 
@@ -12,15 +14,17 @@ bool RobotServer::open(yarp::os::Searchable& config)
     rpcServer.setReader(*this);
 
     yarp::os::Value *name;
-    if (config.check("subdevice",name))
+
+    if (config.check("subdevice", name))
     {
-        CD_INFO("Subdevice %s\n", name->toString().c_str());
+        yInfo() << "Subdevice" << name->toString();
+
         if (name->isString())
         {
             // maybe user isn't doing nested configuration
             yarp::os::Property p;
             p.fromString(config.toString());
-            p.put("device",name->toString());
+            p.put("device", name->toString());
             p.setMonitor(config.getMonitor(), name->toString().c_str());
             robotDevice.open(p);
         }
@@ -29,23 +33,25 @@ bool RobotServer::open(yarp::os::Searchable& config)
     }
     else
     {
-        CD_ERROR("\"--subdevice <name>\" not set in RobotServer\n");
+        yError() << "\"--subdevice <name>\" not set in RobotServer";
         return false;
     }
-    if( ! robotDevice.isValid() )
+
+    if (!robotDevice.isValid())
     {
-        CD_ERROR("subdevice <%s> not valid\n", name->toString().c_str());
+        yError() << "subdevice" << name->toString() << "not valid";
         return false;
     }
-    if( ! robotDevice.view( iRobotManager ) )
+
+    if (!robotDevice.view( iRobotManager))
     {
-        CD_ERROR("iRobotManager view failed\n");
+        yError() << "iRobotManager view failed";
         return false;
     }
 
     //Look for the portname to register (--name option)
-    if (config.check("name",name))
-        rpcServer.open(name->asString()+"/rpc:s");
+    if (config.check("name", name))
+        rpcServer.open(name->asString() + "/rpc:s");
     else
         rpcServer.open("/RobotServer/rpc:s");
 
@@ -59,4 +65,4 @@ bool RobotServer::close()
     return true;
 }
 
-}  // namespace asrob
+} // namespace asrob

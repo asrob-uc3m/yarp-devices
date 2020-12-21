@@ -4,38 +4,36 @@
 
 #include "LaserTowerOfDeathController.hpp"
 
-#include <iostream>
+#include <yarp/os/LogStream.h>
 
 namespace asrob
 {
 
 bool LaserTowerOfDeathController::moveForward(double value)
 {
-    CD_INFO("(%f).\n",value);
-
+    yDebug() << "moveForward" << value;
     return true;
 }
 
 bool LaserTowerOfDeathController::turnLeft(double value)
 {
-    CD_INFO("(%f).\n",value);
-
+    yDebug() << "turnLeft" << value;
     return true;
 }
 
 bool LaserTowerOfDeathController::stopMovement()
 {
-    CD_INFO(".\n");
-
+    yDebug() << "stopMovement";
     return true;
 }
 
 bool LaserTowerOfDeathController::tiltDown(double value)
 {
-    CD_INFO("%f\n", value);
-    if ( tiltJointValue - value > tiltRangeMax )
+    yDebug() << "tiltDown" << value;
+
+    if (tiltJointValue - value > tiltRangeMax)
         tiltJointValue = tiltRangeMax;
-    else if ( tiltJointValue - value < tiltRangeMin )
+    else if (tiltJointValue - value < tiltRangeMin)
         tiltJointValue = tiltRangeMin;
     else
         tiltJointValue -= value;
@@ -45,10 +43,11 @@ bool LaserTowerOfDeathController::tiltDown(double value)
 
 bool LaserTowerOfDeathController::panLeft(double value)
 {
-    CD_INFO("%f\n", value);
-    if ( panJointValue + value > panRangeMax )
+    yDebug() << "panLeft" << value;
+
+    if (panJointValue + value > panRangeMax)
         panJointValue = panRangeMax;
-    else if ( panJointValue + value < panRangeMin )
+    else if (panJointValue + value < panRangeMin)
         panJointValue = panRangeMin;
     else
         panJointValue += value;
@@ -58,26 +57,26 @@ bool LaserTowerOfDeathController::panLeft(double value)
 
 bool LaserTowerOfDeathController::stopCameraMovement()
 {
-    CD_ERROR("Not implemented yet\n");
+    yError() << "stopCameraMovement not implemented yet";
     return false;
 }
 
 bool LaserTowerOfDeathController::sendCurrentJointValues()
 {
-    if ( serialPort->IsOpen() )
+    if (serialPort->IsOpen())
     {
         SerialPort::DataBuffer outputBuff;
         outputBuff.push_back(0x50); //-- 0x50 -> Set pos to all joints
 
-        outputBuff.push_back( (char) panJointValue );
-        outputBuff.push_back( (char) tiltJointValue );
-        serialPort->Write( outputBuff );
+        outputBuff.push_back((char) panJointValue);
+        outputBuff.push_back((char) tiltJointValue);
+        serialPort->Write(outputBuff);
 
         return true;
     }
     else
     {
-        CD_WARNING("Robot could not send joints (because it is not connected).\n");
+        yWarning() << "Robot could not send joints (because it is not connected)";
         return false;
     }
 }
@@ -86,23 +85,30 @@ bool LaserTowerOfDeathController::checkConnection()
 {
     //-- Read welcome message to check if connected to the robot
     SerialPort::DataBuffer buffer;
-    try {
-        serialPort->Read( buffer, 13, 1500);
-    }
-    catch ( SerialPort::ReadTimeout e)
+
+    try
     {
-        std::cout << "Timeout! Exiting..." << std::endl;
+        serialPort->Read(buffer, 13, 1500);
+    }
+    catch (SerialPort::ReadTimeout e)
+    {
+        yError() << "Timeout! Exiting...";
         return false;
     }
+
     //-- Check if connected
     std::string welcomeMessage = "[Debug] Ok!\r\n";
     bool diffFlag = false;
+
     for (int i = 0; i < (int) buffer.size(); i++)
     {
-        if ( welcomeMessage[i] != buffer[i] )
+        if (welcomeMessage[i] != buffer[i])
+        {
             diffFlag = true;
+        }
     }
+
     return !diffFlag;
 }
 
-}  // namespace asrob
+} // namespace asrob

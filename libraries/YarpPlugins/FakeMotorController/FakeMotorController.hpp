@@ -12,8 +12,6 @@
 
 #include <vector>
 
-#include "ColorDebug.h"
-
 #include "IRobotManager.hpp"
 
 namespace asrob
@@ -74,6 +72,6 @@ public:
 
 };
 
-}  // namespace asrob
+} // namespace asrob
 
-#endif  // __FAKE_MOTOR_CONTROLLER__
+#endif // __FAKE_MOTOR_CONTROLLER__

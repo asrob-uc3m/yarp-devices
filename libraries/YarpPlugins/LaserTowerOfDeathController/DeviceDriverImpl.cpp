@@ -4,37 +4,40 @@
 
 #include "LaserTowerOfDeathController.hpp"
 
+#include <yarp/os/LogStream.h>
+
 namespace asrob
 {
 
 bool LaserTowerOfDeathController::open(yarp::os::Searchable& config)
 {
+    std::string serialPortName = config.check("serialPortName", yarp::os::Value(DEFAULT_SERIAL_PORT_NAME), "serialPortName").asString();
 
-    std::string serialPortName = config.check("serialPortName",yarp::os::Value(DEFAULT_SERIAL_PORT_NAME),"serialPortName").asString();
+    yInfo() << "LaserTowerOfDeathController options:";
+    yInfo() << "--serialPortName" << serialPortName;
 
-    printf("LaserTowerOfDeathController options:\n");
-    printf("\t--serialPortName %s [%s]\n",serialPortName.c_str(),DEFAULT_SERIAL_PORT_NAME);
+    yDebug() << "Init Serial Port";
+    serialPort = new SerialPort(serialPortName); // "/dev/ttyUSB0"
 
-    CD_DEBUG("init Serial Port.\n");
-    serialPort = new SerialPort( serialPortName );  // "/dev/ttyUSB0"
     try
     {
-        serialPort->Open( SerialPort::BAUD_57600, SerialPort::CHAR_SIZE_8,
-                           SerialPort::PARITY_NONE, SerialPort::STOP_BITS_1,
-                           SerialPort::FLOW_CONTROL_NONE );
+        serialPort->Open(SerialPort::BAUD_57600, SerialPort::CHAR_SIZE_8,
+                         SerialPort::PARITY_NONE, SerialPort::STOP_BITS_1,
+                         SerialPort::FLOW_CONTROL_NONE);
     }
-    catch ( SerialPort::OpenFailed e )
+    catch (SerialPort::OpenFailed e)
     {
-        CD_ERROR("Error opening the serial port: %s\n", serialPortName.c_str());
+        yError() << "Error opening the serial port:" << serialPortName;
         return false;
     }
 
-    if ( ! checkConnection() )
+    if (!checkConnection())
     {
-        CD_ERROR("Error communicating with the robot. Exiting...\n");
+        yError() << "Error communicating with the robot. Exiting...";
         return false;
     }
-    CD_SUCCESS("Ok Serial Port: %p\n",serialPort);
+
+    yInfo() << "Ok Serial Port" << serialPortName;
 
     panJointValue = panInitial;
     tiltJointValue = tiltInitial;
@@ -44,12 +47,10 @@ bool LaserTowerOfDeathController::open(yarp::os::Searchable& config)
 
 bool LaserTowerOfDeathController::close()
 {
-    CD_INFO("Close Serial Port: %p\n",serialPort);
     serialPort->Close();
     delete serialPort;
     serialPort = 0;
-
     return true;
 }
 
-}  // namespace asrob
+} // namespace asrob

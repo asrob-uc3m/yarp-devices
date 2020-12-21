@@ -14,8 +14,6 @@
 
 #include "IRobotManager.hpp"
 
-#include "ColorDebug.h"
-
 namespace asrob
 {
 
@@ -82,6 +80,6 @@ private:
 
 };
 
-}  // namespace asrob
+} // namespace asrob
 
-#endif  // __ROBOT_CLIENT__
+#endif // __ROBOT_CLIENT__

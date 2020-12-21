@@ -4,6 +4,8 @@
 
 #include "RobotClient.hpp"
 
+#include <yarp/os/LogStream.h>
+
 namespace asrob
 {
 
@@ -13,37 +15,37 @@ RobotClient::RobotClient()
 
 bool RobotClient::moveForward(double value)
 {
-    CD_DEBUG("%f\n",value);
+    yDebug() << "moveForward" << value;
     return send1vocab1double(VOCAB_MOVE_FORWARD,value);
 }
 
 bool RobotClient::turnLeft(double value)
 {
-    CD_DEBUG("%f\n",value);
+    yDebug() << "turnLeft" << value;
     return send1vocab1double(VOCAB_TURN_LEFT,value);
 }
 
 bool RobotClient::stopMovement()
 {
-    CD_DEBUG("\n");
+    yDebug() << "stopMovement";
     return send1vocab(VOCAB_STOP_MOVEMENT);
 }
 
 bool RobotClient::tiltDown(double value)
 {
-    CD_DEBUG("%f\n",value);
+    yDebug() << "tiltDown" << value;
     return send1vocab1double(VOCAB_TILT_DOWN,value);
 }
 
 bool RobotClient::panLeft(double value)
 {
-    CD_DEBUG("%f\n",value);
+    yDebug() << "panLeft" << value;
     return send1vocab1double(VOCAB_PAN_LEFT,value);
 }
 
 bool RobotClient::stopCameraMovement()
 {
-    CD_DEBUG("\n");
+    yDebug() << "stopCameraMovement";
     return send1vocab(VOCAB_STOP_CAMERA_MOVEMENT);
 }
 
@@ -52,8 +54,9 @@ bool RobotClient::send1vocab1double(int vocab, double value)
     yarp::os::Bottle cmd, response;
     cmd.addVocab(vocab);
     cmd.addFloat64(value);
-    rpcClient.write(cmd,response);
-    if( response.get(0).asVocab() == VOCAB_OK )
+    rpcClient.write(cmd, response);
+
+    if (response.get(0).asVocab() == VOCAB_OK)
         return true;
     else
         return false;
@@ -63,12 +66,12 @@ bool RobotClient::send1vocab(int vocab)
 {
     yarp::os::Bottle cmd, response;
     cmd.addVocab(vocab);
-    rpcClient.write(cmd,response);
-    if( response.get(0).asVocab() == VOCAB_OK )
+    rpcClient.write(cmd, response);
+
+    if (response.get(0).asVocab() == VOCAB_OK)
         return true;
     else
         return false;
 }
 
-}  // namespace asrob
-
+} // namespace asrob

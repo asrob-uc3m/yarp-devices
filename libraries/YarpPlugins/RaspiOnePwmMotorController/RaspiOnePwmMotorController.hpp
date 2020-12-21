@@ -12,8 +12,6 @@
 
 #include <vector>
 
-#include "ColorDebug.h"
-
 #include "IRobotManager.hpp"
 
 extern "C" {
@@ -82,6 +80,6 @@ private:
 
 };
 
-}  // namespace asrob
+} // namespace asrob
 
-#endif  // __RASPI_ONE_PWM_MOTOR_CONTROLLER__
+#endif // __RASPI_ONE_PWM_MOTOR_CONTROLLER__
