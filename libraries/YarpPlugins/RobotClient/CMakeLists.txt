@@ -10,10 +10,6 @@ yarp_prepare_plugin(RobotClient
 
 if(NOT SKIP_RobotClient)
 
-    if(YARP_VERSION VERSION_LESS 3.4)
-        set(CMAKE_INCLUDE_CURRENT_DIR TRUE) # yarp plugin builder needs this
-    endif()
-
     yarp_add_plugin(RobotClient RobotClient.hpp
                                 RobotClient.cpp
                                 DeviceDriverImpl.cpp)

@@ -5,17 +5,24 @@
 #ifndef __I_ROBOT_MANAGER_HPP__
 #define __I_ROBOT_MANAGER_HPP__
 
-#ifndef SWIG_PREPROCESSOR_SHOULD_SKIP_THIS
-#define ASROB_VOCAB(a,b,c,d) ((((int)(d))<<24)+(((int)(c))<<16)+(((int)(b))<<8)+((int)(a)))
-#endif // SWIG_PREPROCESSOR_SHOULD_SKIP_THIS
+#include <yarp/conf/version.h>
+#include <yarp/os/Vocab.h>
 
-#define VOCAB_MOVE_FORWARD ASROB_VOCAB('m','o','v','f')
-#define VOCAB_TURN_LEFT ASROB_VOCAB('t','r','n','l')
-#define VOCAB_STOP_MOVEMENT ASROB_VOCAB('s','t','p','m')
-
-#define VOCAB_TILT_DOWN ASROB_VOCAB('t','l','t','d')
-#define VOCAB_PAN_LEFT ASROB_VOCAB('p','a','n','l')
-#define VOCAB_STOP_CAMERA_MOVEMENT ASROB_VOCAB('s','t','p','c')
+#if YARP_VERSION_MINOR >= 5
+constexpr int VOCAB_MOVE_FORWARD = yarp::os::createVocab32('m','o','v','f');
+constexpr int VOCAB_TURN_LEFT = yarp::os::createVocab32('t','r','n','l');
+constexpr int VOCAB_STOP_MOVEMENT = yarp::os::createVocab32('s','t','p','m');
+constexpr int VOCAB_TILT_DOWN = yarp::os::createVocab32('t','l','t','d');
+constexpr int VOCAB_PAN_LEFT = yarp::os::createVocab32('p','a','n','l');
+constexpr int VOCAB_STOP_CAMERA_MOVEMENT = yarp::os::createVocab32('s','t','p','c');
+#else
+constexpr int VOCAB_MOVE_FORWARD = yarp::os::createVocab('m','o','v','f');
+constexpr int VOCAB_TURN_LEFT = yarp::os::createVocab('t','r','n','l');
+constexpr int VOCAB_STOP_MOVEMENT = yarp::os::createVocab('s','t','p','m');
+constexpr int VOCAB_TILT_DOWN = yarp::os::createVocab('t','l','t','d');
+constexpr int VOCAB_PAN_LEFT = yarp::os::createVocab('p','a','n','l');
+constexpr int VOCAB_STOP_CAMERA_MOVEMENT = yarp::os::createVocab('s','t','p','c');
+#endif
 
 namespace asrob{
 
@@ -28,26 +35,26 @@ namespace asrob{
  */
 class IRobotManager
 {
-    public:
-        /// @brief Robot: Move forward (use negative value for move backward). position mode [m]. Velocity mode [m/s].
-        virtual bool moveForward(double value) = 0;
+public:
+    /// @brief Robot: Move forward (use negative value for move backward). position mode [m]. Velocity mode [m/s].
+    virtual bool moveForward(double value) = 0;
 
-        /// @brief Robot: Turn left (use negative value for turn left). position mode [deg]. Velocity mode [deg/s].
-        virtual bool turnLeft(double value) = 0;
+    /// @brief Robot: Turn left (use negative value for turn left). position mode [deg]. Velocity mode [deg/s].
+    virtual bool turnLeft(double value) = 0;
 
-        /// @brief Robot: Stop movement.
-        virtual bool stopMovement() = 0;
+    /// @brief Robot: Stop movement.
+    virtual bool stopMovement() = 0;
 
-        /// @brief Robot camera: Tilt down (use negative value for tilt up). position mode [deg]. Velocity mode [deg/s].
-        virtual bool tiltDown(double value) = 0;
+    /// @brief Robot camera: Tilt down (use negative value for tilt up). position mode [deg]. Velocity mode [deg/s].
+    virtual bool tiltDown(double value) = 0;
 
-        /// @brief Robot camera: Pan left (use negative value for pan right). position mode [deg]. Velocity mode [deg/s].
-        virtual bool panLeft(double value) = 0;
+    /// @brief Robot camera: Pan left (use negative value for pan right). position mode [deg]. Velocity mode [deg/s].
+    virtual bool panLeft(double value) = 0;
 
-        /// @brief Robot camera: Stop movement.
-        virtual bool stopCameraMovement() = 0;
+    /// @brief Robot camera: Stop movement.
+    virtual bool stopCameraMovement() = 0;
 
-        virtual ~IRobotManager() {}
+    virtual ~IRobotManager() {}
 };
 
 }

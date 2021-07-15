@@ -13,10 +13,10 @@ compiler:
 env:
   global:
     - CACHE_DIR=~/cached-deps
-    - YCM_CHECKOUT=ycm-0.11
+    - YCM_CHECKOUT=ycm-0.13
   matrix:
+    - YARP_CHECKOUT=yarp-3.5
     - YARP_CHECKOUT=yarp-3.4
-    - YARP_CHECKOUT=yarp-3.3
 
 matrix:
   include:

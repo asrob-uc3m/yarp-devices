@@ -6,6 +6,8 @@
 add_library(RobotInterfaces INTERFACE)
 
 # Configure usage requirements.
+target_link_libraries(RobotInterfaces INTERFACE YARP::YARP_os)
+
 target_include_directories(RobotInterfaces INTERFACE $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>
                                                      $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>)
 

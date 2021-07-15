@@ -16,10 +16,6 @@ yarp_prepare_plugin(LaserTowerOfDeathController
 
 if(NOT SKIP_LaserTowerOfDeathController)
 
-    if(YARP_VERSION VERSION_LESS 3.4)
-        set(CMAKE_INCLUDE_CURRENT_DIR TRUE) # yarp plugin builder needs this
-    endif()
-
     yarp_add_plugin(LaserTowerOfDeathController LaserTowerOfDeathController.hpp
                                                 LaserTowerOfDeathController.cpp
                                                 DeviceDriverImpl.cpp)

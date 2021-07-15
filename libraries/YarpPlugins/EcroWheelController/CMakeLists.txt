@@ -16,10 +16,6 @@ yarp_prepare_plugin(EcroWheelController
 
 if(NOT SKIP_EcroWheelController)
 
-    if(YARP_VERSION VERSION_LESS 3.4)
-        set(CMAKE_INCLUDE_CURRENT_DIR TRUE) # yarp plugin builder needs this
-    endif()
-
     yarp_add_plugin(EcroWheelController EcroWheelController.hpp
                                         EcroWheelController.cpp
                                         DeviceDriverImpl.cpp)
