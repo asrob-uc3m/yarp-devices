@@ -13,7 +13,9 @@ if(NOT SKIP_FakeMotorController)
 
     yarp_add_plugin(FakeMotorController FakeMotorController.hpp
                                         FakeMotorController.cpp
-                                        DeviceDriverImpl.cpp)
+                                        DeviceDriverImpl.cpp
+                                        LogComponent.hpp
+                                        LogComponent.cpp)
 
     target_link_libraries(FakeMotorController YARP::YARP_os
                                               YARP::YARP_dev

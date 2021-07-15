@@ -23,11 +23,10 @@ namespace asrob
  * @ingroup YarpPlugins
  * @brief RaspiTwoPwmMotorController
  */
-class RaspiTwoPwmMotorController : public yarp::dev::DeviceDriver, public IRobotManager {
-
+class RaspiTwoPwmMotorController : public yarp::dev::DeviceDriver,
+                                   public IRobotManager
+{
 public:
-
-    RaspiTwoPwmMotorController() {}
 
     // -------- RobotManager declarations. Implementation in RaspiTwoPwmMotorController.cpp --------
 

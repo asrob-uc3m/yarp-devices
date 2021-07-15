@@ -25,11 +25,10 @@ namespace asrob
  * @ingroup YarpPlugins
  * @brief RaspiOnePwmMotorController
  */
-class RaspiOnePwmMotorController : public yarp::dev::DeviceDriver, public IRobotManager {
-
+class RaspiOnePwmMotorController : public yarp::dev::DeviceDriver,
+                                   public IRobotManager
+{
 public:
-
-    RaspiOnePwmMotorController() {}
 
     // -------- RobotManager declarations. Implementation in RaspiOnePwmMotorController.cpp --------
 

@@ -18,7 +18,9 @@ if(NOT SKIP_LaserTowerOfDeathController)
 
     yarp_add_plugin(LaserTowerOfDeathController LaserTowerOfDeathController.hpp
                                                 LaserTowerOfDeathController.cpp
-                                                DeviceDriverImpl.cpp)
+                                                DeviceDriverImpl.cpp
+                                                LogComponent.hpp
+                                                LogComponent.cpp)
 
     target_link_libraries(LaserTowerOfDeathController YARP::YARP_os
                                                       YARP::YARP_dev

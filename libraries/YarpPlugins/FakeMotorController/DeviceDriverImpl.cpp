@@ -3,19 +3,17 @@
 // URL: https://github.com/asrob-uc3m/yarp-devices
 
 #include "FakeMotorController.hpp"
+#include "LogComponent.hpp"
 
-#include <yarp/os/LogStream.h>
-
-namespace asrob
-{
+using namespace asrob;
 
 bool FakeMotorController::open(yarp::os::Searchable& config)
 {
-    yDebug() << "Got options:" << config.toString();
+    yCDebug(FMC) << "Config:" << config.toString();
 
     if (config.check("dummy", "check dummy option"))
     {
-        yInfo() << "Got dummy option";
+        yInfo(FMC) << "Got dummy option";
     }
 
     return true;
@@ -25,5 +23,3 @@ bool FakeMotorController::close()
 {
     return true;
 }
-
-} // namespace asrob

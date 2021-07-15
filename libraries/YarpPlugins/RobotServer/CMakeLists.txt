@@ -13,7 +13,9 @@ if(NOT SKIP_RobotServer)
 
     yarp_add_plugin(RobotServer RobotServer.hpp
                                 RobotServer.cpp
-                                DeviceDriverImpl.cpp)
+                                DeviceDriverImpl.cpp
+                                LogComponent.hpp
+                                LogComponent.cpp)
 
     target_link_libraries(RobotServer YARP::YARP_os
                                       YARP::YARP_dev

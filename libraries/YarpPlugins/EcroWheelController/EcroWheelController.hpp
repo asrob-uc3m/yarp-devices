@@ -25,11 +25,10 @@ namespace asrob
  * @ingroup YarpPlugins
  * @brief EcroWheelController
  */
-class EcroWheelController : public yarp::dev::DeprecatedDeviceDriver, public IRobotManager {
-
+class EcroWheelController : public yarp::dev::DeprecatedDeviceDriver,
+                            public IRobotManager
+{
 public:
-
-    EcroWheelController() {}
 
     // -------- RobotManager declarations. Implementation in EcroWheelController.cpp --------
 

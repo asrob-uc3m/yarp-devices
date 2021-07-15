@@ -3,11 +3,9 @@
 // URL: https://github.com/asrob-uc3m/yarp-devices
 
 #include "RobotServer.hpp"
+#include "LogComponent.hpp"
 
-#include <yarp/os/LogStream.h>
-
-namespace asrob
-{
+using namespace asrob;
 
 bool RobotServer::open(yarp::os::Searchable& config)
 {
@@ -17,7 +15,7 @@ bool RobotServer::open(yarp::os::Searchable& config)
 
     if (config.check("subdevice", name))
     {
-        yInfo() << "Subdevice" << name->toString();
+        yCInfo(RS) << "Subdevice" << name->toString();
 
         if (name->isString())
         {
@@ -33,19 +31,19 @@ bool RobotServer::open(yarp::os::Searchable& config)
     }
     else
     {
-        yError() << "\"--subdevice <name>\" not set in RobotServer";
+        yCError(RS) << "\"--subdevice <name>\" not set in RobotServer";
         return false;
     }
 
     if (!robotDevice.isValid())
     {
-        yError() << "subdevice" << name->toString() << "not valid";
+        yCError(RS) << "Subdevice" << name->toString() << "not valid";
         return false;
     }
 
     if (!robotDevice.view( iRobotManager))
     {
-        yError() << "iRobotManager view failed";
+        yCError(RS) << "iRobotManager view failed";
         return false;
     }
 
@@ -64,5 +62,3 @@ bool RobotServer::close()
     robotDevice.close();
     return true;
 }
-
-} // namespace asrob

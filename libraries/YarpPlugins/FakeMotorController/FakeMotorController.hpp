@@ -21,11 +21,10 @@ namespace asrob
  * @ingroup YarpPlugins
  * @brief FakeMotorController
  */
-class FakeMotorController : public yarp::dev::DeviceDriver, public IRobotManager {
-
+class FakeMotorController : public yarp::dev::DeviceDriver,
+                            public IRobotManager
+{
 public:
-
-    FakeMotorController() {}
 
     // -------- RobotManager declarations. Implementation in FakeMotorController.cpp --------
 

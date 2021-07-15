@@ -5,10 +5,10 @@
 #include "RobotServer.hpp"
 
 #include <yarp/conf/version.h>
-#include <yarp/os/LogStream.h>
 
-namespace asrob
-{
+#include "LogComponent.hpp"
+
+using namespace asrob;
 
 bool RobotServer::read(yarp::os::ConnectionReader& connection)
 {
@@ -17,7 +17,7 @@ bool RobotServer::read(yarp::os::ConnectionReader& connection)
     if (!ok) return false;
 
     // process data "in", prepare "out"
-    yDebug() << "Got:" << in.toString();
+    yCDebug(RS) << "Got:" << in.toString();
 
     if (in.get(0).asString() == "help")
     {
@@ -133,5 +133,3 @@ bool RobotServer::read(yarp::os::ConnectionReader& connection)
 
     return true;
 }
-
-} // namespace asrob

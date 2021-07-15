@@ -25,11 +25,10 @@ namespace asrob
  * @ingroup YarpPlugins
  * @brief LaserTowerOfDeathController
  */
-class LaserTowerOfDeathController : public yarp::dev::DeviceDriver, public IRobotManager {
-
+class LaserTowerOfDeathController : public yarp::dev::DeviceDriver,
+                                    public IRobotManager
+{
 public:
-
-    LaserTowerOfDeathController() {}
 
     // -------- RobotManager declarations. Implementation in LaserTowerOfDeathController.cpp --------
 

@@ -18,7 +18,9 @@ if(NOT SKIP_RaspiTwoPwmMotorController)
 
     yarp_add_plugin(RaspiTwoPwmMotorController RaspiTwoPwmMotorController.hpp
                                                RaspiTwoPwmMotorController.cpp
-                                               DeviceDriverImpl.cpp)
+                                               DeviceDriverImpl.cpp
+                                               LogComponent.hpp
+                                               LogComponent.cpp)
 
     target_link_libraries(RaspiTwoPwmMotorController YARP::YARP_os
                                                      YARP::YARP_dev

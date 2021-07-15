@@ -23,10 +23,7 @@ namespace asrob
  */
 class RobotClient : public yarp::dev::DeviceDriver, public IRobotManager
 {
-
 public:
-
-    RobotClient();
 
     // -------- DeviceDriver declarations. Implementation in DeviceDriverImpl.cpp --------
 

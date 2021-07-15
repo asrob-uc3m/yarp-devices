@@ -1,15 +1,13 @@
 // -*- mode:C++; tab-width:4; c-basic-offset:4; indent-tabs-mode:nil -*-
 
 #include "EcroPwmController.hpp"
+#include "LogComponent.hpp"
 
-#include <yarp/os/LogStream.h>
-
-namespace asrob
-{
+using namespace asrob;
 
 bool EcroPwmController::moveForward(double value)
 {
-    yDebug() << "moveForward" << value;
+    yCDebug(EPC) << "moveForward" << value;
 
     if (value <= rightMotorRangeMax && value >= rightMotorRangeMin &&
         value <= leftMotorRangeMax && value >= leftMotorRangeMin)
@@ -23,7 +21,7 @@ bool EcroPwmController::moveForward(double value)
 
 bool EcroPwmController::turnLeft(double value)
 {
-    yDebug() << "turnLeft" << value;
+    yCDebug(EPC) << "turnLeft" << value;
 
     if (value <= rightMotorRangeMax && value >= rightMotorRangeMin &&
         value <= leftMotorRangeMax && value >= leftMotorRangeMin)
@@ -37,7 +35,7 @@ bool EcroPwmController::turnLeft(double value)
 
 bool EcroPwmController::stopMovement()
 {
-    yDebug() << "stopMovement";
+    yCDebug(EPC) << "stopMovement";
 
     rightMotorVelocity = rightMotorOffset; //-- 90º angle is 0 speed in driver
     leftMotorVelocity = leftMotorOffset;
@@ -48,19 +46,19 @@ bool EcroPwmController::stopMovement()
 //-- Robot camera related functions
 bool EcroPwmController::tiltDown(double value)
 {
-    yDebug() << "tiltDown" << value;
+    yCDebug(EPC) << "tiltDown" << value;
     return true;
 }
 
 bool EcroPwmController::panLeft(double value)
 {
-    yDebug() << "panLeft" << value;
+    yCDebug(EPC) << "panLeft" << value;
     return true;
 }
 
 bool EcroPwmController::stopCameraMovement()
 {
-    yError() << "stopCameraMovement not implemented yet";
+    yCError(EPC) << "stopCameraMovement not implemented yet";
     return false;
 }
 
@@ -79,9 +77,7 @@ bool EcroPwmController::sendCurrentJointValues()
     }
     else
     {
-        yWarning() << "Robot could not send joints (because it is not connected)";
+        yCWarning(EPC) << "Robot could not send joints (because it is not connected)";
         return false;
     }
 }
-
-} // namespace asrob

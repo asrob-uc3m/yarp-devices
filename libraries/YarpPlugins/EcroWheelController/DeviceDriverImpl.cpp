@@ -3,20 +3,18 @@
 // URL: https://github.com/asrob-uc3m/yarp-devices
 
 #include "EcroWheelController.hpp"
+#include "LogComponent.hpp"
 
-#include <yarp/os/LogStream.h>
-
-namespace asrob
-{
+using namespace asrob;
 
 bool EcroWheelController::open(yarp::os::Searchable& config)
 {
     std::string serialPortName = config.check("serialPortName", yarp::os::Value(DEFAULT_SERIAL_PORT_NAME), "serialPortName").asString();
 
-    yInfo() << "EcroWheelController options:";
-    yInfo() << "--serialPortName" << serialPortName;
+    yCInfo(EWC) << "EcroWheelController options:";
+    yCInfo(EWC) << "--serialPortName" << serialPortName;
 
-    yDebug() << "Init Serial Port";
+    yCDebug(EWC) << "Init Serial Port";
     serialPort = new SerialPort(serialPortName); // "/dev/ttyUSB0"
 
     try
@@ -27,7 +25,7 @@ bool EcroWheelController::open(yarp::os::Searchable& config)
     }
     catch (SerialPort::OpenFailed e)
     {
-        yError() << "Error opening the serial port" << serialPortName;
+        yCError(EWC) << "Error opening the serial port" << serialPortName;
         return false;
     }
 
@@ -42,11 +40,10 @@ bool EcroWheelController::open(yarp::os::Searchable& config)
         outputBuff.push_back(0x28);  // Este ambos, 29 limpiaria 1, 30 el 2 ?
         serialPort->Write( outputBuff );
         yarp::os::Time::delay(0.5);
-
     }
     else
     {
-        yWarning() << "Robot could not revert wheel command (because it is not connected)";
+        yWarning(EWC) << "Robot could not revert wheel command (because it is not connected)";
         return false;
     }
 
@@ -60,5 +57,3 @@ bool EcroWheelController::close()
     serialPort = 0;
     return true;
 }
-
-} // namespace asrob

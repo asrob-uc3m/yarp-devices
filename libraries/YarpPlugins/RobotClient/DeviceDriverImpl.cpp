@@ -3,11 +3,9 @@
 // URL: https://github.com/asrob-uc3m/yarp-devices
 
 #include "RobotClient.hpp"
+#include "LogComponent.hpp"
 
-#include <yarp/os/LogStream.h>
-
-namespace asrob
-{
+using namespace asrob;
 
 bool RobotClient::open(yarp::os::Searchable& config)
 {
@@ -30,17 +28,17 @@ bool RobotClient::open(yarp::os::Searchable& config)
     {
         yarp::os::Network::connect(local_s, remote_s, carrier);
         if (rpcClient.getOutputCount() > 0) break;
-        yDebug() << "Wait to connect to remote robot" << remote_s << "on try" << tries;
+        yCDebug(RC) << "Wait to connect to remote robot" << remote_s << "on try" << tries;
         yarp::os::Time::delay(0.5);
     }
 
     if (tries == 11)
     {
-        yError() << "Timeout on connect to remote robot!";
+        yCError(RC) << "Timeout on connect to remote robot!";
         return false;
     }
 
-    yInfo() << "Connected to remote robot";
+    yCInfo(RC) << "Connected to remote robot";
 
     return true;
 }
@@ -50,5 +48,3 @@ bool RobotClient::close()
     rpcClient.close();
     return true;
 }
-
-} // namespace asrob

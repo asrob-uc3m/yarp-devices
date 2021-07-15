@@ -3,15 +3,13 @@
 // URL: https://github.com/asrob-uc3m/yarp-devices
 
 #include "EcroWheelController.hpp"
+#include "LogComponent.hpp"
 
-#include <yarp/os/LogStream.h>
-
-namespace asrob
-{
+using namespace asrob;
 
 bool EcroWheelController::moveForward(double value)
 {
-    yDebug() << "moveForward" << value;
+    yCDebug(EWC) << "moveForward" << value;
 
     if (serialPort->IsOpen())
     {
@@ -26,9 +24,9 @@ bool EcroWheelController::moveForward(double value)
         positions1 <<= 8;
         int8_t positions1_low = positions1;
 
-        yDebug("2 bytes: 0x%x", positions1);
-        yDebug("high byte: 0x%x", positions1_high);
-        yDebug("low byte: 0x%x", positions1_low);
+        yDebug(EWC, "2 bytes: 0x%x", positions1);
+        yDebug(EWC, "high byte: 0x%x", positions1_high);
+        yDebug(EWC, "low byte: 0x%x", positions1_low);
 
         outputBuff.clear();
         outputBuff.push_back(positions1_low);  // 0x01
@@ -40,13 +38,11 @@ bool EcroWheelController::moveForward(double value)
         serialPort->Write(outputBuff);
         yarp::os::Time::delay(0.05);
 
-        yDebug("high byte");
-
-        return true;
+        yCDebug(EWC) << "high byte";
     }
     else
     {
-        yWarning() << "Robot could not send joints (because it is not connected)";
+        yCWarning(EWC) << "Robot could not send joints (because it is not connected)";
         return false;
     }
 
@@ -55,7 +51,7 @@ bool EcroWheelController::moveForward(double value)
 
 bool EcroWheelController::turnLeft(double value)
 {
-    yDebug() << "turnLeft" << value;
+    yCDebug(EWC) << "turnLeft" << value;
 
     if (serialPort->IsOpen())
     {
@@ -69,9 +65,9 @@ bool EcroWheelController::turnLeft(double value)
         positions1 <<= 8;
         int8_t positions1_low = positions1;
 
-        yDebug("2 bytes: 0x%x", positions1);
-        yDebug("high byte: 0x%x", positions1_high);
-        yDebug("low byte: 0x%x", positions1_low);
+        yDebug(EWC, "2 bytes: 0x%x", positions1);
+        yDebug(EWC, "high byte: 0x%x", positions1_high);
+        yDebug(EWC, "low byte: 0x%x", positions1_low);
 
         outputBuff.clear();
         outputBuff.push_back(positions1_low);  // 0x01
@@ -102,13 +98,11 @@ bool EcroWheelController::turnLeft(double value)
         serialPort->Write(outputBuff);
         yarp::os::Time::delay(0.05);
 
-        yDebug("high byte");
-
-        return true;
+        yCDebug(EWC) << "high byte";
     }
     else
     {
-        yWarning() << "Robot could not send joints (because it is not connected)";
+        yCWarning(EWC) << "Robot could not send joints (because it is not connected)";
         return false;
     }
 
@@ -117,7 +111,7 @@ bool EcroWheelController::turnLeft(double value)
 
 bool EcroWheelController::stopMovement()
 {
-    yDebug() << "stopMovement";
+    yCDebug(EWC) << "stopMovement";
 
     if (serialPort->IsOpen())
     {
@@ -133,7 +127,7 @@ bool EcroWheelController::stopMovement()
     }
     else
     {
-        yWarning() << "Robot could not revert wheel command (because it is not connected)";
+        yCWarning(EWC) << "Robot could not revert wheel command (because it is not connected)";
         return false;
     }
 
@@ -144,20 +138,18 @@ bool EcroWheelController::stopMovement()
 
 bool EcroWheelController::tiltDown(double velocity)
 {
-    yDebug() << "tiltDown" << velocity;
+    yCDebug(EWC) << "tiltDown" << velocity;
     return true;
 }
 
 bool EcroWheelController::panLeft(double value)
 {
-    yDebug() << "panLeft" << value;
+    yCDebug(EWC) << "panLeft" << value;
     return true;
 }
 
 bool EcroWheelController::stopCameraMovement()
 {
-    yError() << "stopCameraMovement not implemented yet";
+    yCError(EWC) << "stopCameraMovement not implemented yet";
     return false;
 }
-
-} // namespace asrob

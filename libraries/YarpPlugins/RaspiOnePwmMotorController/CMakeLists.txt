@@ -15,6 +15,8 @@ if(NOT SKIP_RaspiOnePwmMotorController)
     yarp_add_plugin(RaspiOnePwmMotorController RaspiOnePwmMotorController.hpp
                                                RaspiOnePwmMotorController.cpp
                                                DeviceDriverImpl.cpp
+                                               LogComponent.hpp
+                                               LogComponent.cpp
                                                mailbox.h
                                                mailbox.c
                                                pwm.h

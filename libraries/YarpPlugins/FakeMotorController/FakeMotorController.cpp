@@ -3,46 +3,42 @@
 // URL: https://github.com/asrob-uc3m/yarp-devices
 
 #include "FakeMotorController.hpp"
+#include "LogComponent.hpp"
 
-#include <yarp/os/LogStream.h>
-
-namespace asrob
-{
+using namespace asrob;
 
 bool FakeMotorController::moveForward(double value)
 {
-    yDebug() << "moveForward" << value;
+    yCDebug(FMC) << "moveForward" << value;
     return true;
 }
 
 bool FakeMotorController::turnLeft(double value)
 {
-    yDebug() << "turnLeft" << value;
+    yCDebug(FMC) << "turnLeft" << value;
     return true;
 }
 
 bool FakeMotorController::stopMovement()
 {
-    yDebug() << "stopMovement";
+    yCDebug(FMC) << "stopMovement";
     return true;
 }
 
 bool FakeMotorController::tiltDown(double value)
 {
-    yDebug() << "tiltDown" << value;
+    yCDebug(FMC) << "tiltDown" << value;
     return true;
 }
 
 bool FakeMotorController::panLeft(double value)
 {
-    yDebug() << "panLeft" << value;
+    yCDebug(FMC) << "panLeft" << value;
     return true;
 }
 
 bool FakeMotorController::stopCameraMovement()
 {
-    yDebug() << "stopCameraMovement";
+    yCDebug(FMC) << "stopCameraMovement";
     return true;
 }
-
-} // namespace asrob

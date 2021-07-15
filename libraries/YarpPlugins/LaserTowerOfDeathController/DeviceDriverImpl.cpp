@@ -3,20 +3,18 @@
 // URL: https://github.com/asrob-uc3m/yarp-devices
 
 #include "LaserTowerOfDeathController.hpp"
+#include "LogComponent.hpp"
 
-#include <yarp/os/LogStream.h>
-
-namespace asrob
-{
+using namespace asrob;
 
 bool LaserTowerOfDeathController::open(yarp::os::Searchable& config)
 {
     std::string serialPortName = config.check("serialPortName", yarp::os::Value(DEFAULT_SERIAL_PORT_NAME), "serialPortName").asString();
 
-    yInfo() << "LaserTowerOfDeathController options:";
-    yInfo() << "--serialPortName" << serialPortName;
+    yCInfo(LTODC) << "LaserTowerOfDeathController options:";
+    yCInfo(LTODC) << "--serialPortName" << serialPortName;
 
-    yDebug() << "Init Serial Port";
+    yCDebug(LTODC) << "Init Serial Port";
     serialPort = new SerialPort(serialPortName); // "/dev/ttyUSB0"
 
     try
@@ -27,17 +25,17 @@ bool LaserTowerOfDeathController::open(yarp::os::Searchable& config)
     }
     catch (SerialPort::OpenFailed e)
     {
-        yError() << "Error opening the serial port:" << serialPortName;
+        yCError(LTODC) << "Error opening the serial port:" << serialPortName;
         return false;
     }
 
     if (!checkConnection())
     {
-        yError() << "Error communicating with the robot. Exiting...";
+        yCError(LTODC) << "Error communicating with the robot. Exiting...";
         return false;
     }
 
-    yInfo() << "Ok Serial Port" << serialPortName;
+    yCInfo(LTODC) << "Ok Serial Port" << serialPortName;
 
     panJointValue = panInitial;
     tiltJointValue = tiltInitial;
@@ -52,5 +50,3 @@ bool LaserTowerOfDeathController::close()
     serialPort = 0;
     return true;
 }
-
-} // namespace asrob

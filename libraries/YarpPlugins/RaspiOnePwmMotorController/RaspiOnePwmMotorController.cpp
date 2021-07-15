@@ -3,17 +3,15 @@
 // URL: https://github.com/asrob-uc3m/yarp-devices
 
 #include "RaspiOnePwmMotorController.hpp"
+#include "LogComponent.hpp"
 
-#include <yarp/os/LogStream.h>
-
-namespace asrob
-{
+using namespace asrob;
 
 bool RaspiOnePwmMotorController::indexWithinRange(const int& idx)
 {
     if (idx >= gpios.size())
     {
-        yWarning() << "Index out of range!!" << idx << ">=" << gpios.size();
+        yCWarning(ROPMC) << "Index out of range!!" << idx << ">=" << gpios.size();
         return false;
     }
 
@@ -22,7 +20,7 @@ bool RaspiOnePwmMotorController::indexWithinRange(const int& idx)
 
 bool RaspiOnePwmMotorController::moveForward(double value)
 {
-    yDebug() << "moveForward" << value;
+    yCDebug(ROPMC) << "moveForward" << value;
 
     clear_channel_gpio(0, gpios[0]);
     add_channel_pulse(0, gpios[0], 0, 2000 / PULSE_WIDTH_INCREMENT_GRANULARITY_US_DEFAULT);
@@ -35,7 +33,7 @@ bool RaspiOnePwmMotorController::moveForward(double value)
 
 bool RaspiOnePwmMotorController::turnLeft(double value)
 {
-    yDebug() << "turnLeft" << value;
+    yCDebug(ROPMC) << "turnLeft" << value;
 
     clear_channel_gpio(0, gpios[0]);
     add_channel_pulse(0, gpios[0], 0, 1250 / PULSE_WIDTH_INCREMENT_GRANULARITY_US_DEFAULT);
@@ -48,7 +46,7 @@ bool RaspiOnePwmMotorController::turnLeft(double value)
 
 bool RaspiOnePwmMotorController::stopMovement()
 {
-    yDebug() << "stopMovement";
+    yCDebug(ROPMC) << "stopMovement";
 
     clear_channel_gpio(0, gpios[0]);
     add_channel_pulse(0, gpios[0], 0, 0 / PULSE_WIDTH_INCREMENT_GRANULARITY_US_DEFAULT);
@@ -62,20 +60,18 @@ bool RaspiOnePwmMotorController::stopMovement()
 //-- Robot camera related functions
 bool RaspiOnePwmMotorController::tiltDown(double value)
 {
-    yError() << "tiltDown not implemented yet";
+    yCError(ROPMC) << "tiltDown not implemented yet";
     return false;
 }
 
 bool RaspiOnePwmMotorController::panLeft(double value)
 {
-    yError() << "panLeft not implemented yet";
+    yCError(ROPMC) << "panLeft not implemented yet";
     return false;
 }
 
 bool RaspiOnePwmMotorController::stopCameraMovement()
 {
-    yError() << "stopCameraMovement not implemented yet";
+    yCError(ROPMC) << "stopCameraMovement not implemented yet";
     return false;
 }
-
-} // namespace asrob

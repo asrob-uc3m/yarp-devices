@@ -1,20 +1,18 @@
 // -*- mode:C++; tab-width:4; c-basic-offset:4; indent-tabs-mode:nil -*-
 
 #include "EcroPwmController.hpp"
+#include "LogComponent.hpp"
 
-#include <yarp/os/LogStream.h>
-
-namespace asrob
-{
+using namespace asrob;
 
 bool EcroPwmController::open(yarp::os::Searchable& config)
 {
     std::string serialPortName = config.check("serialPortName", yarp::os::Value(DEFAULT_SERIAL_PORT_NAME), "serialPortName").asString();
 
-    yInfo() << "EcroPwmController options:";
-    yInfo() << "--serialPortName" << serialPortName;
+    yCInfo(EPC) << "EcroPwmController options:";
+    yCInfo(EPC) << "--serialPortName" << serialPortName;
 
-    yDebug() << "Init Serial Port";
+    yCDebug(EPC) << "Init Serial Port";
     serialPort = new SerialPort(serialPortName); // "/dev/ttyUSB0"
 
     try
@@ -25,11 +23,11 @@ bool EcroPwmController::open(yarp::os::Searchable& config)
     }
     catch (SerialPort::OpenFailed e)
     {
-        yError() << "Error opening the serial port" << serialPortName;
+        yCError(EPC) << "Error opening the serial port" << serialPortName;
         return false;
     }
 
-    yInfo() << "Ok Serial Port:" << serialPortName << "(without check)";
+    yCInfo(EPC) << "Ok Serial Port:" << serialPortName << "(without check)";
 
     leftMotorVelocity = leftMotorInitial;
     rightMotorVelocity = rightMotorInitial;
@@ -44,5 +42,3 @@ bool EcroPwmController::close()
     serialPort = 0;
     return true;
 }
-
-} // namespace asrob

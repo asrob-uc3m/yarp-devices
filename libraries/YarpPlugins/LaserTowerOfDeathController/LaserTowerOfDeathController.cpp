@@ -3,33 +3,31 @@
 // URL: https://github.com/asrob-uc3m/yarp-devices
 
 #include "LaserTowerOfDeathController.hpp"
+#include "LogComponent.hpp"
 
-#include <yarp/os/LogStream.h>
-
-namespace asrob
-{
+using namespace asrob;
 
 bool LaserTowerOfDeathController::moveForward(double value)
 {
-    yDebug() << "moveForward" << value;
+    yCDebug(LTODC) << "moveForward" << value;
     return true;
 }
 
 bool LaserTowerOfDeathController::turnLeft(double value)
 {
-    yDebug() << "turnLeft" << value;
+    yCDebug(LTODC) << "turnLeft" << value;
     return true;
 }
 
 bool LaserTowerOfDeathController::stopMovement()
 {
-    yDebug() << "stopMovement";
+    yCDebug(LTODC) << "stopMovement";
     return true;
 }
 
 bool LaserTowerOfDeathController::tiltDown(double value)
 {
-    yDebug() << "tiltDown" << value;
+    yCDebug(LTODC) << "tiltDown" << value;
 
     if (tiltJointValue - value > tiltRangeMax)
         tiltJointValue = tiltRangeMax;
@@ -43,7 +41,7 @@ bool LaserTowerOfDeathController::tiltDown(double value)
 
 bool LaserTowerOfDeathController::panLeft(double value)
 {
-    yDebug() << "panLeft" << value;
+    yCDebug(LTODC) << "panLeft" << value;
 
     if (panJointValue + value > panRangeMax)
         panJointValue = panRangeMax;
@@ -57,7 +55,7 @@ bool LaserTowerOfDeathController::panLeft(double value)
 
 bool LaserTowerOfDeathController::stopCameraMovement()
 {
-    yError() << "stopCameraMovement not implemented yet";
+    yCError(LTODC) << "stopCameraMovement not implemented yet";
     return false;
 }
 
@@ -76,7 +74,7 @@ bool LaserTowerOfDeathController::sendCurrentJointValues()
     }
     else
     {
-        yWarning() << "Robot could not send joints (because it is not connected)";
+        yCWarning(LTODC) << "Robot could not send joints (because it is not connected)";
         return false;
     }
 }
@@ -92,7 +90,7 @@ bool LaserTowerOfDeathController::checkConnection()
     }
     catch (SerialPort::ReadTimeout e)
     {
-        yError() << "Timeout! Exiting...";
+        yCError(LTODC) << "Timeout! Exiting...";
         return false;
     }
 
@@ -110,5 +108,3 @@ bool LaserTowerOfDeathController::checkConnection()
 
     return !diffFlag;
 }
-
-} // namespace asrob

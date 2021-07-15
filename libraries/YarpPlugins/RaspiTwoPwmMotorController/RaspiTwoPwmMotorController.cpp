@@ -3,11 +3,9 @@
 // URL: https://github.com/asrob-uc3m/yarp-devices
 
 #include "RaspiTwoPwmMotorController.hpp"
+#include "LogComponent.hpp"
 
-#include <yarp/os/LogStream.h>
-
-namespace asrob
-{
+using namespace asrob;
 
 const int RaspiTwoPwmMotorController::LEFT_MOTOR_IN1 = 24;
 const int RaspiTwoPwmMotorController::LEFT_MOTOR_IN2 = 23;
@@ -19,7 +17,7 @@ bool RaspiTwoPwmMotorController::indexWithinRange(const int& idx)
 {
     if (idx >= gpios.size())
     {
-        yWarning() << "Index out of range!!" << idx << ">=" << gpios.size();
+        yCWarning(RTPMC) << "Index out of range!!" << idx << ">=" << gpios.size();
         return false;
     }
 
@@ -28,7 +26,7 @@ bool RaspiTwoPwmMotorController::indexWithinRange(const int& idx)
 
 bool RaspiTwoPwmMotorController::moveForward(double value)
 {
-    yDebug() << "moveForward" << value;
+    yCDebug(RTPMC) << "moveForward" << value;
 
     digitalWrite(LEFT_MOTOR_IN1, 1);
     digitalWrite(LEFT_MOTOR_IN2, 0);
@@ -39,7 +37,7 @@ bool RaspiTwoPwmMotorController::moveForward(double value)
 
 bool RaspiTwoPwmMotorController::turnLeft(double value)
 {
-    yDebug() << "turnLeft" << value;
+    yCDebug(RTPMC) << "turnLeft" << value;
 
     digitalWrite(LEFT_MOTOR_IN1, 0);
     digitalWrite(LEFT_MOTOR_IN2, 1);
@@ -51,7 +49,7 @@ bool RaspiTwoPwmMotorController::turnLeft(double value)
 
 bool RaspiTwoPwmMotorController::stopMovement()
 {
-    yDebug() << "stopMovement";
+    yCDebug(RTPMC) << "stopMovement";
 
     digitalWrite(LEFT_MOTOR_IN1, 1);
     digitalWrite(LEFT_MOTOR_IN2, 1);
@@ -64,20 +62,18 @@ bool RaspiTwoPwmMotorController::stopMovement()
 //-- Robot camera related functions
 bool RaspiTwoPwmMotorController::tiltDown(double value)
 {
-    yError() << "tiltDown not implemented yet";
+    yCError(RTPMC) << "tiltDown not implemented yet";
     return false;
 }
 
 bool RaspiTwoPwmMotorController::panLeft(double value)
 {
-    yError() << "panLeft not implemented yet";
+    yCError(RTPMC) << "panLeft not implemented yet";
     return false;
 }
 
 bool RaspiTwoPwmMotorController::stopCameraMovement()
 {
-    yError() << "stopCameraMovement not implemented yet";
+    yCError(RTPMC) << "stopCameraMovement not implemented yet";
     return false;
 }
-
-} // namespace asrob

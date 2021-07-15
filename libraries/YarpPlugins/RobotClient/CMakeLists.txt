@@ -12,7 +12,9 @@ if(NOT SKIP_RobotClient)
 
     yarp_add_plugin(RobotClient RobotClient.hpp
                                 RobotClient.cpp
-                                DeviceDriverImpl.cpp)
+                                DeviceDriverImpl.cpp
+                                LogComponent.hpp
+                                LogComponent.cpp)
 
     target_link_libraries(RobotClient YARP::YARP_os
                                       YARP::YARP_dev

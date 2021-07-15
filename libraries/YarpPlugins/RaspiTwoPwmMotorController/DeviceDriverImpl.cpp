@@ -3,22 +3,20 @@
 // URL: https://github.com/asrob-uc3m/yarp-devices
 
 #include "RaspiTwoPwmMotorController.hpp"
+#include "LogComponent.hpp"
 
-#include <yarp/os/LogStream.h>
-
-namespace asrob
-{
+using namespace asrob;
 
 bool RaspiTwoPwmMotorController::open(yarp::os::Searchable& config)
 {
     yarp::os::Bottle gpiosBottle = config.findGroup("gpios").tail(); //-- e.g. 17 27
 
-    yInfo() << "RaspiTwoPwmMotorController options:";
-    yInfo() << "--gpios" << gpiosBottle.toString();
+    yCInfo(RTPMC) << "RaspiTwoPwmMotorController options:";
+    yCInfo(RTPMC) << "--gpios" << gpiosBottle.toString();
 
     if (gpiosBottle.size() < 1)
     {
-        yError() << "Please specify at least one gpio";
+        yCError(RTPMC) << "Please specify at least one gpio";
         return false;
     }
 
@@ -39,5 +37,3 @@ bool RaspiTwoPwmMotorController::close()
 {
     return true;
 }
-
-} // namespace asrob

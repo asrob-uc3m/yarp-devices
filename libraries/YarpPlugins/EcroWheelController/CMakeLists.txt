@@ -18,7 +18,9 @@ if(NOT SKIP_EcroWheelController)
 
     yarp_add_plugin(EcroWheelController EcroWheelController.hpp
                                         EcroWheelController.cpp
-                                        DeviceDriverImpl.cpp)
+                                        DeviceDriverImpl.cpp
+                                        LogComponent.hpp
+                                        LogComponent.cpp)
 
     target_link_libraries(EcroWheelController YARP::YARP_os
                                               YARP::YARP_dev

@@ -5,48 +5,44 @@
 #include "RobotClient.hpp"
 
 #include <yarp/conf/version.h>
-#include <yarp/os/LogStream.h>
 
-namespace asrob
-{
+#include "LogComponent.hpp"
 
-RobotClient::RobotClient()
-{
-}
+using namespace asrob;
 
 bool RobotClient::moveForward(double value)
 {
-    yDebug() << "moveForward" << value;
-    return send1vocab1double(VOCAB_MOVE_FORWARD,value);
+    yCDebug(RC) << "moveForward" << value;
+    return send1vocab1double(VOCAB_MOVE_FORWARD, value);
 }
 
 bool RobotClient::turnLeft(double value)
 {
-    yDebug() << "turnLeft" << value;
-    return send1vocab1double(VOCAB_TURN_LEFT,value);
+    yCDebug(RC) << "turnLeft" << value;
+    return send1vocab1double(VOCAB_TURN_LEFT, value);
 }
 
 bool RobotClient::stopMovement()
 {
-    yDebug() << "stopMovement";
+    yCDebug(RC) << "stopMovement";
     return send1vocab(VOCAB_STOP_MOVEMENT);
 }
 
 bool RobotClient::tiltDown(double value)
 {
-    yDebug() << "tiltDown" << value;
-    return send1vocab1double(VOCAB_TILT_DOWN,value);
+    yCDebug(RC) << "tiltDown" << value;
+    return send1vocab1double(VOCAB_TILT_DOWN, value);
 }
 
 bool RobotClient::panLeft(double value)
 {
-    yDebug() << "panLeft" << value;
-    return send1vocab1double(VOCAB_PAN_LEFT,value);
+    yCDebug(RC) << "panLeft" << value;
+    return send1vocab1double(VOCAB_PAN_LEFT, value);
 }
 
 bool RobotClient::stopCameraMovement()
 {
-    yDebug() << "stopCameraMovement";
+    yCDebug(RC) << "stopCameraMovement";
     return send1vocab(VOCAB_STOP_CAMERA_MOVEMENT);
 }
 
@@ -90,5 +86,3 @@ bool RobotClient::send1vocab(int vocab)
     else
         return false;
 }
-
-} // namespace asrob
