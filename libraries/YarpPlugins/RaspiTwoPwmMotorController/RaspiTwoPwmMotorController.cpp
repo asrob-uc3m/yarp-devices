@@ -3,6 +3,9 @@
 // URL: https://github.com/asrob-uc3m/yarp-devices
 
 #include "RaspiTwoPwmMotorController.hpp"
+
+#include <yarp/os/LogStream.h>
+
 #include "LogComponent.hpp"
 
 using namespace asrob;
@@ -32,6 +35,7 @@ bool RaspiTwoPwmMotorController::moveForward(double value)
     digitalWrite(LEFT_MOTOR_IN2, 0);
     digitalWrite(RIGHT_MOTOR_IN1, 1);
     digitalWrite(RIGHT_MOTOR_IN2, 0);
+
     return true;
 }
 

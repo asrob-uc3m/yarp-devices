@@ -3,9 +3,15 @@
 // URL: https://github.com/asrob-uc3m/yarp-devices
 
 #include "EcroWheelController.hpp"
+
+#include <yarp/os/LogStream.h>
+#include <yarp/os/Time.h>
+
 #include "LogComponent.hpp"
 
 using namespace asrob;
+
+constexpr auto DEFAULT_SERIAL_PORT_NAME = "/dev/ttyUSB0";
 
 bool EcroWheelController::open(yarp::os::Searchable& config)
 {
@@ -32,12 +38,12 @@ bool EcroWheelController::open(yarp::os::Searchable& config)
     if (serialPort->IsOpen())
     {
         SerialPort::DataBuffer outputBuff;
-        outputBuff.push_back(0x32);  // Invert motor 1
+        outputBuff.push_back(0x32); // Invert motor 1
         serialPort->Write( outputBuff );
         yarp::os::Time::delay(0.5);
 
         outputBuff.clear();
-        outputBuff.push_back(0x28);  // Este ambos, 29 limpiaria 1, 30 el 2 ?
+        outputBuff.push_back(0x28); // Este ambos, 29 limpiaria 1, 30 el 2 ?
         serialPort->Write( outputBuff );
         yarp::os::Time::delay(0.5);
     }
@@ -54,6 +60,6 @@ bool EcroWheelController::close()
 {
     serialPort->Close();
     delete serialPort;
-    serialPort = 0;
+    serialPort = nullptr;
     return true;
 }

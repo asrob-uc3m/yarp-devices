@@ -3,6 +3,9 @@
 // URL: https://github.com/asrob-uc3m/yarp-devices
 
 #include "FakeMotorController.hpp"
+
+#include <yarp/os/LogStream.h>
+
 #include "LogComponent.hpp"
 
 using namespace asrob;

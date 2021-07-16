@@ -5,6 +5,8 @@
 #include "RobotClient.hpp"
 
 #include <yarp/conf/version.h>
+#include <yarp/os/LogStream.h>
+#include <yarp/dev/GenericVocabs.h>
 
 #include "LogComponent.hpp"
 
@@ -58,13 +60,10 @@ bool RobotClient::send1vocab1double(int vocab, double value)
     rpcClient.write(cmd, response);
 
 #if YARP_VERSION_MINOR >= 5
-    if (response.get(0).asVocab32() == VOCAB_OK)
+    return response.get(0).asVocab32() == VOCAB_OK;
 #else
-    if (response.get(0).asVocab() == VOCAB_OK)
+    return response.get(0).asVocab() == VOCAB_OK;
 #endif
-        return true;
-    else
-        return false;
 }
 
 bool RobotClient::send1vocab(int vocab)
@@ -78,11 +77,8 @@ bool RobotClient::send1vocab(int vocab)
     rpcClient.write(cmd, response);
 
 #if YARP_VERSION_MINOR >= 5
-    if (response.get(0).asVocab32() == VOCAB_OK)
+    return response.get(0).asVocab32() == VOCAB_OK;
 #else
-    if (response.get(0).asVocab() == VOCAB_OK)
+    return response.get(0).asVocab() == VOCAB_OK;
 #endif
-        return true;
-    else
-        return false;
 }

@@ -24,12 +24,13 @@ constexpr int VOCAB_PAN_LEFT = yarp::os::createVocab('p','a','n','l');
 constexpr int VOCAB_STOP_CAMERA_MOVEMENT = yarp::os::createVocab('s','t','p','c');
 #endif
 
-namespace asrob{
+namespace asrob
+{
 
 /**
  * @ingroup yarp_devices_libraries
  *
- * \defgroup YarpPlugins
+ * @defgroup YarpPlugins
  *
   * @brief Base class for Robot Managers. Original copy of this file at https://github.com/asrob-uc3m/yarp-devices/blob/develop/libraries/YarpPlugins/IRobotManager.hpp
  */
@@ -54,9 +55,9 @@ public:
     /// @brief Robot camera: Stop movement.
     virtual bool stopCameraMovement() = 0;
 
-    virtual ~IRobotManager() {}
+    virtual ~IRobotManager() = default;
 };
 
 }
 
-#endif //-- __I_ROBOT_MANAGER_HPP__
+#endif // __I_ROBOT_MANAGER_HPP__

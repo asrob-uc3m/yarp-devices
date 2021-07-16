@@ -1,6 +1,9 @@
 // -*- mode:C++; tab-width:4; c-basic-offset:4; indent-tabs-mode:nil -*-
 
 #include "EcroPwmController.hpp"
+
+#include <yarp/os/LogStream.h>
+
 #include "LogComponent.hpp"
 
 using namespace asrob;

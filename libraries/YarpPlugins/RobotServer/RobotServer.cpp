@@ -5,6 +5,8 @@
 #include "RobotServer.hpp"
 
 #include <yarp/conf/version.h>
+#include <yarp/os/LogStream.h>
+#include <yarp/dev/GenericVocabs.h>
 
 #include "LogComponent.hpp"
 
@@ -14,6 +16,7 @@ bool RobotServer::read(yarp::os::ConnectionReader& connection)
 {
     yarp::os::Bottle in, out;
     bool ok = in.read(connection);
+
     if (!ok) return false;
 
     // process data "in", prepare "out"
@@ -126,7 +129,7 @@ bool RobotServer::read(yarp::os::ConnectionReader& connection)
 
     yarp::os::ConnectionWriter *returnToSender = connection.getWriter();
 
-    if (returnToSender != NULL)
+    if (returnToSender)
     {
         out.write(*returnToSender);
     }

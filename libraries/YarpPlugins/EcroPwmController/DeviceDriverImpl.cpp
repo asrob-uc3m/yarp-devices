@@ -1,9 +1,14 @@
 // -*- mode:C++; tab-width:4; c-basic-offset:4; indent-tabs-mode:nil -*-
 
 #include "EcroPwmController.hpp"
+
+#include <yarp/os/LogStream.h>
+
 #include "LogComponent.hpp"
 
 using namespace asrob;
+
+constexpr auto DEFAULT_SERIAL_PORT_NAME = "/dev/ttyUSB0";
 
 bool EcroPwmController::open(yarp::os::Searchable& config)
 {
@@ -39,6 +44,6 @@ bool EcroPwmController::close()
 {
     serialPort->Close();
     delete serialPort;
-    serialPort = 0;
+    serialPort = nullptr;
     return true;
 }

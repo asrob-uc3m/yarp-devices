@@ -5,12 +5,9 @@
 #ifndef __RASPI_ONE_PWM_MOTOR_CONTROLLER__
 #define __RASPI_ONE_PWM_MOTOR_CONTROLLER__
 
-#include <yarp/os/all.h>
-#include <yarp/dev/ControlBoardInterfaces.h>
-#include <yarp/dev/Drivers.h>
-#include <yarp/dev/PolyDriver.h>
-
 #include <vector>
+
+#include <yarp/dev/DeviceDriver.h>
 
 #include "IRobotManager.hpp"
 
@@ -29,54 +26,30 @@ class RaspiOnePwmMotorController : public yarp::dev::DeviceDriver,
                                    public IRobotManager
 {
 public:
-
     // -------- RobotManager declarations. Implementation in RaspiOnePwmMotorController.cpp --------
 
     //-- Robot movement related functions
-    virtual bool moveForward(double value);
-    virtual bool turnLeft(double value);
-    virtual bool stopMovement();
+    bool moveForward(double value) override;
+    bool turnLeft(double value) override;
+    bool stopMovement() override;
 
     //-- Robot camera related functions
-    virtual bool tiltDown(double value);
-    virtual bool panLeft(double value);
-    virtual bool stopCameraMovement();
+    bool tiltDown(double value) override;
+    bool panLeft(double value) override;
+    bool stopCameraMovement() override;
 
     // -------- DeviceDriver declarations. Implementation in DeviceDriverImpl.cpp --------
-
-    /**
-    * Open the DeviceDriver.
-    * @param config is a list of parameters for the device.
-    * Which parameters are effective for your device can vary.
-    * See \ref dev_examples "device invocation examples".
-    * If there is no example for your device,
-    * you can run the "yarpdev" program with the verbose flag
-    * set to probe what parameters the device is checking.
-    * If that fails too,
-    * you'll need to read the source code (please nag one of the
-    * yarp developers to add documentation for your device).
-    * @return true/false upon success/failure
-    */
-    virtual bool open(yarp::os::Searchable& config);
-
-    /**
-    * Close the DeviceDriver.
-    * @return true/false on success/failure.
-    */
-    virtual bool close();
-
-    // ------------------------------- Private -------------------------------------
+    bool open(yarp::os::Searchable& config) override;
+    bool close() override;
 
 private:
-
     /** Check if index is within range (referred to driver vector size).
      * @param idx index to check.
      * @return true/false on success/failure.
      */
     bool indexWithinRange(const int& idx);
 
-    std::vector< int > gpios;
-
+    std::vector<int> gpios;
 };
 
 } // namespace asrob

@@ -3,6 +3,10 @@
 // URL: https://github.com/asrob-uc3m/yarp-devices
 
 #include "RobotServer.hpp"
+
+#include <yarp/os/LogStream.h>
+#include <yarp/os/Property.h>
+
 #include "LogComponent.hpp"
 
 using namespace asrob;
@@ -27,7 +31,9 @@ bool RobotServer::open(yarp::os::Searchable& config)
             robotDevice.open(p);
         }
         else
+        {
             robotDevice.open(*name);
+        }
     }
     else
     {
@@ -49,11 +55,13 @@ bool RobotServer::open(yarp::os::Searchable& config)
 
     //Look for the portname to register (--name option)
     if (config.check("name", name))
-        rpcServer.open(name->asString() + "/rpc:s");
+    {
+        return rpcServer.open(name->asString() + "/rpc:s");
+    }
     else
-        rpcServer.open("/RobotServer/rpc:s");
-
-    return true;
+    {
+        return rpcServer.open("/RobotServer/rpc:s");
+    }
 }
 
 bool RobotServer::close()

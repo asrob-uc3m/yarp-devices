@@ -3,9 +3,14 @@
 // URL: https://github.com/asrob-uc3m/yarp-devices
 
 #include "LaserTowerOfDeathController.hpp"
+
+#include <yarp/os/LogStream.h>
+
 #include "LogComponent.hpp"
 
 using namespace asrob;
+
+constexpr auto DEFAULT_SERIAL_PORT_NAME = "/dev/ttyUSB0";
 
 bool LaserTowerOfDeathController::open(yarp::os::Searchable& config)
 {
@@ -47,6 +52,6 @@ bool LaserTowerOfDeathController::close()
 {
     serialPort->Close();
     delete serialPort;
-    serialPort = 0;
+    serialPort = nullptr;
     return true;
 }

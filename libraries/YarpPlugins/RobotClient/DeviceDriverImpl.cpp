@@ -3,6 +3,11 @@
 // URL: https://github.com/asrob-uc3m/yarp-devices
 
 #include "RobotClient.hpp"
+
+#include <yarp/os/LogStream.h>
+#include <yarp/os/Network.h>
+#include <yarp/os/Time.h>
+
 #include "LogComponent.hpp"
 
 using namespace asrob;
@@ -39,7 +44,6 @@ bool RobotClient::open(yarp::os::Searchable& config)
     }
 
     yCInfo(RC) << "Connected to remote robot";
-
     return true;
 }
 

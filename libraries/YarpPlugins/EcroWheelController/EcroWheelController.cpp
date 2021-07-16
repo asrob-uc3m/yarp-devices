@@ -3,6 +3,10 @@
 // URL: https://github.com/asrob-uc3m/yarp-devices
 
 #include "EcroWheelController.hpp"
+
+#include <yarp/os/LogStream.h>
+#include <yarp/os/Time.h>
+
 #include "LogComponent.hpp"
 
 using namespace asrob;
