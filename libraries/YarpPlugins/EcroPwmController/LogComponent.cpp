@@ -2,6 +2,6 @@
 // CopyPolicy: released under the terms of the LGPLv2.1, see LICENSE at project root.
 // URL: https://github.com/asrob-uc3m/yarp-devices
 
-#include "EcroPwmControllerLogComponent.hpp"
+#include "LogComponent.hpp"
 
 YARP_LOG_COMPONENT(EPC, "asrob.EcroPwmController")
