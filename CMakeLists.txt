@@ -46,9 +46,10 @@ find_package(YCM 0.11 REQUIRED)
 find_package(YARP 3.4 REQUIRED COMPONENTS os dev)
 
 # Soft dependencies.
-find_package(Doxygen QUIET)
 find_package(LibSerial 0.6 QUIET)
 find_package(wiringPi QUIET)
+find_package(SWIG 3.0.12 QUIET)
+find_package(Doxygen QUIET)
 
 # Always build YARP devices as MODULE libraries.
 set(YARP_FORCE_DYNAMIC_PLUGINS TRUE CACHE INTERNAL "Force dynamic plugins")
@@ -91,6 +92,7 @@ include(CMakeDependentOption)
 add_subdirectory(libraries)
 #add_subdirectory(tests)
 add_subdirectory(share)
+add_subdirectory(bindings)
 add_subdirectory(doc)
 add_subdirectory(examples/cpp)
 

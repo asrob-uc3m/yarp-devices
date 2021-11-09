@@ -36,8 +36,7 @@ addons:
     # device deps
     - libserial-dev
     - libboost-dev # libserial-dev dependency (packaging bug on Xenial and later)
-
-    - libgtest-dev # unit testing
+    - swig # bindings
     - lcov # code coverage
 
 branches:
@@ -79,7 +78,7 @@ install:
 
 before_script:
   - mkdir -p "$TRAVIS_BUILD_DIR/build" && cd "$_"
-  - cmake .. -DCMAKE_INSTALL_PREFIX="$PWD/install" -DENABLE_coverage:BOOL=ON -DENABLE_examples:BOOL=ON
+  - cmake .. -DCMAKE_INSTALL_PREFIX="$PWD/install" -DENABLE_coverage:BOOL=ON -DCREATE_BINDINGS_PYTHON=ON -DENABLE_examples:BOOL=ON
   - make install
 
 script:
