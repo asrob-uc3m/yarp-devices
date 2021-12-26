@@ -4,7 +4,6 @@
 
 #include "RobotClient.hpp"
 
-#include <yarp/conf/version.h>
 #include <yarp/os/LogStream.h>
 #include <yarp/dev/GenericVocabs.h>
 
@@ -51,34 +50,16 @@ bool RobotClient::stopCameraMovement()
 bool RobotClient::send1vocab1double(int vocab, double value)
 {
     yarp::os::Bottle cmd, response;
-#if YARP_VERSION_MINOR >= 5
     cmd.addVocab32(vocab);
-#else
-    cmd.addVocab(vocab);
-#endif
     cmd.addFloat64(value);
     rpcClient.write(cmd, response);
-
-#if YARP_VERSION_MINOR >= 5
     return response.get(0).asVocab32() == VOCAB_OK;
-#else
-    return response.get(0).asVocab() == VOCAB_OK;
-#endif
 }
 
 bool RobotClient::send1vocab(int vocab)
 {
     yarp::os::Bottle cmd, response;
-#if YARP_VERSION_MINOR >= 5
     cmd.addVocab32(vocab);
-#else
-    cmd.addVocab(vocab);
-#endif
     rpcClient.write(cmd, response);
-
-#if YARP_VERSION_MINOR >= 5
     return response.get(0).asVocab32() == VOCAB_OK;
-#else
-    return response.get(0).asVocab() == VOCAB_OK;
-#endif
 }

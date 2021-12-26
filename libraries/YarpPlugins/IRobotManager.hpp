@@ -5,24 +5,14 @@
 #ifndef __I_ROBOT_MANAGER_HPP__
 #define __I_ROBOT_MANAGER_HPP__
 
-#include <yarp/conf/version.h>
 #include <yarp/os/Vocab.h>
 
-#if YARP_VERSION_MINOR >= 5
 constexpr int VOCAB_MOVE_FORWARD = yarp::os::createVocab32('m','o','v','f');
 constexpr int VOCAB_TURN_LEFT = yarp::os::createVocab32('t','r','n','l');
 constexpr int VOCAB_STOP_MOVEMENT = yarp::os::createVocab32('s','t','p','m');
 constexpr int VOCAB_TILT_DOWN = yarp::os::createVocab32('t','l','t','d');
 constexpr int VOCAB_PAN_LEFT = yarp::os::createVocab32('p','a','n','l');
 constexpr int VOCAB_STOP_CAMERA_MOVEMENT = yarp::os::createVocab32('s','t','p','c');
-#else
-constexpr int VOCAB_MOVE_FORWARD = yarp::os::createVocab('m','o','v','f');
-constexpr int VOCAB_TURN_LEFT = yarp::os::createVocab('t','r','n','l');
-constexpr int VOCAB_STOP_MOVEMENT = yarp::os::createVocab('s','t','p','m');
-constexpr int VOCAB_TILT_DOWN = yarp::os::createVocab('t','l','t','d');
-constexpr int VOCAB_PAN_LEFT = yarp::os::createVocab('p','a','n','l');
-constexpr int VOCAB_STOP_CAMERA_MOVEMENT = yarp::os::createVocab('s','t','p','c');
-#endif
 
 namespace asrob
 {

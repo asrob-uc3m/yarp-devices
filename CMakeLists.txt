@@ -43,7 +43,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake
 
 # Hard dependencies.
 find_package(YCM 0.11 REQUIRED)
-find_package(YARP 3.4 REQUIRED COMPONENTS os dev)
+find_package(YARP 3.5 REQUIRED COMPONENTS os dev)
 
 # Soft dependencies.
 find_package(LibSerial 0.6 QUIET)

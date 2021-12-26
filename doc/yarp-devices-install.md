@@ -10,7 +10,7 @@ Some dependencies must be installed for all the devices:
 
 - [Install CMake 3.12+](https://github.com/roboticslab-uc3m/installation-guides/blob/master/install-cmake.md/)
 - [Install YCM 0.11+](https://github.com/roboticslab-uc3m/installation-guides/blob/master/install-ycm.md/)
-- [Install YARP 3.4+](https://github.com/roboticslab-uc3m/installation-guides/blob/master/install-yarp.md/)
+- [Install YARP 3.5+](https://github.com/roboticslab-uc3m/installation-guides/blob/master/install-yarp.md/)
 
 ## Installation (Ubuntu)
 
