@@ -1,4 +1,4 @@
-[![Yarp-devices Homepage](https://img.shields.io/badge/yarp-devices-orange.svg)](http://wiki.asrob.uc3m.es/dox-yarp-devices) [![Latest Release](https://img.shields.io/github/tag/asrob-uc3m/yarp-devices.svg?label=Latest%20Release)](https://github.com/asrob-uc3m/yarp-devices/tags)
+[![Yarp-devices Homepage](https://img.shields.io/badge/yarp-devices-orange.svg)](https://asrob.uc3m.es/yarp-devices) [![Latest Release](https://img.shields.io/github/tag/asrob-uc3m/yarp-devices.svg?label=Latest%20Release)](https://github.com/asrob-uc3m/yarp-devices/tags)
 
 A place for YARP devices.
 
