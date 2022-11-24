@@ -6,8 +6,8 @@
 #define __ECRO_WHEEL_CONTROLLER__
 
 #include <yarp/dev/DeviceDriver.h>
-
-#include <SerialStream.h>
+#include <yarp/dev/ISerialDevice.h>
+#include <yarp/dev/PolyDriver.h>
 
 #include "IRobotManager.hpp"
 
@@ -39,18 +39,10 @@ public:
     bool close() override;
 
 private:
-    SerialPort * serialPort;
     bool sendCurrentJointValues(int16_t positions1);
 
-    static const int panRangeMin = 0;
-    static const int panRangeMax = 180;
-    static const int panStep = 10;
-    static const int panInitial = 90;
-
-    static const int tiltRangeMin = 0;
-    static const int tiltRangeMax = 180;
-    static const int tiltStep = 10;
-    static const int tiltInitial = 90;
+    yarp::dev::PolyDriver serialDevice;
+    yarp::dev::ISerialDevice * serial;
 };
 
 } // namespace asrob

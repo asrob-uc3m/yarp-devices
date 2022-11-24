@@ -4,8 +4,8 @@
 #define __ECRO_PWM_CONTROLLER__
 
 #include <yarp/dev/DeviceDriver.h>
-
-#include <SerialStream.h>
+#include <yarp/dev/ISerialDevice.h>
+#include <yarp/dev/PolyDriver.h>
 
 #include "IRobotManager.hpp"
 
@@ -37,22 +37,13 @@ public:
     bool close() override;
 
 private:
-    SerialPort * serialPort;
     bool sendCurrentJointValues();
 
-    int leftMotorVelocity;
-    int rightMotorVelocity;
+    yarp::dev::PolyDriver serialDevice;
+    yarp::dev::ISerialDevice * serial;
 
-    static const int leftMotorRangeMin = 0;
-    static const int leftMotorRangeMax = 90;
-    static const int leftMotorInitial = 0;
-
-    static const int rightMotorRangeMin = 0;
-    static const int rightMotorRangeMax = 90;
-    static const int rightMotorInitial = 0;
-
-    static const int leftMotorOffset = 90;
-    static const int rightMotorOffset = 90;
+    int leftMotorVelocity {0};
+    int rightMotorVelocity {0};
 };
 
 } // namespace asrob

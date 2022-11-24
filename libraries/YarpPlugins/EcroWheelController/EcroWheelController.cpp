@@ -5,51 +5,50 @@
 #include "EcroWheelController.hpp"
 
 #include <yarp/os/LogStream.h>
-#include <yarp/os/Time.h>
+#include <yarp/os/SystemClock.h>
 
 #include "LogComponent.hpp"
 
 using namespace asrob;
 
+constexpr int panRangeMin = 0;
+constexpr int panRangeMax = 180;
+constexpr int panStep = 10;
+constexpr int panInitial = 90;
+
+constexpr int tiltRangeMin = 0;
+constexpr int tiltRangeMax = 180;
+constexpr int tiltStep = 10;
+constexpr int tiltInitial = 90;
+
 bool EcroWheelController::moveForward(double value)
 {
     yCDebug(EWC) << "moveForward" << value;
 
-    if (serialPort->IsOpen())
-    {
-        SerialPort::DataBuffer outputBuff;
+    char msg[1];
 
-        outputBuff.push_back(0x20);  // Both Wheels
-        serialPort->Write(outputBuff);
-        yarp::os::Time::delay(0.05);
+    msg[0] = 0x20; // Both Wheels
+    serial->send(msg, 1);
+    yarp::os::SystemClock::delaySystem(0.05);
 
-        int16_t positions1 = value;
-        int8_t positions1_high = positions1;
-        positions1 <<= 8;
-        int8_t positions1_low = positions1;
+    int16_t positions1 = value;
+    int8_t positions1_high = positions1;
+    positions1 <<= 8;
+    int8_t positions1_low = positions1;
 
-        yDebug(EWC, "2 bytes: 0x%x", positions1);
-        yDebug(EWC, "high byte: 0x%x", positions1_high);
-        yDebug(EWC, "low byte: 0x%x", positions1_low);
+    yCDebug(EWC, "2 bytes: 0x%x", positions1);
+    yCDebug(EWC, "high byte: 0x%x", positions1_high);
+    yCDebug(EWC, "low byte: 0x%x", positions1_low);
 
-        outputBuff.clear();
-        outputBuff.push_back(positions1_low);  // 0x01
-        serialPort->Write(outputBuff);
-        yarp::os::Time::delay(0.05);
+    msg[0] = positions1_low; // 0x01
+    serial->send(msg, 1);
+    yarp::os::SystemClock::delaySystem(0.05);
 
-        outputBuff.clear();
-        outputBuff.push_back(positions1_high);  // 0x01
-        serialPort->Write(outputBuff);
-        yarp::os::Time::delay(0.05);
+    msg[0] = positions1_high; // 0x00
+    serial->send(msg, 1);
+    yarp::os::SystemClock::delaySystem(0.05);
 
-        yCDebug(EWC) << "high byte";
-    }
-    else
-    {
-        yCWarning(EWC) << "Robot could not send joints (because it is not connected)";
-        return false;
-    }
-
+    yCDebug(EWC) << "high byte";
     return true;
 }
 
@@ -57,59 +56,47 @@ bool EcroWheelController::turnLeft(double value)
 {
     yCDebug(EWC) << "turnLeft" << value;
 
-    if (serialPort->IsOpen())
-    {
-        SerialPort::DataBuffer outputBuff;
-        outputBuff.push_back(0x21);  // Wheels 1
-        serialPort->Write(outputBuff);
-        yarp::os::Time::delay(0.05);
+    char msg[1];
 
-        int16_t positions1 = value;
-        int8_t positions1_high = positions1;
-        positions1 <<= 8;
-        int8_t positions1_low = positions1;
+    msg[0] = 0x21; // Wheel 1
+    serial->send(msg, 1);
+    yarp::os::SystemClock::delaySystem(0.05);
 
-        yDebug(EWC, "2 bytes: 0x%x", positions1);
-        yDebug(EWC, "high byte: 0x%x", positions1_high);
-        yDebug(EWC, "low byte: 0x%x", positions1_low);
+    int16_t positions1 = value;
+    int8_t positions1_high = positions1;
+    positions1 <<= 8;
+    int8_t positions1_low = positions1;
 
-        outputBuff.clear();
-        outputBuff.push_back(positions1_low);  // 0x01
-        serialPort->Write(outputBuff);
-        yarp::os::Time::delay(0.05);
+    yCDebug(EWC, "2 bytes: 0x%x", positions1);
+    yCDebug(EWC, "high byte: 0x%x", positions1_high);
+    yCDebug(EWC, "low byte: 0x%x", positions1_low);
 
-        outputBuff.clear();
-        outputBuff.push_back(positions1_high);  // 0x01
-        serialPort->Write(outputBuff);
-        yarp::os::Time::delay(0.05);
+    msg[0] = positions1_low; // 0x01
+    serial->send(msg, 1);
+    yarp::os::SystemClock::delaySystem(0.05);
 
-        int16_t positions2 = -value;
-        int8_t positions2_high = positions2;
-        positions2 <<= 8;
-        int8_t positions2_low = positions2;
+    msg[0] = positions1_high; // 0x01
+    serial->send(msg, 1);
+    yarp::os::SystemClock::delaySystem(0.05);
 
-        outputBuff.clear();
-        outputBuff.push_back(0x22);  // Wheel2
-        serialPort->Write(outputBuff);
-        yarp::os::Time::delay(0.05);
+    int16_t positions2 = -value;
+    int8_t positions2_high = positions2;
+    positions2 <<= 8;
+    int8_t positions2_low = positions2;
 
-        outputBuff.clear();
-        outputBuff.push_back(positions2_low);  // 0x01
-        serialPort->Write(outputBuff);
-        yarp::os::Time::delay(0.05);
-        outputBuff.clear();
-        outputBuff.push_back(positions2_high);  // 0x01
-        serialPort->Write(outputBuff);
-        yarp::os::Time::delay(0.05);
+    msg[0] = 0x22; // Wheel 2
+    serial->send(msg, 1);
+    yarp::os::SystemClock::delaySystem(0.05);
 
-        yCDebug(EWC) << "high byte";
-    }
-    else
-    {
-        yCWarning(EWC) << "Robot could not send joints (because it is not connected)";
-        return false;
-    }
+    msg[0] = positions2_low; // 0x01
+    serial->send(msg, 1);
+    yarp::os::SystemClock::delaySystem(0.05);
 
+    msg[0] = positions2_high; // 0x01
+    serial->send(msg, 1);
+    yarp::os::SystemClock::delaySystem(0.05);
+
+    yCDebug(EWC) << "high byte";
     return true;
 }
 
@@ -117,23 +104,15 @@ bool EcroWheelController::stopMovement()
 {
     yCDebug(EWC) << "stopMovement";
 
-    if (serialPort->IsOpen())
-    {
-        SerialPort::DataBuffer outputBuff;
-        outputBuff.push_back(0x32);  // Invert motor 1
-        serialPort->Write(outputBuff);
-        yarp::os::Time::delay(0.5);
+    char msg[1];
 
-        outputBuff.clear();
-        outputBuff.push_back(0x28);  // Este ambos, 29 limpiaria 1, 30 el 2 ?
-        serialPort->Write(outputBuff);
-        yarp::os::Time::delay(0.5);
-    }
-    else
-    {
-        yCWarning(EWC) << "Robot could not revert wheel command (because it is not connected)";
-        return false;
-    }
+    msg[0] = 0x32; // invert motor 1
+    serial->send(msg, 1);
+    yarp::os::SystemClock::delaySystem(0.5);
+
+    msg[0] = {0x28};
+    serial->send(msg, 1); // wste ambos, 29 limpiaria 1, 30 el 2?
+    yarp::os::SystemClock::delaySystem(0.5);
 
     return true;
 }

@@ -3,6 +3,7 @@
 #include "EcroPwmController.hpp"
 
 #include <yarp/os/LogStream.h>
+#include <yarp/os/Property.h>
 
 #include "LogComponent.hpp"
 
@@ -12,38 +13,32 @@ constexpr auto DEFAULT_SERIAL_PORT_NAME = "/dev/ttyUSB0";
 
 bool EcroPwmController::open(yarp::os::Searchable& config)
 {
-    std::string serialPortName = config.check("serialPortName", yarp::os::Value(DEFAULT_SERIAL_PORT_NAME), "serialPortName").asString();
+    auto serialPortName = config.check("serialPortName", yarp::os::Value(DEFAULT_SERIAL_PORT_NAME), "serialPortName").asString();
 
-    yCInfo(EPC) << "EcroPwmController options:";
-    yCInfo(EPC) << "--serialPortName" << serialPortName;
+    yarp::os::Property serialDeviceOptions {
+        {"device", yarp::os::Value("serialport")},
+        {"comport", yarp::os::Value(serialPortName)},
+        {"baudrate", yarp::os::Value(57600)},
+        {"paritymode", yarp::os::Value("NONE")},
+        {"databits", yarp::os::Value(8)}
+    };
 
-    yCDebug(EPC) << "Init Serial Port";
-    serialPort = new SerialPort(serialPortName); // "/dev/ttyUSB0"
-
-    try
+    if (!serialDevice.open(serialDeviceOptions))
     {
-        serialPort->Open(SerialPort::BAUD_57600, SerialPort::CHAR_SIZE_8,
-                         SerialPort::PARITY_NONE, SerialPort::STOP_BITS_1,
-                         SerialPort::FLOW_CONTROL_NONE);
-    }
-    catch (SerialPort::OpenFailed e)
-    {
-        yCError(EPC) << "Error opening the serial port" << serialPortName;
+        yCError(EPC) << "Could not open serial device";
         return false;
     }
 
-    yCInfo(EPC) << "Ok Serial Port:" << serialPortName << "(without check)";
-
-    leftMotorVelocity = leftMotorInitial;
-    rightMotorVelocity = rightMotorInitial;
+    if (!serialDevice.view(serial))
+    {
+        yCError(EPC) << "Could not view serial interface";
+        return false;
+    }
 
     return true;
 }
 
 bool EcroPwmController::close()
 {
-    serialPort->Close();
-    delete serialPort;
-    serialPort = nullptr;
-    return true;
+    return serialDevice.close();
 }
