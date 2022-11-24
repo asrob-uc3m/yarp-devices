@@ -8,6 +8,15 @@
 
 using namespace asrob;
 
+constexpr int leftMotorRangeMin = 0;
+constexpr int leftMotorRangeMax = 90;
+
+constexpr int rightMotorRangeMin = 0;
+constexpr int rightMotorRangeMax = 90;
+
+constexpr int leftMotorOffset = 90;
+constexpr int rightMotorOffset = 90;
+
 bool EcroPwmController::moveForward(double value)
 {
     yCDebug(EPC) << "moveForward" << value;
@@ -67,20 +76,13 @@ bool EcroPwmController::stopCameraMovement()
 
 bool EcroPwmController::sendCurrentJointValues()
 {
-    if (serialPort->IsOpen())
-    {
-        SerialPort::DataBuffer outputBuff;
-        outputBuff.push_back(0x50); //-- 0x50 -> Set pos to all joints
+    char msg[] = {0x50, static_cast<char>(leftMotorVelocity), static_cast<char>(rightMotorVelocity)};
 
-        outputBuff.push_back((char) leftMotorVelocity);
-        outputBuff.push_back((char) rightMotorVelocity);
-        serialPort->Write( outputBuff );
-
-        return true;
-    }
-    else
+    if (!serial->send(msg, sizeof(msg)))
     {
-        yCWarning(EPC) << "Robot could not send joints (because it is not connected)";
+        yCError(EPC) << "Error sending message";
         return false;
     }
+
+    return true;
 }

@@ -5,6 +5,7 @@
 #include "LaserTowerOfDeathController.hpp"
 
 #include <yarp/os/LogStream.h>
+#include <yarp/os/Property.h>
 
 #include "LogComponent.hpp"
 
@@ -14,44 +15,38 @@ constexpr auto DEFAULT_SERIAL_PORT_NAME = "/dev/ttyUSB0";
 
 bool LaserTowerOfDeathController::open(yarp::os::Searchable& config)
 {
-    std::string serialPortName = config.check("serialPortName", yarp::os::Value(DEFAULT_SERIAL_PORT_NAME), "serialPortName").asString();
+    auto serialPortName = config.check("serialPortName", yarp::os::Value(DEFAULT_SERIAL_PORT_NAME), "serialPortName").asString();
 
-    yCInfo(LTODC) << "LaserTowerOfDeathController options:";
-    yCInfo(LTODC) << "--serialPortName" << serialPortName;
+    yarp::os::Property serialDeviceOptions {
+        {"device", yarp::os::Value("serialport")},
+        {"comport", yarp::os::Value(serialPortName)},
+        {"baudrate", yarp::os::Value(57600)},
+        {"paritymode", yarp::os::Value("NONE")},
+        {"databits", yarp::os::Value(8)}
+    };
 
-    yCDebug(LTODC) << "Init Serial Port";
-    serialPort = new SerialPort(serialPortName); // "/dev/ttyUSB0"
-
-    try
+    if (!serialDevice.open(serialDeviceOptions))
     {
-        serialPort->Open(SerialPort::BAUD_57600, SerialPort::CHAR_SIZE_8,
-                         SerialPort::PARITY_NONE, SerialPort::STOP_BITS_1,
-                         SerialPort::FLOW_CONTROL_NONE);
+        yCError(LTODC) << "Could not open serial device";
+        return false;
     }
-    catch (SerialPort::OpenFailed e)
+
+    if (!serialDevice.view(serial))
     {
-        yCError(LTODC) << "Error opening the serial port:" << serialPortName;
+        yCError(LTODC) << "Could not view serial interface";
         return false;
     }
 
     if (!checkConnection())
     {
-        yCError(LTODC) << "Error communicating with the robot. Exiting...";
+        yCError(LTODC) << "Error communicating with the robot";
         return false;
     }
-
-    yCInfo(LTODC) << "Ok Serial Port" << serialPortName;
-
-    panJointValue = panInitial;
-    tiltJointValue = tiltInitial;
 
     return true;
 }
 
 bool LaserTowerOfDeathController::close()
 {
-    serialPort->Close();
-    delete serialPort;
-    serialPort = nullptr;
-    return true;
+    return serialDevice.close();
 }

@@ -107,7 +107,7 @@ install:
             Start-FileDownload "$env:YARP_DOWNLOAD_URL" -FileName "$env:DOWNLOADS_PATH\yarp.zip"
             7z x -y -o"$env:DOWNLOADS_PATH" "$env:DOWNLOADS_PATH\yarp.zip"
             $env:yarp_temp = "$env:DOWNLOADS_PATH\yarp-$env:YARP_LATEST"
-            cmake -H"$env:yarp_temp" -B"$env:yarp_temp\build" -A"$env:PLATFORM" -DCMAKE_INSTALL_PREFIX:PATH=C:\YARP
+            cmake -H"$env:yarp_temp" -B"$env:yarp_temp\build" -A"$env:PLATFORM" -DCMAKE_INSTALL_PREFIX:PATH=C:\YARP -DENABLE_yarpmod_serialport:BOOL=ON
             cmake --build "$env:yarp_temp\build" --config "$env:CONFIGURATION" --target INSTALL -- /m /v:m
             Set-Content C:\YARP\.version "$env:YARP_LATEST"
         }

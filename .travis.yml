@@ -33,9 +33,6 @@ cache:
 addons:
   apt:
     packages:
-    # device deps
-    - libserial-dev
-    - libboost-dev # libserial-dev dependency (packaging bug on Xenial and later)
     - swig # bindings
     - lcov # code coverage
 
@@ -72,7 +69,7 @@ install:
     --package-name YARP
     --repo-url https://github.com/robotology/yarp
     --repo-checkout "${ROBOTOLOGY_CHECKOUT:-$YARP_CHECKOUT}"
-    --additional-cmake-options "-DSKIP_ACE:BOOL=ON"
+    --additional-cmake-options "-DENABLE_yarpmod_serialport:BOOL=ON"
     --prepend-to-linker-path lib
     --additional-export-paths "YARP_DATA_DIRS;share/yarp"
 

@@ -5,7 +5,7 @@
 #include "EcroWheelController.hpp"
 
 #include <yarp/os/LogStream.h>
-#include <yarp/os/Time.h>
+#include <yarp/os/Property.h>
 
 #include "LogComponent.hpp"
 
@@ -15,41 +15,31 @@ constexpr auto DEFAULT_SERIAL_PORT_NAME = "/dev/ttyUSB0";
 
 bool EcroWheelController::open(yarp::os::Searchable& config)
 {
-    std::string serialPortName = config.check("serialPortName", yarp::os::Value(DEFAULT_SERIAL_PORT_NAME), "serialPortName").asString();
+    auto serialPortName = config.check("serialPortName", yarp::os::Value(DEFAULT_SERIAL_PORT_NAME), "serialPortName").asString();
 
-    yCInfo(EWC) << "EcroWheelController options:";
-    yCInfo(EWC) << "--serialPortName" << serialPortName;
+    yarp::os::Property serialDeviceOptions {
+        {"device", yarp::os::Value("serialport")},
+        {"comport", yarp::os::Value(serialPortName)},
+        {"baudrate", yarp::os::Value(19200)},
+        {"paritymode", yarp::os::Value("NONE")},
+        {"databits", yarp::os::Value(8)}
+    };
 
-    yCDebug(EWC) << "Init Serial Port";
-    serialPort = new SerialPort(serialPortName); // "/dev/ttyUSB0"
-
-    try
+    if (!serialDevice.open(serialDeviceOptions))
     {
-        serialPort->Open(SerialPort::BAUD_19200, SerialPort::CHAR_SIZE_8,
-                         SerialPort::PARITY_NONE, SerialPort::STOP_BITS_1,
-                         SerialPort::FLOW_CONTROL_NONE);
-    }
-    catch (SerialPort::OpenFailed e)
-    {
-        yCError(EWC) << "Error opening the serial port" << serialPortName;
+        yCError(EWC) << "Could not open serial device";
         return false;
     }
 
-    if (serialPort->IsOpen())
+    if (!serialDevice.view(serial))
     {
-        SerialPort::DataBuffer outputBuff;
-        outputBuff.push_back(0x32); // Invert motor 1
-        serialPort->Write( outputBuff );
-        yarp::os::Time::delay(0.5);
-
-        outputBuff.clear();
-        outputBuff.push_back(0x28); // Este ambos, 29 limpiaria 1, 30 el 2 ?
-        serialPort->Write( outputBuff );
-        yarp::os::Time::delay(0.5);
+        yCError(EWC) << "Could not view serial interface";
+        return false;
     }
-    else
+
+    if (!stopMovement())
     {
-        yWarning(EWC) << "Robot could not revert wheel command (because it is not connected)";
+        yCError(EWC) << "Could not stop movement during initial config";
         return false;
     }
 
@@ -58,8 +48,5 @@ bool EcroWheelController::open(yarp::os::Searchable& config)
 
 bool EcroWheelController::close()
 {
-    serialPort->Close();
-    delete serialPort;
-    serialPort = nullptr;
-    return true;
+    return serialDevice.close();
 }

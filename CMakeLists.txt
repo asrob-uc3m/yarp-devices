@@ -46,7 +46,6 @@ find_package(YCM 0.11 REQUIRED)
 find_package(YARP 3.5 REQUIRED COMPONENTS os dev)
 
 # Soft dependencies.
-find_package(LibSerial 0.6 QUIET)
 find_package(wiringPi QUIET)
 find_package(SWIG 3.0.12 QUIET)
 find_package(Doxygen QUIET)
