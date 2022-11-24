@@ -6,7 +6,8 @@
 #define __LASER_TOWER_OF_DEATH_CONTROLLER__
 
 #include <yarp/dev/DeviceDriver.h>
-#include <SerialStream.h>
+#include <yarp/dev/ISerialDevice.h>
+#include <yarp/dev/PolyDriver.h>
 
 #include "IRobotManager.hpp"
 
@@ -38,20 +39,14 @@ public:
     bool close() override;
 
 private:
-    SerialPort * serialPort;
     bool sendCurrentJointValues();
     bool checkConnection();
 
-    int panJointValue;
-    int tiltJointValue;
+    yarp::dev::PolyDriver serialDevice;
+    yarp::dev::ISerialDevice * serial;
 
-    static const int panRangeMin = 0;
-    static const int panRangeMax = 180;
-    static const int panInitial = 90;
-
-    static const int tiltRangeMin = 0;
-    static const int tiltRangeMax = 180;
-    static const int tiltInitial = 90;
+    int panJointValue {90};
+    int tiltJointValue {90};
 };
 
 } // namespace asrob
