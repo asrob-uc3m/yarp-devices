@@ -1,15 +1,6 @@
-# Copyright: Universidad Carlos III de Madrid (C) 2013;
-# Authors: Juan G. Victores & Raúl de Santos Rico
-# CopyPolicy: Released under the terms of the GNU GPL v2.0.
+cmake_minimum_required(VERSION 3.16)
 
-cmake_minimum_required(VERSION 3.12)
-
-# Honor wiringPi_ROOT env variable in FindwiringPi.cmake (CMake 3.12).
-if(POLICY CMP0074)
-    cmake_policy(SET CMP0074 NEW)
-endif()
-
-project(ASROB_YARP_DEVICES)
+project(ASROB_YARP_DEVICES LANGUAGES C CXX)
 
 # Add suffix for debug libraries.
 if(MSVC)
@@ -63,16 +54,6 @@ include(GNUInstallDirs)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_BINDIR})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
-
-# Enabling coverage.
-option(ENABLE_coverage "Choose if you want to enable coverage collection" OFF)
-
-if(ENABLE_coverage)
-    # List supported compilers.
-    if(CMAKE_COMPILER_IS_GNUCXX)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
-    endif()
-endif()
 
 # Disable specific options for RD packaging.
 option(RD_PACKAGING "Configure project for RobotDevastation CPack" OFF)
