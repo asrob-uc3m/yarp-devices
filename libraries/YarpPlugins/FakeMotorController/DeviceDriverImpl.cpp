@@ -14,10 +14,6 @@ using namespace asrob;
 
 bool FakeMotorController::open(yarp::os::Searchable& config)
 {
-#if !defined(YARP_VERSION_COMPARE) // < 3.6.0
-    yCDebug(FMC) << "Config:" << config.toString();
-#endif
-
     if (config.check("dummy", "check dummy option"))
     {
         yCInfo(FMC) << "Got dummy option";
