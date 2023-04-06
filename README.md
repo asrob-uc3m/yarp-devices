@@ -32,6 +32,4 @@ Usage instructions for the different devices contained in this repository can be
 
 [![Build Status (Windows)](https://ci.appveyor.com/api/projects/status/github/asrob-uc3m/yarp-devices?branch=master&svg=true)](https://ci.appveyor.com/project/asrob-uc3m/yarp-devices)
 
-[![Coverage Status](https://coveralls.io/repos/asrob-uc3m/yarp-devices/badge.svg)](https://coveralls.io/r/asrob-uc3m/yarp-devices)
-
 [![Issues](https://img.shields.io/github/issues/asrob-uc3m/yarp-devices.svg?label=Issues)](https://github.com/asrob-uc3m/yarp-devices/issues)

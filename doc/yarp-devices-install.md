@@ -8,9 +8,9 @@ This guide aims to simplify as much as possible the process of finding out which
 
 Some dependencies must be installed for all the devices:
 
-- [Install CMake 3.12+](https://github.com/roboticslab-uc3m/installation-guides/blob/master/install-cmake.md/)
+- [Install CMake 3.16+](https://github.com/roboticslab-uc3m/installation-guides/blob/master/install-cmake.md/)
 - [Install YCM 0.11+](https://github.com/roboticslab-uc3m/installation-guides/blob/master/install-ycm.md/)
-- [Install YARP 3.5+](https://github.com/roboticslab-uc3m/installation-guides/blob/master/install-yarp.md/)
+- [Install YARP 3.7+](https://github.com/roboticslab-uc3m/installation-guides/blob/master/install-yarp.md/)
 
 ## Installation (Ubuntu)
 
@@ -20,7 +20,7 @@ Once the required dependencies have been installed, the code has to be compiled 
 cd  # go home
 mkdir -p repos && cd repos  # make $HOME/repos if it doesn't exist; then, enter it
 # WiringPi ( http://wiringpi.com/download-and-install/ ) for several RasPi devices
-git clone https://github.com/asrob-uc3m/wiringPi # Mirror of defunct git://git.drogon.net/wiringPi
+git clone https://github.com/WiringPi/WiringPi # Mirror of defunct git://git.drogon.net/wiringPi
 cd wiringPi
 ./build # May require sudo
 # Now our repo
