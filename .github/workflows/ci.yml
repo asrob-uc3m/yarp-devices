@@ -62,11 +62,11 @@ jobs:
         ref: ${{matrix.robotology.yarp}}
         path: .deps/yarp
 
-    - name: Check out wiringPi
+    - name: Check out WiringPi
       uses: actions/checkout@v3
       with:
-        repository: asrob-uc3m/wiringPi
-        path: .deps/wiringPi
+        repository: WiringPi/WiringPi
+        path: .deps/WiringPi
 
     - name: Install dependencies via apt
       run: sudo apt-get install -qq ccache swig
@@ -98,8 +98,8 @@ jobs:
         cmake --build .deps/yarp/build
         sudo cmake --install .deps/yarp/build
 
-    - name: Build wiringPi
-      run: sudo make -C .deps/wiringPi/wiringPi CC="ccache $CC" install
+    - name: Build WiringPi
+      run: sudo make -C .deps/WiringPi/wiringPi CC="ccache $CC" install
 
     - name: Configure yarp-devices
       run: cmake -S . -B ./build $CMAKE_CCACHE_LAUNCHER -DCREATE_BINDINGS_PYTHON=ON -DENABLE_examples=ON
