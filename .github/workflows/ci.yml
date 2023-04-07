@@ -107,7 +107,8 @@ jobs:
         cmake --install .deps/yarp/build
 
     - name: Build WiringPi
-      run: make -C .deps/WiringPi/wiringPi CC="ccache $CC" install
+      if: runner.os == 'Linux'
+      run: sudo make -C .deps/WiringPi/wiringPi CC="ccache $CC" install
 
     - name: Configure yarp-devices
       run: cmake -S . -B ./build $CMAKE_CCACHE_LAUNCHER -DCREATE_BINDINGS_PYTHON=ON -DENABLE_examples=ON -DCMAKE_INSTALL_PREFIX=./deps/install
