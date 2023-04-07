@@ -76,6 +76,7 @@ jobs:
         path: .deps/WiringPi
 
     - name: Install dependencies via apt
+      if: matrix.os != 'windows-latest'
       run: sudo apt-get install -qq ccache swig
 
     - name: Set up CMake
