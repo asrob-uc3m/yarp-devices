@@ -1,9 +1,9 @@
-cmake_minimum_required(VERSION 3.12 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.16)
 
 project(exampleRobotClient LANGUAGES CXX)
 
 if(NOT YARP_FOUND)
-    find_package(YARP 3.3 REQUIRED COMPONENTS os dev)
+    find_package(YARP 3.8 REQUIRED COMPONENTS os dev)
 endif()
 
 if(NOT TARGET ASROB::RobotInterfaces)
