@@ -3,28 +3,15 @@ set_source_files_properties(${SWIG_BINDINGS_SOURCE_FILE} PROPERTIES CPLUSPLUS ON
 
 set(CMAKE_SWIG_FLAGS "-module;asrob_yarp_devices;-threads;${SWIG_COMMON_FLAGS}")
 
-# https://github.com/pybind/pybind11/pull/2689
-if(${CMAKE_VERSION} VERSION_LESS "3.18.0")
-  set(RL_Python_Development_Component "Development")
-else()
-  set(RL_Python_Development_Component "Development.Module")
-endif()
-
-find_package(Python3 COMPONENTS Interpreter ${RL_Python_Development_Component} REQUIRED)
+find_package(Python3 COMPONENTS Interpreter Development.Module REQUIRED)
 
 set(CMAKE_SWIG_OUTDIR "${CMAKE_BINARY_DIR}/lib/python")
 set(SWIG_OUTFILE_DIR "${CMAKE_CURRENT_BINARY_DIR}")
 
-if(${CMAKE_VERSION} VERSION_LESS "3.15.0")
-  set(RL_Python_Module_Target "Python3::Python")
-else()
-  set(RL_Python_Module_Target "Python3::Module")
-endif()
-
 swig_add_library(asrob_yarp_devices_python
                  LANGUAGE python
                  SOURCES ${SWIG_BINDINGS_SOURCE_FILE})
-swig_link_libraries(asrob_yarp_devices_python ${RL_Python_Module_Target} ${SWIG_RL_LIBRARIES})
+swig_link_libraries(asrob_yarp_devices_python Python3::Module ${SWIG_RL_LIBRARIES})
 
 set_target_properties(${SWIG_MODULE_asrob_yarp_devices_python_REAL_NAME} PROPERTIES OUTPUT_NAME "_asrob_yarp_devices"
                                                                                     LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib/python")

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.19)
 
 # Honor wiringPi_ROOT env variable in FindwiringPi.cmake (CMake 3.12).
 if(POLICY CMP0074)
@@ -39,7 +39,11 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake
 
 # Hard dependencies.
 find_package(YCM 0.11 REQUIRED)
-find_package(YARP 3.8 REQUIRED COMPONENTS os dev)
+set(_yarp_components os dev)
+find_package(YARP 3.12 QUIET COMPONENTS ${_yarp_components})
+if(NOT YARP_FOUND)
+    find_package(YARP 4.0 REQUIRED COMPONENTS ${_yarp_components})
+endif()
 
 # Soft dependencies.
 find_package(wiringPi QUIET)
